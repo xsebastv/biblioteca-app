@@ -113,20 +113,15 @@ function BookCard({ book, onAddToFavorites, onRemoveFromFavorites, isFavorite })
         <div className="book-description" title={bookData.descripcion || 'Sin descripción disponible'}>
           {bookData.descripcion && bookData.descripcion !== 'Sin descripción disponible' ? bookData.descripcion : 'Sin descripción disponible'}
         </div>
-        <div className="book-actions">
-          <button
-            className={`favorite-button ${isFavorite ? 'remove' : 'add'}`}
-            onClick={handleFavoriteAction}
-            aria-label={isFavorite ? `Eliminar ${bookData.titulo} de favoritos` : `Agregar ${bookData.titulo} a favoritos`}
-          >
-            <span style={{fontSize: '18px'}}>
-              {isFavorite ? '💔' : '💖'}
-            </span>
-            <span>
-              {isFavorite ? 'Quitar de Favoritos' : 'Agregar a Favoritos'}
-            </span>
-          </button>
-        </div>
+        {/* Botón favorito flotante arriba a la derecha */}
+        <button
+          className={`favorite-float-btn ${isFavorite ? 'active' : ''}`}
+          onClick={handleFavoriteAction}
+          aria-label={isFavorite ? `Eliminar ${bookData.titulo} de favoritos` : `Agregar ${bookData.titulo} a favoritos`}
+          style={{position:'absolute', top:'12px', right:'16px'}}
+        >
+          <span className="favorite-icon">{isFavorite ? '💖' : '🤍'}</span>
+        </button>
       </div>
     </div>
   );

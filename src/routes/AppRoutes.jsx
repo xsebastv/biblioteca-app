@@ -10,19 +10,19 @@ import FavoritesView from '../views/FavoritesView';
  * 1. Página de Inicio (1.0 pts) - Lista principal de libros con funcionalidad de agregar favoritos
  * 2. Página de Favoritos (1.5 pts) - Para gestionar y eliminar libros favoritos con confirmación
  */
-const AppRoutes = () => {
+const AppRoutes = ({ dark, setDark }) => {
   return (
     <Routes>
       {/* Página de Inicio - Cumple con Requerimiento "Página de Inicio (1.0)" */}
       <Route 
         path="/" 
-        element={<HomeView />} 
+        element={<HomeView dark={dark} setDark={setDark} />} 
       />
       
       {/* Página de Favoritos - Cumple con "Agregar Favoritos (1.0)" y "Eliminar Favoritos (1.5)" */}
       <Route 
         path="/favoritos" 
-        element={<FavoritesView />} 
+        element={<FavoritesView dark={dark} setDark={setDark} />} 
       />
     </Routes>
   );

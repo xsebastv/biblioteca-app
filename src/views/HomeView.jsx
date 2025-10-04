@@ -5,7 +5,7 @@ import './HomeView.css';
 
 const PAGE_SIZE = 45; // aumentar resultados por página para mostrar más libros
 
-const HomeView = () => {
+const HomeView = ({ dark, setDark }) => {
   const [books, setBooks] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,21 +18,12 @@ const HomeView = () => {
   const [lastQuery, setLastQuery] = useState('');
   const [undoData, setUndoData] = useState(null); // { book, timeoutId }
   const [showUndo, setShowUndo] = useState(false);
-  const [dark, setDark] = useState(false);
   const [groupBySource, setGroupBySource] = useState(false);
 
   const sentinelRef = useRef(null);
 
   useEffect(() => { loadInitial(); loadFavorites(); }, []);
 
-  // Sincronizar clase global para modo oscuro
-  useEffect(() => {
-    if (dark) {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
-  }, [dark]);
 
   const loadInitial = async () => {
     try {
@@ -75,11 +66,13 @@ const HomeView = () => {
 
   const [addingIds, setAddingIds] = useState(new Set());
   const addToFavorites = book => {
-    if (!book || addingIds.has(book.id)) return;
+    console.log('[UI] Click Favorito', book);
+    if (!book) { alert('Error: libro no definido'); return; }
+    if (!book.id) { alert('Error: libro sin id'); console.warn('[UI] libro sin id', book); return; }
+    if (addingIds.has(book.id)) return;
     setAddingIds(prev => new Set(prev).add(book.id));
     const updated = FavoriteService.add(book);
     setFavorites(updated);
-    // pequeña ventana para prevenir doble click
     setTimeout(() => setAddingIds(prev => { const n = new Set(prev); n.delete(book.id); return n; }), 400);
   };
 
@@ -174,17 +167,16 @@ const HomeView = () => {
                   {book.isbn && <p className="book-year"><strong>ISBN:</strong> {book.isbn}</p>}
                   <p className={`book-source-badge source-${book.source.toLowerCase().replace(/\s+/g,'-')}`}>{book.source}</p>
                 </div>
-                      <div className="book-actions">
-                        {isFavorite(book.id) ? (
-                          <button className="btn btn-remove" style={{fontSize:'1.15rem', padding:'14px 32px', borderRadius:'24px', margin:'0 auto', display:'flex', alignItems:'center', gap:'10px'}} onClick={()=>handleRemoveFromFavorites(book)} title="Quitar de favoritos">
-                            <span role="img" aria-label="Quitar favorito">💔</span> Quitar
-                          </button>
-                        ) : (
-                          <button className="btn btn-add" style={{fontSize:'1.15rem', padding:'14px 32px', borderRadius:'24px', margin:'0 auto', display:'flex', alignItems:'center', gap:'10px'}} disabled={addingIds.has(book.id)} onClick={()=>addToFavorites(book)} title="Agregar a favoritos">
-                            <span role="img" aria-label="Favorito">💖</span> Favorito
-                          </button>
-                        )}
-                      </div>
+                {/* Botón favorito pequeño flotante */}
+                <button
+                  className={`favorite-float-btn ${isFavorite(book.id) ? 'active' : ''}`}
+                  onClick={() => isFavorite(book.id) ? handleRemoveFromFavorites(book) : addToFavorites(book)}
+                  disabled={addingIds.has(book.id)}
+                  title={isFavorite(book.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                  style={{position:'absolute', top:'8px', right:'8px', zIndex:2}}
+                >
+                  <span className="favorite-icon">{isFavorite(book.id) ? '💖' : '🤍'}</span>
+                </button>
               </div>
             ))}
           </div>
@@ -211,17 +203,16 @@ const HomeView = () => {
                         {book.pageCount && <p className="book-year"><strong>Páginas:</strong> {book.pageCount}</p>}
                         {book.isbn && <p className="book-year"><strong>ISBN:</strong> {book.isbn}</p>}
                       </div>
-                      <div className="book-actions">
-                        {isFavorite(book.id) ? (
-                          <button className="btn btn-remove" style={{fontSize:'1.15rem', padding:'14px 32px', borderRadius:'24px', margin:'0 auto', display:'flex', alignItems:'center', gap:'10px'}} onClick={()=>handleRemoveFromFavorites(book)} title="Quitar de favoritos">
-                            <span role="img" aria-label="Quitar favorito">💔</span> Quitar
-                          </button>
-                        ) : (
-                          <button className="btn btn-add" style={{fontSize:'1.15rem', padding:'14px 32px', borderRadius:'24px', margin:'0 auto', display:'flex', alignItems:'center', gap:'10px'}} disabled={addingIds.has(book.id)} onClick={()=>addToFavorites(book)} title="Agregar a favoritos">
-                            <span role="img" aria-label="Favorito">💖</span> Favorito
-                          </button>
-                        )}
-                      </div>
+                      {/* Botón favorito pequeño flotante */}
+                      <button
+                        className={`favorite-float-btn ${isFavorite(book.id) ? 'active' : ''}`}
+                        onClick={() => isFavorite(book.id) ? handleRemoveFromFavorites(book) : addToFavorites(book)}
+                        disabled={addingIds.has(book.id)}
+                        title={isFavorite(book.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                        style={{position:'absolute', top:'8px', right:'8px', zIndex:2}}
+                      >
+                        <span className="favorite-icon">{isFavorite(book.id) ? '💖' : '🤍'}</span>
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -239,9 +230,14 @@ const HomeView = () => {
       :root { color-scheme: ${dark ? 'dark' : 'light'}; }
       body ${dark ? '' : ''}
       .home-container { transition: background .4s, color .4s; ${dark ? 'background:#121212; color:#e5e5e5;' : ''}}
-      .book-card { display:grid; grid-template-columns:90px 1fr; gap:14px; }
+      .book-card { display:grid; grid-template-columns:90px 1fr; gap:14px; position:relative; }
       .book-thumb-wrapper { width:90px; height:120px; border-radius:8px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,.15); background:#f5f5f5; display:flex; align-items:center; justify-content:center; }
       .book-thumb { width:100%; height:100%; object-fit:cover; filter:${dark ? 'brightness(.85)' : 'none'}; }
+      .favorite-float-btn { position:absolute; background:linear-gradient(135deg,#fff,#f7f5ed 60%,#e0e0e0 100%); border:2px solid #ff6b6b; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(215,38,61,0.10); cursor:pointer; transition:all 0.2s; }
+      .favorite-float-btn:hover { background:linear-gradient(135deg,#ff6b6b 0%,#ee5a52 100%); border-color:#ee5a52; transform:scale(1.08); }
+      .favorite-float-btn.active { background:linear-gradient(135deg,#ff6b6b 0%,#ee5a52 100%); border-color:#ee5a52; }
+      .favorite-icon { font-size:1em; transition:transform 0.2s; }
+      .favorite-float-btn.active .favorite-icon { filter:drop-shadow(0 0 4px #ee5a52); }
       .fade-in { animation:fadeInUp .55s ease both; }
       @keyframes fadeInUp { from { opacity:0; transform:translateY(12px);} to { opacity:1; transform:translateY(0);} }
       ${dark ? '.book-card{background:#1e1e1e; border-color:#2a2a2a;} .books-section h3{color:#fafafa;} .book-source-badge{box-shadow:none;}' : ''}

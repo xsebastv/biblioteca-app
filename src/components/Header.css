@@ -1,17 +1,17 @@
 /* Header moderno para la Biblioteca Digital */
 .header {
-  background: linear-gradient(135deg, var(--color-primario) 0%, var(--color-secundario) 50%, var(--color-acento) 100%);
-  padding: var(--espaciado-xl) 0;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+  padding: var(--space-xl) 0;
   position: relative;
   overflow: hidden;
-  box-shadow: var(--sombra-lg);
+  box-shadow: var(--shadow-lg);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .header-content {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 var(--espaciado-xl);
+  padding: 0 var(--space-xl);
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import FavoriteService from '../services/FavoriteService';
 import './FavoritesView.css';
 
-const FavoritesView = () => {
+const FavoritesView = ({ dark, setDark }) => {
   const [favorites, setFavorites] = useState([]);
   const [undoData, setUndoData] = useState(null); // { book, timeoutId }
   const [showUndo, setShowUndo] = useState(false);
@@ -34,8 +34,9 @@ const FavoritesView = () => {
     setShowUndo(false);
   };
 
-  return (
-    <div className="favorites-container">
+    // Aplica clase dark al contenedor si corresponde
+    return (
+      <div className={`favorites-container${dark ? ' dark' : ''}`}> 
       <div className="favorites-header">
         <h1>💖 Mis Libros Favoritos</h1>
         <p>Gestiona tu colección personal de libros favoritos</p>
@@ -55,14 +56,15 @@ const FavoritesView = () => {
                 <p className="book-author"><strong>Autor:</strong> {book.author || 'Autor desconocido'}</p>
                 <p className="book-year"><strong>Año:</strong> {book.year || 'Año no disponible'}</p>
               </div>
-              <div className="book-actions">
-                <button 
-                  className="btn btn-remove"
-                  onClick={() => handleRemoveFromFavorites(book)}
-                >
-                  💔 Eliminar de Favoritos
-                </button>
-              </div>
+              {/* Botón flotante para eliminar favorito */}
+              <button
+                className="favorite-float-btn remove"
+                title="Eliminar de favoritos"
+                onClick={() => handleRemoveFromFavorites(book)}
+                style={{position:'absolute', top:'12px', right:'16px'}}
+              >
+                <span className="favorite-icon">💔</span>
+              </button>
             </div>
           ))}
         </div>
