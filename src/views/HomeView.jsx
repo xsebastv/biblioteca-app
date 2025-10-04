@@ -25,6 +25,15 @@ const HomeView = () => {
 
   useEffect(() => { loadInitial(); loadFavorites(); }, []);
 
+  // Sincronizar clase global para modo oscuro
+  useEffect(() => {
+    if (dark) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }, [dark]);
+
   const loadInitial = async () => {
     try {
       setInitialLoading(true);
@@ -42,6 +51,19 @@ const HomeView = () => {
 
   const loadFavorites = () => setFavorites(FavoriteService.getAll());
 
+  // Escuchar cambios globales (por si se modifica en otra vista y no pasa por estos handlers)
+  useEffect(() => {
+    const handler = (e) => {
+      if (e?.detail?.favorites) {
+        setFavorites(e.detail.favorites);
+      } else {
+        loadFavorites();
+      }
+    };
+    window.addEventListener('favorites:changed', handler);
+    return () => window.removeEventListener('favorites:changed', handler);
+  }, []);
+
   const isFavorite = id => favorites.some(f => f.id === id);
 
   // Agrupar libros por fuente cuando toggle activo
@@ -51,9 +73,14 @@ const HomeView = () => {
     return Object.entries(groups).sort((a,b)=> a[0].localeCompare(b[0]));
   }, [books, groupBySource]);
 
+  const [addingIds, setAddingIds] = useState(new Set());
   const addToFavorites = book => {
+    if (!book || addingIds.has(book.id)) return;
+    setAddingIds(prev => new Set(prev).add(book.id));
     const updated = FavoriteService.add(book);
     setFavorites(updated);
+    // pequeña ventana para prevenir doble click
+    setTimeout(() => setAddingIds(prev => { const n = new Set(prev); n.delete(book.id); return n; }), 400);
   };
 
   const handleRemoveFromFavorites = book => { 
@@ -147,13 +174,17 @@ const HomeView = () => {
                   {book.isbn && <p className="book-year"><strong>ISBN:</strong> {book.isbn}</p>}
                   <p className={`book-source-badge source-${book.source.toLowerCase().replace(/\s+/g,'-')}`}>{book.source}</p>
                 </div>
-                <div className="book-actions">
-                  {isFavorite(book.id) ? (
-                    <button className="btn btn-remove" onClick={()=>handleRemoveFromFavorites(book)}>💔 Quitar</button>
-                  ) : (
-                    <button className="btn btn-add" onClick={()=>addToFavorites(book)}>💖 Favorito</button>
-                  )}
-                </div>
+                      <div className="book-actions">
+                        {isFavorite(book.id) ? (
+                          <button className="btn btn-remove" style={{fontSize:'1.15rem', padding:'14px 32px', borderRadius:'24px', margin:'0 auto', display:'flex', alignItems:'center', gap:'10px'}} onClick={()=>handleRemoveFromFavorites(book)} title="Quitar de favoritos">
+                            <span role="img" aria-label="Quitar favorito">💔</span> Quitar
+                          </button>
+                        ) : (
+                          <button className="btn btn-add" style={{fontSize:'1.15rem', padding:'14px 32px', borderRadius:'24px', margin:'0 auto', display:'flex', alignItems:'center', gap:'10px'}} disabled={addingIds.has(book.id)} onClick={()=>addToFavorites(book)} title="Agregar a favoritos">
+                            <span role="img" aria-label="Favorito">💖</span> Favorito
+                          </button>
+                        )}
+                      </div>
               </div>
             ))}
           </div>
@@ -182,9 +213,13 @@ const HomeView = () => {
                       </div>
                       <div className="book-actions">
                         {isFavorite(book.id) ? (
-                          <button className="btn btn-remove" onClick={()=>handleRemoveFromFavorites(book)}>💔 Quitar</button>
+                          <button className="btn btn-remove" style={{fontSize:'1.15rem', padding:'14px 32px', borderRadius:'24px', margin:'0 auto', display:'flex', alignItems:'center', gap:'10px'}} onClick={()=>handleRemoveFromFavorites(book)} title="Quitar de favoritos">
+                            <span role="img" aria-label="Quitar favorito">💔</span> Quitar
+                          </button>
                         ) : (
-                          <button className="btn btn-add" onClick={()=>addToFavorites(book)}>💖 Favorito</button>
+                          <button className="btn btn-add" style={{fontSize:'1.15rem', padding:'14px 32px', borderRadius:'24px', margin:'0 auto', display:'flex', alignItems:'center', gap:'10px'}} disabled={addingIds.has(book.id)} onClick={()=>addToFavorites(book)} title="Agregar a favoritos">
+                            <span role="img" aria-label="Favorito">💖</span> Favorito
+                          </button>
                         )}
                       </div>
                     </div>

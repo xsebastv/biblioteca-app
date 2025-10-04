@@ -35,12 +35,16 @@ export default class FavoriteService {
   }
 
   static add(book) {
-    if (!book || !book.id) return FavoriteService.getAll();
-    if (FavoriteService.existsById(book.id)) return FavoriteService.getAll();
-    // Se elimina la verificación estricta por título + autor para permitir
-    // variantes del mismo libro provenientes de distintas fuentes.
-    const updated = [...FavoriteService.getAll(), book];
+    const current = FavoriteService.getAll();
+    if (!book) { console.warn('[FavoriteService] add: libro undefined/null'); return [...current]; }
+    if (!book.id) { console.warn('[FavoriteService] add: libro sin id', book); return [...current]; }
+    if (FavoriteService.existsById(book.id)) {
+      console.info('[FavoriteService] add: ya existe', book.id);
+      return [...current];
+    }
+    const updated = [...current, book];
     FavoriteService.saveAll(updated);
+    console.info('[FavoriteService] add: agregado', book.id, 'total', updated.length);
     return updated;
   }
 

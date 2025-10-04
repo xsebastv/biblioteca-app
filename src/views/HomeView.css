@@ -41,13 +41,18 @@
 
 .book-card {
   background: white;
-  border-radius: 10px;
-  padding: 20px;
+  border-radius: 16px;
+  padding: 20px 18px 24px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid #e0e0e0;
-  position:relative;
-  overflow:hidden;
+  transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+  border: 1.5px solid #e0e0e0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 370px;
+  max-height: 370px;
+  justify-content: space-between;
 }
 
 .book-card.favorite-active {
@@ -117,7 +122,11 @@
 }
 
 .book-actions {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-top: auto;
+  padding-top: 10px;
 }
 
 .btn {
@@ -201,3 +210,30 @@ search-form button[disabled] { opacity:.6; cursor:default; }
 @media (min-width:1400px) {
   .books-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
 }
+
+/* ====== Mejora de Modo Oscuro y Tematización Avanzada ====== */
+body.dark {
+  background: radial-gradient(circle at 20% 20%, #18202b, #0e141b 60%);
+  color: #e5eaf1;
+  -webkit-font-smoothing: antialiased;
+}
+body.dark .home-container { color:#e5eaf1; }
+body.dark .book-card { background:#18222e; border-color:#27313f; box-shadow:0 4px 18px -4px rgba(0,0,0,0.55), 0 1px 2px rgba(255,255,255,0.04) inset; }
+body.dark .book-card:hover { box-shadow:0 6px 24px -4px rgba(0,0,0,0.65), 0 1px 2px rgba(255,255,255,0.05) inset; }
+body.dark .book-card.favorite-active { border-color:#a88bff; box-shadow:0 0 0 1px rgba(168,139,255,0.4), 0 8px 30px -6px rgba(133,99,255,0.5); }
+body.dark .book-title { color:#f5f7fb; }
+body.dark .book-author, body.dark .book-year { color:#a3b1c2; }
+body.dark .btn-add { background:linear-gradient(135deg,#6f86ff,#b08cff); box-shadow:0 4px 16px -2px rgba(150,130,255,0.45); }
+body.dark .btn-add:hover { background:linear-gradient(135deg,#8fa2ff,#c6a7ff); }
+body.dark .btn-remove { box-shadow:0 4px 16px -2px rgba(255,99,99,0.4); }
+body.dark .search-form input { background:#1f2933; border-color:#2a3644; color:#f0f4f8; }
+body.dark .search-form input:focus { border-color:#8b9bff; box-shadow:0 0 0 2px rgba(139,155,255,0.35); }
+body.dark .search-form button { background:linear-gradient(135deg,#6f86ff,#b08cff); box-shadow:0 4px 18px -4px rgba(150,130,255,0.5); }
+body.dark .search-form button:hover { background:linear-gradient(135deg,#8fa2ff,#d1b8ff); }
+body.dark .book-source-badge { filter:saturate(1.1) brightness(.95); box-shadow:none; }
+body.dark .favorite-card, body.dark .favorites-grid .favorite-card { background:#18222e; border-color:#ff6b6b; }
+body.dark .undo-snackbar { background:#27313f !important; box-shadow:0 6px 24px -6px rgba(0,0,0,0.7); }
+
+/* Micro animaciones para feedback */
+.book-card.favorite-active { animation:pulseFav .65s ease; }
+@keyframes pulseFav { 0% { box-shadow:0 0 0 0 rgba(118,75,162,0.0); } 40% { box-shadow:0 0 0 6px rgba(118,75,162,0.25);} 100% { box-shadow:0 0 0 0 rgba(118,75,162,0.0);} }
