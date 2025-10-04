@@ -1,0 +1,112 @@
+/* Estilos principales de la aplicación Biblioteca Digital */
+
+#root {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+  position: relative;
+  min-height: 100vh;
+}
+
+.app {
+  min-height: 100vh;
+  background: var(--fondo-secundario);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fondo con gradiente sutil */
+.app::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.contenido-principal {
+  flex: 1;
+  margin-top: var(--espaciado-lg);
+  padding: var(--espaciado-md) var(--espaciado-lg);
+  position: relative;
+  z-index: 1;
+}
+
+/* Loading spinner mejorado */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  flex-direction: column;
+  gap: var(--espaciado-md);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--borde-claro);
+  border-top: 3px solid var(--color-primario);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  color: var(--texto-secundario);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error state */
+.error-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  flex-direction: column;
+  gap: var(--espaciado-md);
+  text-align: center;
+  color: var(--color-error);
+}
+
+.error-icon {
+  font-size: 3rem;
+  opacity: 0.7;
+}
+
+/* Responsive design mejorado */
+@media (max-width: 1200px) {
+  .contenido-principal {
+    padding: var(--espaciado-md);
+  }
+}
+
+@media (max-width: 768px) {
+  #root {
+    padding: 0;
+  }
+  
+  .contenido-principal {
+    margin-top: var(--espaciado-md);
+    padding: var(--espaciado-sm) var(--espaciado-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .contenido-principal {
+    padding: var(--espaciado-sm);
+  }
+}
