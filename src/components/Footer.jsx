@@ -3,7 +3,7 @@ import './Footer.css';
 import { createI18n } from '../i18n/translations';
 import { useIntersectionFadeIn } from '../hooks/useIntersectionFadeIn';
 
-const AUTHORS = 'Juan Sebastian Rios Altamitano & Jhonatan Velasco';
+const AUTHORS = 'Juan Sebastian Rios Y Jhonatan Velasco';
 
 const Footer = ({ lang: propLang }) => {
   const [lang, setLang] = React.useState(() => propLang || localStorage.getItem('ui_lang') || 'es');

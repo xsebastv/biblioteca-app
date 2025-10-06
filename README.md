@@ -1,6 +1,67 @@
 # 📚 Biblioteca Digital Multifuente
 
-Aplicación React + Vite que integra múltiples APIs públicas de libros (Google Books, Open Library e ISBNdb) con búsqueda, scroll infinito, favoritos persistentes, deshacer eliminaciones y combinación/deduplicación inteligente de resultados.
+## � Información del Proyecto
+
+### Autores
+- Juan Sebastian Rios Altamirano (95806)
+- Jhonatan David Velasco Lopez (98251)
+
+### Fecha de Entrega
+6 de Octubre de 2025
+
+## 📋 Requisitos Cumplidos
+
+### 1. Página de Inicio (1.0 pts) ✅
+- ✓ Vista de bienvenida con diseño atractivo y moderno
+- ✓ Lista de libros con visualización en tarjetas
+- ✓ Información completa de cada libro:
+  - Título
+  - Autor
+  - Año de publicación
+  - Descripción
+  - Imagen de portada
+- ✓ Integración con múltiples APIs:
+  - Google Books API
+  - Open Library API
+  - ISBNdb API
+
+### 2. Funcionalidad de Favoritos (1.0 pts) ✅
+- ✓ Agregar libros a favoritos con un clic
+- ✓ Vista dedicada de favoritos
+- ✓ Ordenamiento por:
+  - Fecha de agregado
+  - Título (A-Z/Z-A)
+- ✓ Interfaz intuitiva y responsiva
+
+### 3. Eliminación de Favoritos (1.5 pts) ✅
+- ✓ Botón de eliminación en cada libro
+- ✓ Sistema de "Deshacer" eliminación (5 segundos)
+- ✓ Confirmación visual de acciones
+- ✓ Actualización instantánea de la interfaz
+
+### 4. Almacenamiento de Datos (1.5 pts) ✅
+- ✓ Persistencia completa en localStorage
+- ✓ Estructura de datos optimizada
+- ✓ Manejo de eventos para sincronización
+- ✓ Sistema robusto de caché
+
+## 🌟 Características Adicionales
+
+### Internacionalización
+- Soporte completo para español e inglés
+- Persistencia de preferencias de idioma
+- Traducciones contextuales en toda la aplicación
+
+### Características Técnicas
+- Construido con React + Vite para máximo rendimiento
+- Sistema modular de componentes
+- Gestión de estado optimizada
+- Arquitectura por servicios y controladores
+- Manejo robusto de errores y estados de carga
+
+## 📁 Estructura del Proyectogital Multifuente
+
+Aplicación React moderna que integra múltiples APIs de libros para crear una experiencia de búsqueda unificada y personalizada.
 
 ## ✨ Features Principales
 - Búsqueda simultánea en 3 fuentes (Google, Open Library, ISBNdb*)
@@ -110,7 +171,6 @@ Si se omite, simplemente no se incluirá esa fuente.
 | Robustez | Dependiente de 1 API | Resiliente (allSettled + fallback) |
 
 ## 📄 Licencia
-Uso académico / demostrativo.
+Uso académico
 
----
-Si necesitas revertir a la versión minimal o agregar otra funcionalidad, pídelo y lo ajusto.
+

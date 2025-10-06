@@ -9,6 +9,20 @@ import { useIntersectionFadeIn, useSequentialFadeIn } from '../hooks/useIntersec
 
 const PAGE_SIZE = 50; // aumentar resultados por página para mostrar más libros
 
+/**
+ * Vista principal de la aplicación
+ * 
+ * Características:
+ * - Búsqueda en múltiples fuentes
+ * - Scroll infinito
+ * - Gestión de favoritos
+ * - Animaciones al hacer scroll
+ * - Ordenamiento y filtrado
+ * - Internacionalización
+ * 
+ * @param {Object} props Props del componente
+ * @param {string} props.lang Idioma actual ('es' | 'en')
+ */
 const HomeView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
   const t = useMemo(() => createI18n(lang), [lang]);
   const [books, setBooks] = useState([]);
@@ -79,21 +93,44 @@ const HomeView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
 
   const isFavorite = id => favorites.some(f => f.id === id);
 
-  // Agrupar libros por fuente cuando toggle activo
+  /**
+   * Calcula la lista de libros visible según filtros y ordenamiento
+   */
   const visibleBooks = useMemo(() => {
+    // Clonar la lista para no modificar el estado original
     let list = [...books];
-    if (filterSource) list = list.filter(b => b.source === filterSource);
-    list.sort((a,b)=>{
-      if (sortBy === 'year') return (''+ (a.year||'')).localeCompare((''+(b.year||'')));
+    
+    // Aplicar filtro por fuente si está activo
+    if (filterSource) {
+      list = list.filter(b => b.source === filterSource);
+    }
+    
+    // Aplicar ordenamiento
+    list.sort((a,b) => {
+      if (sortBy === 'year') {
+        return (''+ (a.year||'')).localeCompare((''+(b.year||'')));
+      }
       return (a.title||'').localeCompare(b.title||'');
     });
+    
     return list;
   }, [books, sortBy, filterSource]);
 
+  /**
+   * Agrupa los libros por fuente cuando está activa la agrupación
+   * Retorna null si la agrupación está desactivada
+   */
   const groupedBooks = useMemo(() => {
     if (!groupBySource) return null;
-    const groups = visibleBooks.reduce((acc,b)=>{ (acc[b.source] = acc[b.source] || []).push(b); return acc; }, {});
-    return Object.entries(groups).sort((a,b)=> a[0].localeCompare(b[0]));
+    
+    // Agrupar por fuente usando reduce
+    const groups = visibleBooks.reduce((acc, book) => {
+      (acc[book.source] = acc[book.source] || []).push(book);
+      return acc;
+    }, {});
+    
+    // Convertir a array y ordenar grupos por nombre de fuente
+    return Object.entries(groups).sort((a,b) => a[0].localeCompare(b[0]));
   }, [visibleBooks, groupBySource]);
 
   const [addingIds, setAddingIds] = useState(new Set());

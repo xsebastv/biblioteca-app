@@ -1,37 +1,53 @@
 /**
- * Servicio para obtener libros desde múltiples APIs públicas
- * - Google Books API
- * - Open Library API
- * - ISBNdb API (requiere API key: VITE_ISBNDB_KEY)
- * Unifica el modelo de datos y aplica deduplicación y fallback.
+ * Servicio principal para la gestión de libros y búsquedas
+ * 
+ * Este servicio se encarga de:
+ * 1. Integrar múltiples fuentes de datos (Google Books, Open Library, ISBNdb)
+ * 2. Normalizar y unificar los resultados
+ * 3. Implementar caché y optimizaciones
+ * 4. Manejar errores y proporcionar fallbacks
+ * 
+ * @class BookService
  */
 class BookService {
-  // Caché simple para libros ya cargados
+  /** URLs base para las APIs */
+  static BASE_URL_GOOGLE = 'https://www.googleapis.com/books/v1/volumes';
+  static BASE_URL_OPENLIB = 'https://openlibrary.org/search.json';
+  static BASE_URL_ISBNDB = 'https://api2.isbndb.com/search';
+
+  /** Caché en memoria para optimizar accesos repetidos */
   static _bookCache = new Map();
   
   /**
-   * Guardar libros en caché para acceso rápido posterior
+   * Almacena libros en caché para acceso rápido
+   * @param {Array} books - Lista de libros a cachear
+   * @private
    */
   static _cacheBooks(books) {
     books.forEach(book => {
-      if (book && book.id) {
-        this._bookCache.set(book.id, book);
-      }
+      if (book?.id) this._bookCache.set(book.id, book);
     });
   }
-  static BASE_URL_GOOGLE = 'https://www.googleapis.com/books/v1/volumes';
-  static BASE_URL_OPENLIB = 'https://openlibrary.org/search.json';
-  static BASE_URL_ISBNDB = 'https://api2.isbndb.com/search'; // Nota: endpoint aproximado; puede ajustarse según documentación
   
   /**
-   * Obtener una página de resultados combinando todas las fuentes.
-   * page inicia en 1. pageSize total combinado.
+   * Obtiene una página de resultados combinando todas las fuentes disponibles
+   * 
+   * Este método:
+   * 1. Consulta en paralelo todas las fuentes de datos
+   * 2. Combina y deduplica los resultados
+   * 3. Extrae la "ventana" correspondiente a la página solicitada
+   * 
+   * @param {string} query - Término de búsqueda (default: 'programming')
+   * @param {number} page - Número de página (1-based)
+   * @param {number} pageSize - Tamaño de página deseado
+   * @returns {Promise<Array>} Lista combinada y depurada de libros
    */
   static async obtenerPaginaLibros(query = 'programming', page = 1, pageSize = 18) {
-    const q = query && query.trim() ? query.trim() : 'programming';
+    const q = query?.trim() || 'programming';
     const porFuente = Math.max(3, Math.ceil(pageSize / 3));
     try {
-      const [g, o, i] = await Promise.allSettled([
+      // Ejecutar búsquedas en paralelo en todas las fuentes
+      const [googleResults, openLibResults, isbnDbResults] = await Promise.allSettled([
         this.obtenerLibrosGooglePaginado(q, page, porFuente),
         this.obtenerLibrosOpenLibraryPaginado(q, page, porFuente),
         this.obtenerLibrosIsbnDbPaginado(q, page, porFuente)
