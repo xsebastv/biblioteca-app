@@ -66,9 +66,9 @@
   left: 50%; 
   bottom: 2rem; 
   transform: translateX(-50%); 
-  background: rgba(26,32,44,0.95); 
+  background: rgba(248,250,252,0.98); 
   backdrop-filter: blur(12px);
-  color: #fff; 
+  color: var(--color-text-strong); 
   padding: 1rem 1.5rem; 
   border-radius: var(--radius-xl); 
   display: flex; 
@@ -77,13 +77,13 @@
   box-shadow: var(--shadow-xl); 
   z-index: 1000; 
   animation: slide-up 0.4s var(--ease);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid var(--color-border);
   max-width: 90vw;
 }
 
 .undo-btn { 
-  background: rgba(255,255,255,0.1); 
-  border: 1px solid rgba(255,255,255,0.2); 
+  background: var(--color-primary); 
+  border: 1px solid var(--color-primary); 
   color: #fff; 
   padding: 0.5rem 1rem; 
   border-radius: var(--radius-lg); 
@@ -94,15 +94,15 @@
 }
 
 .undo-btn:hover { 
-  background: rgba(255,255,255,0.2); 
-  border-color: rgba(255,255,255,0.3);
+  background: var(--color-primary-dark); 
+  border-color: var(--color-primary-dark);
   transform: translateY(-1px);
 }
 
 .undo-close { 
-  background: rgba(255,255,255,0.1); 
-  border: 1px solid rgba(255,255,255,0.1); 
-  color: rgba(255,255,255,0.7); 
+  background: var(--color-surface-alt); 
+  border: 1px solid var(--color-border); 
+  color: var(--color-text-soft); 
   font-size: 18px; 
   cursor: pointer; 
   line-height: 1; 
@@ -112,8 +112,8 @@
 }
 
 .undo-close:hover { 
-  color: #fff; 
-  background: rgba(229,62,62,0.8);
+  color: var(--color-danger); 
+  background: var(--color-danger-soft);
   border-color: var(--color-danger);
   transform: scale(1.05);
 }

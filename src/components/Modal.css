@@ -2,7 +2,7 @@
 .modal-overlay { 
   position: fixed; 
   inset: 0; 
-  background: rgba(26,32,44,0.6); 
+  background: rgba(248,250,252,0.75); 
   backdrop-filter: blur(20px) saturate(180%); 
   display: flex; 
   align-items: center; 
@@ -86,4 +86,4 @@
 .modal-content form input:focus { outline:none; border-color:var(--color-primary); background:var(--color-bg-alt); box-shadow:0 0 0 3px rgba(var(--color-primary-rgb)/.25); }
 .modal-actions { display:flex; justify-content:flex-end; gap:.75rem; margin-top:1.25rem; }
 @media (max-width:640px){ .modal-overlay{ padding:5vh 1rem 2.25rem;} .modal-content{ padding:1.6rem 1.5rem 1.9rem; border-radius:var(--radius-lg);} .modal-title{ font-size:1.2rem;} }
-@media (prefers-color-scheme: dark){ .modal-content { background:var(--color-surface); } }
+/* Light theme optimized - dark theme media query removed */
