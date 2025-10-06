@@ -55,6 +55,14 @@ export const translations = {
   ,limited_description_intro: 'Lo sentimos, no pudimos obtener la información completa de este libro desde {source}.'
   ,limited_description_reasons: 'Esto puede ocurrir por:\n• Conexión temporalmente no disponible\n• El libro fue eliminado de la fuente original\n• Restricciones de la API externa'
   ,limited_description_suggestions: 'Puedes intentar:\n• Refrescar la página\n• Buscar el libro nuevamente\n• Agregarlo a favoritos para conservar la información básica'
+  ,footer_contact: 'Contacto'
+  ,footer_about: 'Acerca de'
+  ,footer_privacy: 'Privacidad'
+  ,scroll_down: 'Desliza hacia abajo para descubrir'
+  ,welcome_message: 'Bienvenido a tu Biblioteca Digital'
+  ,sort_added: 'Fecha de agregado'
+  ,sort_asc: 'Orden ascendente (A-Z, Antiguo-Nuevo)'
+  ,sort_desc: 'Orden descendente (Z-A, Nuevo-Antiguo)'
   },
   en: {
     favorite_add: 'Favorite +',
@@ -114,6 +122,14 @@ export const translations = {
   ,limited_description_intro: 'Sorry, we could not fetch full information for this book from {source}.'
   ,limited_description_reasons: 'This may happen due to:\n• Temporarily unavailable connection\n• The book was removed at the original source\n• External API restrictions'
   ,limited_description_suggestions: 'You can try:\n• Refreshing the page\n• Searching the book again\n• Adding it to favorites to keep the basic info'
+  ,footer_contact: 'Contact'
+  ,footer_about: 'About'
+  ,footer_privacy: 'Privacy'
+  ,scroll_down: 'Scroll down to discover'
+  ,welcome_message: 'Welcome to your Digital Library'
+  ,sort_added: 'Date added'
+  ,sort_asc: 'Ascending order (A-Z, Old-New)'
+  ,sort_desc: 'Descending order (Z-A, New-Old)'
   }
 };
 

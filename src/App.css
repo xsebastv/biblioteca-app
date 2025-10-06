@@ -2,9 +2,42 @@
 
 #root { min-height:100vh; display:flex; flex-direction:column; }
 
-.app { flex:1; display:flex; flex-direction:column; min-height:100vh; }
+.app { 
+  flex:1; 
+  display:flex; 
+  flex-direction:column; 
+  min-height:100vh; 
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
 
-.main-content { flex:1; padding: var(--space-8) 0 var(--space-12); }
+.main-content { 
+  flex:1; 
+  padding: var(--space-8) 0 var(--space-12); 
+}
+
+/* Animaciones para elementos que aparecen con scroll */
+.fade-in-hidden {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sequential-fade-item {
+  opacity: 0.9; /* Start semi-visible */
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.sequential-fade-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 @media (max-width:860px){ .main-content { padding: var(--space-6) 0 var(--space-10);} }
 @media (max-width:560px){ .main-content { padding: var(--space-5) 0 var(--space-8);} }

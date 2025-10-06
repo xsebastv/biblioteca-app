@@ -317,14 +317,9 @@ class BookService {
     try {
       // 1. Revisar caché primero
       if (this._bookCache.has(id)) {
-        console.log(`✅ Libro encontrado en caché: ${id}`);
-        console.log(`📚 Cache actual:`, Array.from(this._bookCache.keys()));
         return this._bookCache.get(id);
       }
       
-      console.log(`❌ Libro NO en caché: ${id}`);
-      console.log(`📚 Cache actual:`, Array.from(this._bookCache.keys()).slice(0, 10));
-      console.log(`🔍 Tipo de ID: ${id.split('-')[0]}, Resto: ${id.split('-').slice(1).join('-')}`);
       // 2. Libros de Google Books
       if (id.startsWith('google-')) {
         const googleId = id.replace('google-', '');
@@ -345,16 +340,13 @@ class BookService {
       
       // 2. Libros de Open Library (prefijo correcto: openlib-)
       if (id.startsWith('openlib-')) {
-        console.log(`🔍 Procesando Open Library ID: ${id}`);
-  const olKeySanitized = id.replace('openlib-', '');
-  // Revert sanitization (double underscore back to slash) for real Open Library key
-  const olKey = olKeySanitized.replace(/__/g,'/');
-        console.log(`🔑 Clave extraída: ${olKey}`);
+        const olKeySanitized = id.replace('openlib-', '');
+        // Revert sanitization (double underscore back to slash) for real Open Library key
+        const olKey = olKeySanitized.replace(/__/g,'/');
         
         try {
           // MÉTODO 1: Si es una clave de trabajo válida
           if (olKey.startsWith('/works/') || olKey.startsWith('OL')) {
-            console.log(`📖 Intentando obtener trabajo específico...`);
             const workKey = olKey.startsWith('/works/') ? olKey.split('/works/')[1] : olKey;
             const url = `https://openlibrary.org/works/${workKey}.json`;
             const response = await fetch(url);
@@ -374,13 +366,11 @@ class BookService {
                 language: 'es'
               };
               this._bookCache.set(id, book); // Guardar en caché
-              console.log(`✅ Open Library libro encontrado:`, book.title);
               return book;
             }
           }
           
           // MÉTODO 2: Buscar por título como fallback
-          console.log(`🔍 Buscando por título en Open Library: ${olKey}`);
           const searchTitle = olKey.replace(/-/g, ' '); // Convertir guiones a espacios
           const searchUrl = `https://openlibrary.org/search.json?q=${encodeURIComponent(searchTitle)}&limit=1`;
           const searchResponse = await fetch(searchUrl);
@@ -402,12 +392,11 @@ class BookService {
                 language: 'es'
               };
               this._bookCache.set(id, book); // Guardar en caché
-              console.log(`✅ Open Library libro encontrado por búsqueda:`, book.title);
               return book;
             }
           }
         } catch (e) {
-          console.error('❌ Error obteniendo detalles de Open Library:', e);
+          console.error('Error obteniendo detalles de Open Library:', e);
           // MÉTODO 3: Crear libro básico desde el ID como último recurso
           const fallbackBook = {
             id: id,
@@ -423,7 +412,6 @@ class BookService {
             language: 'es'
           };
           this._bookCache.set(id, fallbackBook);
-          console.log(`⚠️ Open Library fallback creado:`, fallbackBook.title);
           return fallbackBook;
         }
       }
@@ -462,7 +450,7 @@ class BookService {
       }
       
       // 4. Fallback: búsqueda final fallida -> null
-      console.warn(`ID no encontrado directamente: ${id}, intentando búsqueda por título...`);
+      // Ya hemos intentado todas las estrategias de recuperación
       
       return null;
     } catch (error) {

@@ -16,8 +16,14 @@ const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
   const [favorites, setFavorites] = useState([]);
   const [undoData, setUndoData] = useState(null); // { book, timeoutId }
   const [showUndo, setShowUndo] = useState(false);
-  // Vista única compacta (la variante normal se eliminó)
-  const [sortBy, setSortBy] = useState('title');
+  const [sortBy, setSortBy] = useState(() => localStorage.getItem('favs_sortBy') || 'added'); // 'title' | 'added'
+  const [sortDirection, setSortDirection] = useState(() => localStorage.getItem('favs_sortDirection') || 'desc'); // 'asc' | 'desc'
+  
+  // Persistir preferencias de ordenación
+  useEffect(() => {
+    localStorage.setItem('favs_sortBy', sortBy);
+    localStorage.setItem('favs_sortDirection', sortDirection);
+  }, [sortBy, sortDirection]);
 
   useEffect(() => {
     loadFavorites();
@@ -69,13 +75,43 @@ const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
       <div className="favorites-header">
   <h1 className="fav-title">💖 {t('favorites')}</h1>
   <p className="fav-sub">{t('favorites_sub')}</p>
-        <div className="fav-actions" style={{display:'flex', gap:'0.6rem', flexWrap:'wrap', justifyContent:'center'}}>
-          <div className="filter-group" style={{display:'flex', gap:'.4rem', alignItems:'center'}}>
-            <label style={{fontSize:'0.7rem', fontWeight:600}}>{t('sort_by')}</label>
-            <select value={sortBy} onChange={e=>setSortBy(e.target.value)} style={{padding:'0.4rem 0.6rem'}}>
+        <div className="fav-actions" style={{display:'flex', gap:'0.6rem', flexWrap:'wrap', justifyContent:'center', marginBottom: '1rem'}}>
+          <div className="filter-group" style={{display:'flex', gap:'.4rem', alignItems:'center', background: '#f5f5f5', padding: '0.5rem', borderRadius: '6px'}}>
+            <label style={{fontSize:'0.9rem', fontWeight:600, color: '#333'}}>{t('sort_by')}</label>
+            <select 
+              value={sortBy} 
+              onChange={e => setSortBy(e.target.value)} 
+              style={{
+                padding: '0.4rem 0.8rem',
+                borderRadius: '4px',
+                border: '1px solid #ddd',
+                backgroundColor: 'white',
+                fontSize: '0.9rem',
+                cursor: 'pointer'
+              }}
+            >
+              <option value="added">{t('sort_added')}</option>
               <option value="title">{t('sort_title')}</option>
-              <option value="year">{t('sort_year')}</option>
             </select>
+            <button 
+              onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
+              style={{
+                padding: '0.4rem 0.8rem',
+                background: 'white',
+                border: '1px solid #ddd',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '1rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minWidth: '40px',
+                transition: 'all 0.2s ease'
+              }}
+              title={t(sortDirection === 'asc' ? 'sort_desc' : 'sort_asc')}
+            >
+              {sortDirection === 'asc' ? '↑' : '↓'}
+            </button>
           </div>
         </div>
       </div>
@@ -89,14 +125,23 @@ const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
         <div className="favorites-grid">
           {favorites
             .slice()
-            .sort((a,b)=> {
-              if (sortBy === 'year') {
-                const ay = parseInt(a.year)||0; const by = parseInt(b.year)||0;
-                return ay - by;
+            .sort((a, b) => {
+              let comparison = 0;
+              
+              if (sortBy === 'added') {
+                // Ordenar por fecha de agregado
+                const at = a.addedAt || 0;
+                const bt = b.addedAt || 0;
+                comparison = at - bt;
+              } else if (sortBy === 'title') {
+                // Ordenar por título
+                const at = (a.title || '').toLowerCase();
+                const bt = (b.title || '').toLowerCase();
+                comparison = at.localeCompare(bt, undefined, { sensitivity: 'base' });
               }
-              const at = (a.title||'').toLocaleLowerCase();
-              const bt = (b.title||'').toLocaleLowerCase();
-              return at.localeCompare(bt, undefined, { sensitivity:'base' });
+              
+              // Invertir el orden si es descendente
+              return sortDirection === 'desc' ? -comparison : comparison;
             })
             .map(book => (
               <BookCard

@@ -42,7 +42,12 @@ export default class FavoriteService {
       console.info('[FavoriteService] add: ya existe', book.id);
       return [...current];
     }
-    const updated = [...current, book];
+    // Agregar timestamp cuando se añade el libro
+    const bookWithTimestamp = {
+      ...book,
+      addedAt: Date.now()
+    };
+    const updated = [...current, bookWithTimestamp];
     FavoriteService.saveAll(updated);
     console.info('[FavoriteService] add: agregado', book.id, 'total', updated.length);
     return updated;

@@ -5,8 +5,9 @@ import FavoriteService from '../services/FavoriteService';
 import { createI18n } from '../i18n/translations';
 import './HomeView.css';
 import BookCard from '../components/BookCard';
+import { useIntersectionFadeIn, useSequentialFadeIn } from '../hooks/useIntersectionFadeIn';
 
-const PAGE_SIZE = 45; // aumentar resultados por página para mostrar más libros
+const PAGE_SIZE = 50; // aumentar resultados por página para mostrar más libros
 
 const HomeView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
   const t = useMemo(() => createI18n(lang), [lang]);
@@ -158,15 +159,63 @@ const HomeView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
 
   const handleUndo = () => { if (undoData?.book) addToFavorites(undoData.book); if (undoData?.timeoutId) clearTimeout(undoData.timeoutId); setUndoData(null); setShowUndo(false); };
 
-  // Funciones de formulario manual eliminadas
+  // Move all hooks to the top
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+  const [searchSectionVisible] = useState(true);
+  const [booksSectionVisible] = useState(true);
+  
+  // Hooks para animación al hacer scroll
+  const { ref: searchSectionRef } = useIntersectionFadeIn({ threshold: 0.1 });
+  const { ref: booksSectionRef } = useIntersectionFadeIn({ threshold: 0.1 });
 
+  // Esconder el indicador de scroll después de cierto tiempo
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowScrollIndicator(false);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Esconder indicador de scroll cuando el usuario hace scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setShowScrollIndicator(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Asegurarse de que hay contenido visible (moved before early return)
+  useEffect(() => {
+    // Si después de 2 segundos sigue cargando, forzar la visualización
+    const timer = setTimeout(() => {
+      if (loading || initialLoading) {
+        setLoading(false);
+        setInitialLoading(false);
+      }
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [loading, initialLoading]);
+
+  // Funciones de formulario manual eliminadas
+  
   if (initialLoading) return (<div className="loading"><div className="loading-spinner"></div><p>{t('loading')}</p></div>);
 
   return (
     <div className="home-container">
-      <section className="search-section home-search-stack">
+      <section ref={searchSectionRef} className={`search-section home-search-stack`}>
         <div className="home-search-header">
-          <h2 className="home-search-title">{lang === 'en' ? 'Explore the Multi-source Library' : 'Explora la Biblioteca Multifuente'}</h2>
+          <h2 className="home-search-title">{t('brand_title')}</h2>
+          <p className="home-search-subtitle">{t('welcome_message')}</p>
+          
+          {showScrollIndicator && (
+            <div className="scroll-indicator">
+              <span className="scroll-indicator-icon">↓</span>
+              <span>{t('scroll_down')}</span>
+            </div>
+          )}
           <div className="home-search-actions">
             <button type="button" onClick={()=>setGroupBySource(g=>!g)} className="btn btn-secondary btn-sm" title="Agrupar por fuente">{groupBySource ? '🔀 Mezclar' : '🗂️ Agrupar'}</button>
             {/* Botón agregar manual eliminado */}
@@ -205,7 +254,7 @@ const HomeView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
         </div>
       </section>
 
-      <div className="books-section">
+      <div ref={booksSectionRef} className={`books-section scroll-reveal-section ${booksSectionVisible ? 'visible' : 'hidden'}`}>
   <h3 className="home-section-title">{lastQuery ? 'Resultados' : 'Libros Populares'} {groupBySource && <small className="home-group-badge">Agrupado por fuente</small>}</h3>
         {!groupBySource && (
           <div className="books-grid">

@@ -50,7 +50,11 @@ function App() {
     };
   }, []);
 
-  useEffect(()=>{ localStorage.setItem('ui_lang', lang); }, [lang]);
+  useEffect(()=>{ 
+    localStorage.setItem('ui_lang', lang);
+    // Emitir evento para notificar cambios de idioma en la misma pestaña
+    window.dispatchEvent(new CustomEvent('language:changed'));
+  }, [lang]);
 
   const handleEnterApp = () => {
     localStorage.setItem('hasVisitedBefore', 'true');
