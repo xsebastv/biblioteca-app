@@ -30,7 +30,12 @@ export const translations = {
     sort_title: 'Título',
     sort_year: 'Año',
     no_favorites: 'No tienes libros favoritos aún',
-    no_favorites_desc: 'Agrega libros a tus favoritos desde la página principal'
+    no_favorites_desc: 'Agrega libros a tus favoritos desde la página principal',
+    description: 'Descripción',
+    genre: 'Género',
+    language: 'Idioma',
+    not_found: 'No encontrado',
+    go_back: 'Volver'
   },
   en: {
     favorite_add: 'Favorite +',
@@ -62,6 +67,11 @@ export const translations = {
     sort_year: 'Year',
     no_favorites: 'You have no favorite books yet',
     no_favorites_desc: 'Add books to your favorites from the main page',
+    description: 'Description',
+    genre: 'Genre',
+    language: 'Language',
+    not_found: 'Not found',
+    go_back: 'Go back',
     confirm_remove_text: 'Are you sure you want to remove this book from your favorites?',
     cancel: 'Cancel',
     confirm: 'Remove',

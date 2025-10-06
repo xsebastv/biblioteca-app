@@ -28,7 +28,7 @@ const BookDetailView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
         }
         // Intentar obtener desde servicio (Google etc.)
         const remote = await BookService.obtenerLibroPorId(id);
-        if (!remote) throw new Error('No encontrado');
+        if (!remote) throw new Error('Not found');
         if (active) setBook(remote);
       } catch(e) {
         console.error('Detalle error', e);
@@ -54,13 +54,13 @@ const BookDetailView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
     }
   };
 
-  if (loading) return <div className="detail-loading"><div className="loading-spinner" /> Cargando...</div>;
-  if (error) return <div className="detail-error">{error} <button className="btn btn-secondary" onClick={()=>navigate(-1)}>Volver</button></div>;
-  if (!book) return <div className="detail-error">No encontrado <button className="btn btn-secondary" onClick={()=>navigate(-1)}>Volver</button></div>;
+  if (loading) return <div className="detail-loading"><div className="loading-spinner" /> {t('loading')}</div>;
+  if (error) return <div className="detail-error">{error} <button className="btn btn-secondary" onClick={()=>navigate(-1)}>{t('go_back')}</button></div>;
+  if (!book) return <div className="detail-error">{t('not_found')} <button className="btn btn-secondary" onClick={()=>navigate(-1)}>{t('go_back')}</button></div>;
 
   return (
     <div className="book-detail-container">
-      <button className="btn btn-link back-btn" onClick={()=>navigate(-1)} aria-label="Regresar">← Volver</button>
+      <button className="btn btn-link back-btn" onClick={()=>navigate(-1)} aria-label={t('go_back')}>← {t('go_back')}</button>
       <div className="book-detail-card">
         <div className="detail-media">
           {book.thumbnail ? <img src={book.thumbnail} alt={`Portada: ${book.title}`} loading="lazy" /> : <div className="book-image-placeholder">📚</div>}
@@ -71,15 +71,15 @@ const BookDetailView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
           <div className="detail-meta-grid">
             {book.year && <div><span className="dm-label">{t('year')}</span><span className="dm-value">{book.year}</span></div>}
             {book.pageCount && <div><span className="dm-label">{t('pages')}</span><span className="dm-value">{book.pageCount}</span></div>}
-            {book.genre && <div><span className="dm-label">Género</span><span className="dm-value">{book.genre}</span></div>}
+            {book.genre && <div><span className="dm-label">{t('genre')}</span><span className="dm-value">{book.genre}</span></div>}
             {book.isbn && <div><span className="dm-label">ISBN</span><span className="dm-value">{book.isbn}</span></div>}
             {book.source && <div><span className="dm-label">{t('source')}</span><span className="dm-value">{book.source}</span></div>}
-            {book.language && <div><span className="dm-label">Idioma</span><span className="dm-value">{book.language}</span></div>}
+            {book.language && <div><span className="dm-label">{t('language')}</span><span className="dm-value">{book.language}</span></div>}
           </div>
           {book.description && (
             <div className="detail-description">
-              <h2>Descripción</h2>
-              <p>{book.description}</p>
+              <h2>{t('description')}</h2>
+              <p className="justified-text">{book.description}</p>
             </div>
           )}
           <div className="detail-actions">

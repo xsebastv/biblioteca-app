@@ -288,7 +288,6 @@ const HomeView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
           isOpen={confirmRemoveModal}
           onClose={cancelRemoveFavorite}
           onConfirm={confirmRemoveFavorite}
-          onCancel={cancelRemoveFavorite}
           title={t('confirm_remove')}
           message={t('remove_favorite_message', { title: bookToRemove?.title })}
           confirmText={t('remove')}

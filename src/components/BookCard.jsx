@@ -26,7 +26,6 @@ function BookCard({ book, isFavorite, onAddToFavorites, onRemoveFromFavorites, c
           <div className="sk-line sk-title" />
           <div className="sk-line sk-sub" />
           <div className="sk-line sk-meta" />
-          <div className="sk-line sk-desc" />
         </div>
       </div>
     );
@@ -111,16 +110,16 @@ function BookCard({ book, isFavorite, onAddToFavorites, onRemoveFromFavorites, c
           )}
         </div>
         
-        {/* Botón de favorito posicionado sobre la imagen */}
+        {/* Botón de favorito posicionado en la esquina inferior derecha */}
         <button
           type="button"
-          className={`favorite-btn ${isFavorite ? 'favorite-btn--active' : ''}`}
+          className={`btn favorite-btn ${isFavorite ? 'btn-secondary favorite-btn--active' : 'btn-primary'}`}
           onClick={handleFavoriteClick}
           aria-pressed={isFavorite}
           aria-label={isFavorite ? t('favorite_unmark') : t('favorite_mark')}
           title={isFavorite ? t('favorite_remove') : t('favorite_add')}
         >
-          {isFavorite ? '❤️' : '🤍'}
+          {isFavorite ? t('favorite_remove') : t('favorite_add')}
         </button>
       </div>
 
@@ -140,11 +139,6 @@ function BookCard({ book, isFavorite, onAddToFavorites, onRemoveFromFavorites, c
           </ul>
         )}
         <p className="bc-source" title={data.source}>{data.source}</p>
-        {!!data.description && (
-          <p className="bc-desc-short" title={data.description.length > 160 ? data.description.slice(0,220)+'…' : data.description}>
-            {data.description.slice(0,120)}{data.description.length>120 && '…'}
-          </p>
-        )}
 
       </div>
   </article>

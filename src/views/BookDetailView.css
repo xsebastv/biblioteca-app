@@ -253,3 +253,12 @@
     padding: 1.5rem;
   }
 }
+
+/* Texto justificado para descripciones */
+.justified-text {
+  text-align: justify;
+  text-justify: inter-word;
+  line-height: 1.6;
+  hyphens: auto;
+  word-wrap: break-word;
+}
