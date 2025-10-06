@@ -265,18 +265,25 @@ small { font-size: var(--font-size-xs); }
   box-shadow: var(--shadow-focus), var(--btn-shadow-hover); 
 }
 
-/* Variantes de botones */
+/* Variantes de botones mejoradas para modo claro */
 .btn-secondary { 
   --btn-bg: var(--color-surface); 
   --btn-bg-hover: var(--color-bg-soft); 
-  --btn-color: var(--color-text); 
+  --btn-color: var(--color-text-strong); 
   --btn-border: var(--color-border-strong); 
+  border: 2px solid var(--color-border-strong);
+}
+
+.btn-secondary:hover {
+  --btn-color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .btn-danger { 
   --btn-bg: var(--color-danger); 
-  --btn-bg-hover: #c53030; 
-  --btn-shadow-hover: 0 8px 20px -6px rgba(229,62,62,0.4);
+  --btn-bg-hover: #dc2626; 
+  --btn-shadow-hover: 0 8px 20px -6px rgba(239,68,68,0.4);
+  --btn-color: #ffffff;
 }
 
 .btn-accent { 

@@ -1,11 +1,12 @@
 .app-footer { 
   margin-top:auto; 
-  padding:2.5rem 0 3.5rem; 
+  padding:3rem 0 4rem; 
   text-align:center; 
-  font-size:0.7rem; 
-  color:var(--color-text-faint); 
+  font-size:0.8rem; 
+  color:var(--color-text-soft); 
   position:relative;
-  background:linear-gradient(180deg,rgba(255,255,255,0),rgba(250,251,254,0.7));
+  background:linear-gradient(180deg,rgba(255,255,255,0),var(--color-bg-soft));
+  border-top: 2px solid var(--color-border);
 }
 .app-footer::before { content:""; position:absolute; left:50%; top:0; width:60%; height:1px; transform:translateX(-50%); background:linear-gradient(90deg,transparent,var(--color-border),transparent); }
 .footer-inner { max-width:960px; margin:0 auto; padding:0 1.5rem; display:flex; flex-direction:column; gap:.4rem; }
