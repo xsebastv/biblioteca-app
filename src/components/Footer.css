@@ -5,9 +5,9 @@
   font-size:0.7rem; 
   color:var(--color-text-faint); 
   position:relative;
-  background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,0.6));
+  background:linear-gradient(180deg,rgba(255,255,255,0),rgba(250,251,254,0.7));
 }
-.app-footer::before { content:""; position:absolute; left:50%; top:0; width:60%; height:1px; transform:translateX(-50%); background:linear-gradient(90deg,transparent,#e2e8f4,transparent); }
+.app-footer::before { content:""; position:absolute; left:50%; top:0; width:60%; height:1px; transform:translateX(-50%); background:linear-gradient(90deg,transparent,var(--color-border),transparent); }
 .footer-inner { max-width:960px; margin:0 auto; padding:0 1.5rem; display:flex; flex-direction:column; gap:.4rem; }
 .footer-title { margin:0; font-weight:600; letter-spacing:.5px; text-transform:uppercase; color:var(--color-text-soft); }
 .footer-authors { margin:0; }

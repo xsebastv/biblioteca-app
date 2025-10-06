@@ -69,12 +69,12 @@ const BookDetailView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
           <h1 className="detail-title">{book.title}</h1>
           <p className="detail-author">{book.author}</p>
           <div className="detail-meta-grid">
-            {book.year && <div><span className="dm-label">{t('year')}</span><span>{book.year}</span></div>}
-            {book.pageCount && <div><span className="dm-label">{t('pages')}</span><span>{book.pageCount}</span></div>}
-            {book.genre && <div><span className="dm-label">Género</span><span>{book.genre}</span></div>}
-            {book.isbn && <div><span className="dm-label">ISBN</span><span>{book.isbn}</span></div>}
-            {book.source && <div><span className="dm-label">{t('source')}</span><span>{book.source}</span></div>}
-            {book.language && <div><span className="dm-label">Idioma</span><span>{book.language}</span></div>}
+            {book.year && <div><span className="dm-label">{t('year')}</span><span className="dm-value">{book.year}</span></div>}
+            {book.pageCount && <div><span className="dm-label">{t('pages')}</span><span className="dm-value">{book.pageCount}</span></div>}
+            {book.genre && <div><span className="dm-label">Género</span><span className="dm-value">{book.genre}</span></div>}
+            {book.isbn && <div><span className="dm-label">ISBN</span><span className="dm-value">{book.isbn}</span></div>}
+            {book.source && <div><span className="dm-label">{t('source')}</span><span className="dm-value">{book.source}</span></div>}
+            {book.language && <div><span className="dm-label">Idioma</span><span className="dm-value">{book.language}</span></div>}
           </div>
           {book.description && (
             <div className="detail-description">

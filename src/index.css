@@ -1,44 +1,45 @@
 /* === NUEVO SISTEMA DE DISEÑO PARA BIBLIOTECA DIGITAL (2025) === */
 
 :root {
-  /* Paleta clara suave (alto contraste sin saturación excesiva) */
-  --color-bg: #fcfdff;              /* Fondo base muy claro */
-  --color-bg-alt: #ffffff;          /* Paneles */
-  --color-bg-soft: #f5f8fb;         /* Bloques suaves */
+  /* Paleta moderna clara optimizada para legibilidad */
+  --color-bg: #ffffff;              /* Fondo base completamente blanco */
+  --color-bg-alt: #ffffff;          /* Paneles blancos puros */
+  --color-bg-soft: #f8fafc;         /* Bloques suaves muy claros */
   --color-surface: #ffffff;         /* Superficies principales */
-  --color-surface-alt: #f9fbfd;     /* Variante secundaria */
-  --color-border: #dde6ef;          /* Bordes sutiles */
-  --color-border-strong: #c8d3df;   /* Bordes enfatizados */
-  --color-shadow: 215 20% 10%;
+  --color-surface-alt: #fafbfc;     /* Variante muy sutil */
+  --color-border: #e2e8f0;          /* Bordes sutiles pero visibles */
+  --color-border-strong: #cbd5e1;   /* Bordes enfatizados */
+  --color-shadow: 230 10% 20%;      /* Sombras más suaves */
 
-  --color-primary: #3d6fe8;         /* Azul vibrante refinado */
-  --color-primary-rgb: 61 111 232;
-  --color-primary-hover: #2f5bd1;
-  --color-primary-soft: #edf3ff;    /* Fondo suave de énfasis */
+  --color-primary: #6366f1;         /* Indigo vibrante moderno */
+  --color-primary-rgb: 99 102 241;
+  --color-primary-hover: #4f46e5;
+  --color-primary-soft: #eef2ff;    /* Fondo suave índigo */
 
-  --color-accent: #ff7b6a;          /* Acento cálido alegre */
-  --color-accent-hover: #f86653;
-  --color-accent-soft: #ffe9e5;
+  --color-accent: #f59e0b;          /* Ámbar energético */
+  --color-accent-hover: #d97706;
+  --color-accent-soft: #fef3c7;
 
-  --color-success: #2f915d;
-  --color-success-soft: #e3f8ef;
-  --color-danger: #d84848;
-  --color-danger-soft: #ffe4e4;
-  --color-warning: #c9831b;
-  --color-warning-soft: #fff2d9;
+  --color-success: #10b981;         /* Verde esmeralda */
+  --color-success-soft: #d1fae5;
+  --color-danger: #ef4444;          /* Rojo coral moderno */
+  --color-danger-soft: #fee2e2;
+  --color-warning: #f59e0b;         /* Ámbar para advertencias */
+  --color-warning-soft: #fef3c7;
 
-  /* Nuevas variables semánticas para UX */
-  --color-info: #3182ce;
-  --color-info-soft: #bee3f8;
-  --color-neutral: #718096;
-  --color-neutral-soft: #edf2f7;
+  /* Nuevas variables semánticas mejoradas */
+  --color-info: #3b82f6;           /* Azul cielo */
+  --color-info-soft: #dbeafe;
+  --color-neutral: #6b7280;        /* Gris moderno */
+  --color-neutral-soft: #f3f4f6;
 
-  --color-text-strong: #1e2430;
-  --color-text: #2f3a49;
-  --color-text-soft: #5a6674;
-  --color-text-faint: #8a95a3;
-  --color-text-inverse: #ffffff;
-  --color-text-muted: #a0aec0;
+  /* Colores de texto optimizados para modo claro */
+  --color-text-strong: #1f2937;     /* Negro suave con buen contraste */
+  --color-text: #374151;           /* Gris oscuro principal - muy legible */
+  --color-text-soft: #6b7280;      /* Gris medio para secundarios */
+  --color-text-faint: #9ca3af;     /* Gris claro para elementos sutiles */
+  --color-text-inverse: #ffffff;   /* Texto blanco para fondos oscuros */
+  --color-text-muted: #d1d5db;     /* Texto muy sutil */
 
   /* Tipografía */
   --font-sans: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
