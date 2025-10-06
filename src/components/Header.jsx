@@ -24,11 +24,16 @@ const Header = ({ favoritesCount = 0 }) => {
             <span>Inicio</span>
           </Link>
           <Link 
-            to="/favorites" 
-            className={`nav-link ${location.pathname === '/favorites' ? 'active' : ''}`}
+            to="/favoritos" 
+            className={`nav-link ${location.pathname === '/favoritos' ? 'active' : ''}`}
           >
             <span className="nav-icon">❤️</span>
-            <span>Favoritos ({favoritesCount})</span>
+            <span style={{position:'relative', display:'inline-flex', alignItems:'center', gap:4}}>
+              Favoritos
+              {favoritesCount > 0 && (
+                <span style={{background:'var(--color-primary)', color:'#fff', fontSize:'10px', padding:'2px 6px', borderRadius:12, lineHeight:1, fontWeight:600}}>{favoritesCount}</span>
+              )}
+            </span>
           </Link>
         </nav>
       </div>

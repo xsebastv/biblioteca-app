@@ -78,10 +78,10 @@ const FavoritesView = () => {
     return (
       <div className="favorites-container"> 
       <div className="favorites-header">
-        <h1>💖 Mis Libros Favoritos</h1>
-        <p>Gestiona tu colección personal de libros favoritos</p>
-        <div style={{marginTop:'18px'}}>
-          <button className="btn-primary btn" type="button" onClick={()=>setShowAddModal(true)}>➕ Agregar Libro Manual</button>
+        <h1 className="fav-title">💖 Mis Libros Favoritos</h1>
+        <p className="fav-sub">Gestiona tu colección personal de libros favoritos</p>
+        <div className="fav-actions">
+          <button className="btn btn-primary" type="button" onClick={()=>setShowAddModal(true)}>➕ Agregar Libro Manual</button>
         </div>
       </div>
 
@@ -93,22 +93,21 @@ const FavoritesView = () => {
       ) : (
         <div className="favorites-grid">
           {favorites.map(book => (
-            <div key={book.id} className="book-card fade-in favorite-active" style={{position:'relative'}}>
+            <div key={book.id} className="book-card fade-in favorite-active fav-card">
               <div className="favorite-ribbon">Favorito</div>
-              <div className="book-thumb-wrapper" style={{width:'100%', height:'160px', borderRadius:'12px', overflow:'hidden', background:'#f0f3f9', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:'12px'}}>
-                <img src={book.thumbnail || '/placeholder-book.png'} alt={book.title} style={{width:'100%', height:'100%', objectFit:'cover'}} />
+              <div className="fav-thumb">
+                <img src={book.thumbnail || '/placeholder-book.png'} alt={book.title} className="fav-thumb-img" />
               </div>
-              <div className="book-info" style={{display:'flex', flexDirection:'column', gap:'4px'}}>
-                <h3 className="book-title" style={{margin:0}}>{book.title || 'Título no disponible'}</h3>
-                <p className="book-author" style={{margin:0,fontSize:'0.75rem'}}><strong>Autor:</strong> {book.author || 'Autor desconocido'}</p>
-                <p className="book-year" style={{margin:0,fontSize:'0.7rem'}}><strong>Año:</strong> {book.year || 'N/D'}</p>
-                {book.isbn && <p className="book-year" style={{margin:0,fontSize:'0.7rem'}}><strong>ISBN:</strong> {book.isbn}</p>}
+              <div className="book-info fav-info">
+                <h3 className="book-title fav-book-title">{book.title || 'Título no disponible'}</h3>
+                <p className="book-author fav-meta"><strong>Autor:</strong> {book.author || 'Autor desconocido'}</p>
+                <p className="book-year fav-meta"><strong>Año:</strong> {book.year || 'N/D'}</p>
+                {book.isbn && <p className="book-year fav-meta"><strong>ISBN:</strong> {book.isbn}</p>}
               </div>
               <button
-                className="favorite-float-btn active"
+                className="favorite-float-btn active fav-remove"
                 title="Eliminar de favoritos"
                 onClick={() => openRemoveConfirm(book)}
-                style={{position:'absolute', top:'10px', right:'10px'}}
               >
                 <span className="favorite-icon">💔</span>
               </button>
@@ -118,18 +117,16 @@ const FavoritesView = () => {
       )}
 
       {showUndo && undoData?.book && (
-        <div style={{position:'fixed', left:'50%', bottom:'30px', transform:'translateX(-50%)', background:'#323232', color:'#fff', padding:'14px 22px', borderRadius:'8px', display:'flex', gap:'18px', alignItems:'center', boxShadow:'0 4px 16px rgba(0,0,0,0.3)', zIndex:1000}} role="status" aria-live="polite">
-          <span>Eliminado: {undoData.book.title}</span>
-          <button onClick={handleUndo} style={{background:'transparent', border:'1px solid #888', color:'#fff', padding:'6px 14px', borderRadius:'6px', cursor:'pointer'}}>
-            Deshacer
-          </button>
-          <button onClick={()=>{setShowUndo(false); if(undoData?.timeoutId) clearTimeout(undoData.timeoutId);}} aria-label="Cerrar" style={{background:'transparent', border:'none', color:'#bbb', fontSize:'18px', cursor:'pointer'}}>×</button>
+        <div className="undo-toast" role="status" aria-live="polite">
+          <span className="undo-text">Eliminado: {undoData.book.title}</span>
+          <button onClick={handleUndo} className="undo-btn">Deshacer</button>
+          <button onClick={()=>{setShowUndo(false); if(undoData?.timeoutId) clearTimeout(undoData.timeoutId);}} aria-label="Cerrar" className="undo-close">×</button>
         </div>
       )}
 
       {/* Modal Agregar */}
       <Modal mostrar={showAddModal} onCerrar={()=>setShowAddModal(false)} titulo="Agregar Libro Favorito">
-        <form onSubmit={handleAddFavorite} className="add-fav-form" style={{display:'flex', flexDirection:'column', gap:'14px'}}>
+  <form onSubmit={handleAddFavorite} className="add-fav-form">
           <div>
             <label>Título *</label>
             <input value={form.title} onChange={e=>setForm(f=>({...f,title:e.target.value}))} placeholder="Ej: El Principito" />
@@ -140,13 +137,13 @@ const FavoritesView = () => {
             <input value={form.author} onChange={e=>setForm(f=>({...f,author:e.target.value}))} placeholder="Autor" />
             {errors.author && <small style={{color:'#dc2626'}}>{errors.author}</small>}
           </div>
-            <div style={{display:'flex', gap:'12px'}}>
-              <div style={{flex:1}}>
+            <div className="fav-form-row">
+              <div className="fav-flex-1">
                 <label>Año</label>
                 <input value={form.year} onChange={e=>setForm(f=>({...f,year:e.target.value}))} placeholder="1998" />
                 {errors.year && <small style={{color:'#dc2626'}}>{errors.year}</small>}
               </div>
-              <div style={{flex:2}}>
+              <div className="fav-flex-2">
                 <label>ISBN</label>
                 <input value={form.isbn} onChange={e=>setForm(f=>({...f,isbn:e.target.value}))} placeholder="978-..." />
                 {errors.isbn && <small style={{color:'#dc2626'}}>{errors.isbn}</small>}
@@ -156,7 +153,7 @@ const FavoritesView = () => {
             <label>URL Imagen (opcional)</label>
             <input value={form.thumbnail} onChange={e=>setForm(f=>({...f,thumbnail:e.target.value}))} placeholder="https://..." />
           </div>
-          <div style={{display:'flex', justifyContent:'flex-end', gap:'10px', marginTop:'4px'}}>
+          <div className="modal-actions">
             <button type="button" className="btn btn-secondary" onClick={()=>setShowAddModal(false)}>Cancelar</button>
             <button type="submit" className="btn btn-primary">Guardar</button>
           </div>
@@ -166,7 +163,7 @@ const FavoritesView = () => {
       {/* Modal Confirmación */}
       <Modal mostrar={showConfirmModal} onCerrar={cancelRemove} titulo="Confirmar eliminación">
         <p style={{marginBottom:'18px'}}>¿Seguro que deseas eliminar <strong>{bookToRemove?.title}</strong> de tus favoritos?</p>
-        <div style={{display:'flex', justifyContent:'flex-end', gap:'10px'}}>
+  <div className="modal-actions">
           <button type="button" className="btn btn-secondary" onClick={cancelRemove}>Cancelar</button>
             <button type="button" className="btn btn-danger" onClick={confirmRemove}>Eliminar</button>
         </div>

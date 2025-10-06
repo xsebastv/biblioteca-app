@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Header from './components/Header';
-import Navigation from './components/Navigation';
 import AppRoutes from './routes/AppRoutes';
 import './App.css';
 
@@ -49,7 +48,6 @@ function App() {
     <Router>
       <div className="app">
         <Header favoritesCount={favoritesCount} />
-        <Navigation />
         <main className="main-content">
           <AppRoutes />
         </main>

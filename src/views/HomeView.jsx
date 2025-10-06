@@ -130,11 +130,11 @@ const HomeView = () => {
 
   return (
     <div className="home-container">
-      <section className="search-section" style={{display:'flex', flexDirection:'column', gap:'12px'}}>
-        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', gap:'16px', flexWrap:'wrap'}}>
-          <h2 style={{margin:0}}>Explora la Biblioteca Multifuente</h2>
-          <div style={{display:'flex', gap:'10px', alignItems:'center'}}>
-            <button type="button" onClick={()=>setGroupBySource(g=>!g)} style={{padding:'8px 14px', borderRadius:'8px', border:'1px solid #999', background:'#fff', cursor:'pointer'}}>{groupBySource ? '🔀 Mezclar' : '🗂️ Agrupar'}</button>
+      <section className="search-section home-search-stack">
+        <div className="home-search-header">
+          <h2 className="home-search-title">Explora la Biblioteca Multifuente</h2>
+          <div className="home-search-actions">
+            <button type="button" onClick={()=>setGroupBySource(g=>!g)} className="btn btn-secondary btn-sm">{groupBySource ? '🔀 Mezclar' : '🗂️ Agrupar'}</button>
           </div>
         </div>
         <form onSubmit={handleSearchSubmit} className="search-form" role="search" aria-label="Buscar libros">
@@ -142,14 +142,14 @@ const HomeView = () => {
           <button type="submit" disabled={searching}>{searching ? 'Buscando...' : 'Buscar'}</button>
           {lastQuery && <button type="button" onClick={handleClearSearch}>Limpiar</button>}
         </form>
-        <div style={{display:'flex', flexWrap:'wrap', gap:'12px', alignItems:'center'}}>
-          {lastQuery && <p style={{margin:'4px 0', fontSize:'0.9rem'}}>Resultados para: <strong>{lastQuery}</strong></p>}
-          <span style={{fontSize:'0.8rem', background:'#eee', padding:'4px 10px', borderRadius:'20px'}}>Mostrando {books.length} libros</span>
+        <div className="home-search-meta">
+          {lastQuery && <p className="home-search-result-label">Resultados para: <strong>{lastQuery}</strong></p>}
+          <span className="home-search-count">Mostrando {books.length} libros</span>
         </div>
       </section>
 
       <div className="books-section">
-        <h3 style={{display:'flex', alignItems:'center', gap:'12px'}}>{lastQuery ? 'Resultados' : 'Libros Populares'} {groupBySource && <small style={{fontWeight:400, fontSize:'0.75rem', background:'#ddd', padding:'4px 8px', borderRadius:'6px'}}>Agrupado por fuente</small>}</h3>
+  <h3 className="home-section-title">{lastQuery ? 'Resultados' : 'Libros Populares'} {groupBySource && <small className="home-group-badge">Agrupado por fuente</small>}</h3>
         {!groupBySource && (
           <div className="books-grid">
             {books.map(book => (
@@ -165,7 +165,10 @@ const HomeView = () => {
                   {book.genre && <p className="book-year"><strong>Género:</strong> {book.genre}</p>}
                   {book.pageCount && <p className="book-year"><strong>Páginas:</strong> {book.pageCount}</p>}
                   {book.isbn && <p className="book-year"><strong>ISBN:</strong> {book.isbn}</p>}
-                  <p className={`book-source-badge source-${book.source.toLowerCase().replace(/\s+/g,'-')}`}>{book.source}</p>
+                  <div className={`book-source-badge source-${book.source.toLowerCase().replace(/\s+/g,'-')}`}>
+                    <span className="source-icon">{book.source === 'Google Books' ? '🔍' : book.source === 'Open Library' ? '📚' : book.source === 'ISBNdb' ? '🏷️' : '📖'}</span>
+                    {book.source}
+                  </div>
                 </div>
                 {/* Botón favorito pequeño flotante */}
                 <button
@@ -182,12 +185,15 @@ const HomeView = () => {
           </div>
         )}
         {groupBySource && (
-          <div style={{display:'flex', flexDirection:'column', gap:'40px'}}>
+          <div className="home-group-wrapper">
             {groupedBooks.map(([source, list]) => (
-              <section key={source} style={{border:'1px solid #e2e2e2', borderRadius:'16px', padding:'16px 20px', background:'var(--group-bg, #fff)'}}>
-                <h4 style={{margin:'0 0 12px', display:'flex', alignItems:'center', gap:'10px'}}>
-                  <span className={`book-source-badge source-${source.toLowerCase().replace(/\s+/g,'-')}`}>{source}</span>
-                  <small style={{fontWeight:400, fontSize:'0.7rem', opacity:.7}}>{list.length} libros</small>
+              <section key={source} className="home-source-section">
+                <h4 className="home-source-header">
+                  <span className={`book-source-badge source-${source.toLowerCase().replace(/\s+/g,'-')}`}>
+                    <span className="source-icon">{source === 'Google Books' ? '🔍' : source === 'Open Library' ? '📚' : source === 'ISBNdb' ? '🏷️' : '📖'}</span>
+                    {source}
+                  </span>
+                  <small className="home-source-count">{list.length} libros</small>
                 </h4>
                 <div className="books-grid">
                   {list.map(book => (
@@ -210,7 +216,6 @@ const HomeView = () => {
                         onClick={() => isFavorite(book.id) ? handleRemoveFromFavorites(book) : addToFavorites(book)}
                         disabled={addingIds.has(book.id)}
                         title={isFavorite(book.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                        style={{position:'absolute', top:'8px', right:'8px', zIndex:2}}
                       >
                         <span className="favorite-icon">{isFavorite(book.id) ? '💖' : '🤍'}</span>
                       </button>
@@ -222,34 +227,9 @@ const HomeView = () => {
           </div>
         )}
         <div ref={sentinelRef} style={{height:'1px'}} />
-        {loading && !initialLoading && <p style={{textAlign:'center', marginTop:'20px'}}>Cargando más...</p>}
-        {!hasMore && !loading && <p style={{textAlign:'center', marginTop:'20px', color:'#666'}}>No hay más resultados.</p>}
+        {loading && !initialLoading && <p className="list-status">Cargando más...</p>}
+        {!hasMore && !loading && <p className="list-status list-status-end">No hay más resultados.</p>}
       </div>
-
-  {/* Modal eliminado - eliminación directa con undo */}
-    <style>{`
-      .book-card { display:grid; grid-template-columns:90px 1fr; gap:14px; position:relative; background:#ffffff; border:1px solid #ececec; border-radius:16px; padding:14px 14px 16px; box-shadow:0 4px 10px -2px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.04); }
-      .book-card.favorite-active { border-color:#ff6b6b; box-shadow:0 4px 14px -2px rgba(255,107,107,0.3), 0 2px 6px -2px rgba(255,107,107,0.25); }
-      .book-card:hover { transform:translateY(-4px); transition:all .35s cubic-bezier(.4,0,.2,1); box-shadow:0 10px 24px -6px rgba(0,0,0,0.15), 0 4px 8px -4px rgba(0,0,0,0.08); }
-      .book-thumb-wrapper { width:90px; height:124px; border-radius:10px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,.12); background:linear-gradient(135deg,#f0f3f9,#e2e8f0); display:flex; align-items:center; justify-content:center; position:relative; }
-      .book-thumb { width:100%; height:100%; object-fit:cover; }
-      .favorite-float-btn { position:absolute; background:linear-gradient(135deg,#ffffff,#f7f7f7); border:2px solid #ff6b6b; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(255,107,107,0.25); cursor:pointer; transition:all .25s; top:8px; right:8px; }
-      .favorite-float-btn:hover { background:linear-gradient(135deg,#ff6b6b 0%,#ff5252 100%); border-color:#ff5252; transform:scale(1.08); color:#fff; }
-      .favorite-float-btn.active { background:linear-gradient(135deg,#ff6b6b 0%,#ff5252 100%); color:#fff; }
-      .favorite-icon { font-size:1rem; }
-      .book-info { display:flex; flex-direction:column; gap:4px; }
-      .book-title { font-size:0.95rem; line-height:1.2; font-weight:700; color:#222; margin:0 0 4px; }
-      .book-author, .book-year { font-size:0.7rem; color:#555; margin:0; }
-      .book-source-badge { margin-top:4px; display:inline-block; font-size:0.55rem; letter-spacing:.5px; text-transform:uppercase; background:#eef2ff; color:#3949ab; padding:4px 8px; border-radius:20px; font-weight:600; box-shadow:0 1px 3px rgba(0,0,0,0.1); }
-      .favorite-ribbon { position:absolute; top:0; right:0; background:linear-gradient(135deg,#ff6b6b,#ff914d); color:#fff; font-size:0.55rem; font-weight:700; padding:4px 10px 4px 12px; border-bottom-left-radius:12px; letter-spacing:.5px; box-shadow:0 4px 12px -2px rgba(255,107,107,0.4); animation:popIn .45s ease; }
-      @keyframes popIn { 0% { transform:translateY(-10px) scale(.9); opacity:0;} 100% { transform:translateY(0) scale(1); opacity:1;} }
-      .search-form { display:flex; gap:8px; }
-      .search-form input { flex:1; padding:10px 14px; border:1px solid #d1d5db; border-radius:12px; font-size:0.9rem; background:#fff; }
-      .search-form button { background:#6366f1; color:#fff; border:none; padding:10px 16px; border-radius:12px; cursor:pointer; font-weight:600; font-size:0.85rem; box-shadow:0 4px 14px -2px rgba(99,102,241,0.4); transition:background .25s, transform .25s; }
-      .search-form button:hover { background:#4f46e5; transform:translateY(-2px); }
-      .books-grid { display:grid; gap:18px; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); }
-      @media (max-width:600px){ .books-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:14px;} .book-card{grid-template-columns:70px 1fr; padding:10px 10px 12px;} .book-thumb-wrapper{width:70px; height:100px;} .favorite-float-btn{width:26px; height:26px;} .book-title{font-size:0.8rem;} }
-    `}</style>
     </div>
   );
 };
