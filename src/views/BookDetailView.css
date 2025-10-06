@@ -27,6 +27,22 @@
   box-shadow: var(--shadow-md);
 }
 
+/* Advertencia de información limitada */
+.limited-info-warning {
+  background: linear-gradient(135deg, #fef3cd, #fde68a);
+  border: 2px solid #f59e0b;
+  color: #92400e;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .book-detail-card {
   display: grid;
   grid-template-columns: 300px 1fr;

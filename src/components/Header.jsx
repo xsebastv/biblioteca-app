@@ -12,8 +12,11 @@ const Header = ({ favoritesCount = 0, onChangeLang, lang='es' }) => {
     window.location.reload();
   };
 
+  const isHome = location.pathname === '/';
+  const isFavs = location.pathname === '/favoritos';
+
   return (
-    <header className="header">
+    <header className="header" data-route={location.pathname}>
       <div className="header-container">
         <Link to="/" className="logo">
           <div className="logo-icon">
@@ -23,58 +26,42 @@ const Header = ({ favoritesCount = 0, onChangeLang, lang='es' }) => {
         </Link>
 
         <nav className="nav" aria-label="Navegación principal">
-          <Link 
-            to="/" 
-            className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+          <Link
+            to="/"
+            data-route="home"
+            aria-current={isHome ? 'page' : undefined}
+            className={`nav-link ${isHome ? 'active' : ''}`}
           >
-            <span className="nav-icon">🏠</span>
-            <span>{t('home')}</span>
+            <span className="nav-icon" aria-hidden="true">🏠</span>
+            <span className="nav-text">{t('home')}</span>
           </Link>
-          <Link 
-            to="/favoritos" 
-            className={`nav-link ${location.pathname === '/favoritos' ? 'active' : ''}`}
+          <Link
+            to="/favoritos"
+            data-route="favorites"
+            aria-current={isFavs ? 'page' : undefined}
+            className={`nav-link ${isFavs ? 'active' : ''}`}
           >
-            <span className="nav-icon">❤️</span>
-            <span style={{position:'relative', display:'inline-flex', alignItems:'center', gap:4}}>
+            <span className="nav-icon" aria-hidden="true">❤️</span>
+            <span className="nav-text" style={{position:'relative', display:'inline-flex', alignItems:'center', gap:6}}>
               {t('favorites')}
               {favoritesCount > 0 && (
-                <span className="nav-badge">{favoritesCount}</span>
+                <span className="nav-badge nav-badge--count" aria-label={`${favoritesCount} ${t('favorites')}`}>{favoritesCount}</span>
               )}
             </span>
           </Link>
-          <div style={{display:'flex', alignItems:'center', gap:'0.5rem', marginLeft:'0.5rem'}}>
+          <div className="header-actions" style={{display:'flex', alignItems:'center', gap:'.6rem', marginLeft:'0.75rem'}}>
             <button
+              type="button"
               onClick={resetLanding}
-              title="Ver Landing Page"
-              style={{
-                padding:'0.5rem',
-                borderRadius:'8px',
-                border:'1px solid var(--color-border)',
-                background:'var(--color-surface)',
-                fontSize:'1rem',
-                cursor:'pointer',
-                display:'flex',
-                alignItems:'center',
-                justifyContent:'center',
-                transition:'all 0.2s'
-              }}
-            >
-              ✨
-            </button>
+              title="Landing"
+              className="header-icon-btn"
+              aria-label="Rever landing"
+            >✨</button>
             <select
-              aria-label="Seleccionar idioma"
+              aria-label={lang === 'es' ? 'Seleccionar idioma' : 'Select language'}
               value={lang}
               onChange={e=>onChangeLang?.(e.target.value)}
-              style={{
-                padding:'0.5rem 0.7rem',
-                borderRadius:'12px',
-                border:'1px solid var(--color-border)',
-                background:'var(--color-surface)',
-                fontSize:'0.7rem',
-                fontWeight:600,
-                letterSpacing:'.5px',
-                textTransform:'uppercase'
-              }}
+              className="lang-select"
             >
               <option value="es">ES</option>
               <option value="en">EN</option>

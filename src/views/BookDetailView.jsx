@@ -23,17 +23,77 @@ const BookDetailView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
         // Buscar primero en favoritos/local list por rapidez
         const local = FavoriteService.getAll().find(b=>b.id === id);
         if (local) {
-          if (active) { setBook(local); setIsFavorite(true); setLoading(false); }
+          if (active) { 
+            setBook(local); 
+            setIsFavorite(true); 
+            setLoading(false); 
+          }
           return;
         }
-        // Intentar obtener desde servicio (Google etc.)
+        
+        // Intentar obtener desde servicio mejorado
+        console.log('🔍 Buscando libro con ID:', id);
+        console.log('📋 Libros en favoritos:', FavoriteService.getAll().map(b => ({id: b.id, title: b.title})));
         const remote = await BookService.obtenerLibroPorId(id);
-        if (!remote) throw new Error('Not found');
-        if (active) setBook(remote);
+        console.log('📖 Resultado de búsqueda:', remote ? `Encontrado: ${remote.title}` : 'No encontrado');
+        
+        if (!remote) {
+          // Si no se encuentra por ID, intentar extraer información del ID mismo
+          console.warn('Libro no encontrado por ID, intentando recuperar información básica...');
+          
+          let title = 'Información no disponible';
+          let source = 'Información limitada';
+          
+          // Intentar extraer información del ID
+          if (id.startsWith('openlib-')) {
+            title = id.replace('openlib-', '').replace(/-/g, ' ');
+            source = 'Open Library (información limitada)';
+          } else if (id.startsWith('isbndb-')) {
+            title = id.replace('isbndb-', '').replace(/-/g, ' ');
+            source = 'ISBNdb (información limitada)';
+          } else if (id.startsWith('google-')) {
+            title = 'Libro de Google Books';
+            source = 'Google Books (información limitada)';
+          }
+          
+          // Crear un libro placeholder con información básica mejorada
+          const placeholderBook = {
+            id: id,
+            title: title,
+            author: 'Autor no disponible - Intenta agregar a favoritos para ver si hay más información',
+            description: `Lo sentimos, no pudimos obtener la información completa de este libro desde ${source}. 
+
+Esto puede ocurrir por:
+• Conexión temporalmente no disponible
+• El libro fue eliminado de la fuente original
+• Restricciones de la API externa
+
+Puedes intentar:
+• Refrescar la página
+• Buscar el libro nuevamente
+• Agregarlo a favoritos para conservar la información básica`,
+            year: 'No disponible',
+            thumbnail: '/placeholder-book.png',
+            source: source,
+            genre: 'No especificado',
+            pageCount: null,
+            isbn: null,
+            language: 'es'
+          };
+          
+          if (active) {
+            setBook(placeholderBook);
+            setError('Información limitada disponible - No se pudo conectar con la fuente original');
+          }
+        } else {
+          if (active) setBook(remote);
+        }
       } catch(e) {
-        console.error('Detalle error', e);
-        if (active) setError('No se pudo cargar el libro');
-      } finally { if (active) setLoading(false); }
+        console.error('Error cargando detalle del libro:', e);
+        if (active) setError('No se pudo cargar la información del libro');
+      } finally { 
+        if (active) setLoading(false); 
+      }
     };
     load();
     return ()=>{ active = false; };
@@ -64,12 +124,22 @@ const BookDetailView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
   };
 
   if (loading) return <div className="detail-loading"><div className="loading-spinner" /> {t('loading')}</div>;
-  if (error) return <div className="detail-error">{error} <button className="btn btn-secondary" onClick={()=>navigate(-1)}>{t('go_back')}</button></div>;
   if (!book) return <div className="detail-error">{t('not_found')} <button className="btn btn-secondary" onClick={()=>navigate(-1)}>{t('go_back')}</button></div>;
+  
+  // Mostrar advertencia si hay error pero tenemos información básica
+  const hasLimitedInfo = error && book;
 
   return (
     <div className="book-detail-container">
       <button className="btn btn-link back-btn" onClick={()=>navigate(-1)} aria-label={t('go_back')}>← {t('go_back')}</button>
+      
+      {/* Advertencia de información limitada */}
+      {hasLimitedInfo && (
+        <div className="limited-info-warning">
+          ⚠️ <strong>Información limitada:</strong> No se pudo obtener toda la información de este libro desde la fuente original.
+        </div>
+      )}
+      
       <div className="book-detail-card">
         <div className="detail-media">
           {book.thumbnail ? <img src={book.thumbnail} alt={`Portada: ${book.title}`} loading="lazy" /> : <div className="book-image-placeholder">📚</div>}
