@@ -627,7 +627,50 @@
   }
   
   .favorite-btn {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.7rem;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+    min-height: 32px;
+  }
+}
+
+/* Mejoras específicas para dispositivos táctiles */
+@media (hover: none) and (pointer: coarse) {
+  .favorite-btn {
+    min-height: 44px !important;
+    min-width: 44px !important;
+    padding: 0.6rem 0.8rem !important;
+    font-size: 0.85rem !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(12px) !important;
+    border-width: 3px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.3px !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .favorite-btn:active {
+    transform: translateX(-50%) scale(0.92) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .favorite-btn--active {
+    background: var(--color-surface) !important;
+    border-color: var(--color-danger) !important;
+    color: var(--color-danger) !important;
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3), 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .favorite-btn--active:active {
+    background: var(--color-danger-soft) !important;
+    transform: translateX(-50%) scale(0.92) !important;
+  }
+}
+
+/* Mejoras para pantallas de alta densidad (Retina) */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .favorite-btn {
+    border-width: 0.5px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2), 0 3px 10px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 }
