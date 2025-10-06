@@ -44,6 +44,9 @@ export const translations = {
     footer_made_by: 'Hecho con ❤ por {authors}.',
     footer_meta: '2025 · UI clara y alegre · Uso académico'
   ,limited_source_placeholder: 'Información limitada'
+  ,favorites_sub: 'Tu colección personal de libros favoritos'
+  ,undo: 'Deshacer'
+  ,close: 'Cerrar'
   ,limited_source_openlib: 'Open Library (información limitada)'
   ,limited_source_isbndb: 'ISBNdb (información limitada)'
   ,limited_source_google: 'Google Books (información limitada)'
@@ -100,6 +103,9 @@ export const translations = {
     footer_made_by: 'Made with ❤ by {authors}.',
     footer_meta: '2025 · Clear & joyful UI · Academic use'
   ,limited_source_placeholder: 'Limited information'
+  ,favorites_sub: 'Your personal favorite books collection'
+  ,undo: 'Undo'
+  ,close: 'Close'
   ,limited_source_openlib: 'Open Library (limited info)'
   ,limited_source_isbndb: 'ISBNdb (limited info)'
   ,limited_source_google: 'Google Books (limited info)'
