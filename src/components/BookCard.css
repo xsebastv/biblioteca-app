@@ -203,13 +203,13 @@
   }
   .book-card.layout-rich .book-thumb-shell {
     height: 100%;
-    padding-top: 3rem;
-    padding-right: 3.5rem;
+    padding-top: 2.5rem;
+    padding-right: 2.8rem;
   }
   
   .book-card.layout-rich .book-thumb-shell img {
-    max-width: 65%;
-    max-height: 120px;
+    max-width: 75%;
+    max-height: 130px;
   }
   .book-card {
     min-height: 420px;
@@ -236,12 +236,12 @@
   .book-thumb-shell {
     height: 180px;
     padding: 0.75rem;
-    padding-top: 3rem;
-    padding-right: 3.5rem;
+    padding-top: 2.8rem;
+    padding-right: 2.8rem;
   }
   .book-thumb-shell img {
-    max-width: 70%;
-    max-height: 130px;
+    max-width: 80%;
+    max-height: 140px;
     margin: 0 auto;
   }
 }
@@ -265,20 +265,22 @@
   position: absolute;
   bottom: 8px;
   right: 8px;
-  width: 55px;
-  height: 45px;
-  border-radius: 25px;
+  width: 120px;
+  height: 40px;
+  border-radius: 20px;
   background: radial-gradient(ellipse, transparent 50%, rgba(99, 102, 241, 0.03) 70%);
   pointer-events: none;
-  opacity: 0.8;
+  opacity: 0.6;
   z-index: 1;
 }
 
-/* En móviles, zona reservada arriba */
+/* En móviles, zona reservada arriba y más pequeña */
 @media (max-width: 768px) {
   .book-thumb-shell::before {
     top: 8px;
     bottom: auto;
+    width: 55px;
+    height: 40px;
   }
 }
 .book-thumb-shell.loading { 
@@ -289,7 +291,7 @@
 .book-thumb-shell img { 
   width: auto;
   height: auto;
-  max-width: 75%;
+  max-width: 80%;
   max-height: 160px;
   object-fit: contain; 
   filter: drop-shadow(0 8px 16px rgba(0,0,0,0.1)); 
@@ -297,6 +299,14 @@
   border-radius: 4px;
   margin-top: 8px;
   margin-bottom: 8px;
+}
+
+/* En desktop, reservar espacio abajo para el botón */
+@media (min-width: 769px) {
+  .book-thumb-shell {
+    padding-bottom: 3rem;
+    padding-right: 1.5rem;
+  }
 }
 .book-card:hover .book-thumb-shell img { 
   transform: scale(1.05) translateY(-2px); 
@@ -382,6 +392,8 @@
     transform: none;
     font-size: 0.8rem;
     min-height: 36px;
+    min-width: auto;
+    width: auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -398,17 +410,19 @@
     right: 16px;
     bottom: auto;
     transform: none;
+    min-width: auto;
+    width: auto;
   }
 
   /* Ajustar imagen en tablets para evitar superposición */
   .book-thumb-shell {
     padding-top: 2.8rem;
-    padding-right: 3.2rem;
+    padding-right: 2.5rem;
   }
   
   .book-thumb-shell img {
-    max-width: 78%;
-    max-height: 140px;
+    max-width: 85%;
+    max-height: 150px;
   }
 }
 
@@ -658,13 +672,13 @@
   .book-thumb-shell {
     height: 170px;
     padding: 0.875rem;
-    padding-top: 3.2rem;
-    padding-right: 3.8rem;
+    padding-top: 2.8rem;
+    padding-right: 3rem;
   }
   
   .book-thumb-shell img {
-    max-width: 75%;
-    max-height: 120px;
+    max-width: 85%;
+    max-height: 130px;
     margin: 0 auto;
   }
   
