@@ -203,6 +203,13 @@
   }
   .book-card.layout-rich .book-thumb-shell {
     height: 100%;
+    padding-top: 3rem;
+    padding-right: 3.5rem;
+  }
+  
+  .book-card.layout-rich .book-thumb-shell img {
+    max-width: 65%;
+    max-height: 120px;
   }
   .book-card {
     min-height: 420px;
@@ -229,10 +236,13 @@
   .book-thumb-shell {
     height: 180px;
     padding: 0.75rem;
+    padding-top: 3rem;
+    padding-right: 3.5rem;
   }
   .book-thumb-shell img {
-    max-width: 85%;
-    max-height: 150px;
+    max-width: 70%;
+    max-height: 130px;
+    margin: 0 auto;
   }
 }
 
@@ -248,6 +258,21 @@
   padding: 1rem; 
   border-bottom: 1px solid var(--color-border);
 }
+
+/* Zona reservada para el botón (visual sutil) */
+.book-thumb-shell::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: radial-gradient(circle, transparent 60%, rgba(0, 0, 0, 0.02) 70%);
+  pointer-events: none;
+  opacity: 0.7;
+  z-index: 1;
+}
 .book-thumb-shell.loading { 
   background: linear-gradient(100deg, var(--color-neutral-soft) 0%, var(--color-bg-soft) 50%, var(--color-neutral-soft) 100%); 
   background-size: 200% 100%; 
@@ -256,12 +281,14 @@
 .book-thumb-shell img { 
   width: auto;
   height: auto;
-  max-width: 90%;
+  max-width: 75%;
   max-height: 160px;
   object-fit: contain; 
   filter: drop-shadow(0 8px 16px rgba(0,0,0,0.1)); 
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
   border-radius: 4px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 .book-card:hover .book-thumb-shell img { 
   transform: scale(1.05) translateY(-2px); 
@@ -270,27 +297,37 @@
   font-size: 3rem; 
   opacity: 0.4; 
   color: #adb5bd; 
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
-/* Botón de favorito centrado debajo de la imagen */
+/* Botón de favorito en esquina superior derecha */
 .favorite-btn {
   position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 12px;
+  right: 12px;
+  bottom: auto;
+  left: auto;
+  transform: none;
   padding: 0.5rem 0.75rem;
   font-size: 0.8rem;
   font-weight: 600;
-  border-radius: 8px;
-  background: var(--color-primary);
+  border-radius: 20px;
+  background: rgba(99, 102, 241, 0.95);
   color: white;
-  border: 2px solid var(--color-primary);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(99, 102, 241, 0.3);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 5;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  min-height: 36px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .favorite-btn:hover {
@@ -348,6 +385,17 @@
     top: 16px;
     right: 16px;
     transform: none;
+  }
+
+  /* Ajustar imagen en tablets para evitar superposición */
+  .book-thumb-shell {
+    padding-top: 2.8rem;
+    padding-right: 3.2rem;
+  }
+  
+  .book-thumb-shell img {
+    max-width: 78%;
+    max-height: 140px;
   }
 }
 
@@ -569,6 +617,12 @@
     font-size: 0.65rem !important;
     padding: 0.25rem 0.5rem !important;
   }
+  
+  .book-image-placeholder {
+    font-size: 2rem !important;
+    margin-top: 0.3rem !important;
+    margin-bottom: 0.3rem !important;
+  }
 }
 
 /* Móviles grandes (480-767px) */
@@ -591,11 +645,14 @@
   .book-thumb-shell {
     height: 170px;
     padding: 0.875rem;
+    padding-top: 3.2rem;
+    padding-right: 3.8rem;
   }
   
   .book-thumb-shell img {
-    max-width: 88%;
-    max-height: 140px;
+    max-width: 75%;
+    max-height: 120px;
+    margin: 0 auto;
   }
   
   .favorite-btn {
@@ -617,6 +674,12 @@
     background: rgba(255, 255, 255, 0.92);
     color: var(--color-text-strong);
     border: 2px solid rgba(0, 0, 0, 0.08);
+  }
+  
+  .book-image-placeholder {
+    font-size: 2.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 }
 
