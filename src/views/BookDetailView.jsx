@@ -43,6 +43,15 @@ const BookDetailView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
     if (book) setIsFavorite(FavoriteService.existsById(book.id));
   }, [book]);
 
+  // Escuchar cambios globales de favoritos
+  useEffect(() => {
+    const handler = () => {
+      if (book) setIsFavorite(FavoriteService.existsById(book.id));
+    };
+    window.addEventListener('favorites:changed', handler);
+    return () => window.removeEventListener('favorites:changed', handler);
+  }, [book]);
+
   const toggleFavorite = () => {
     if (!book) return;
     if (isFavorite) {

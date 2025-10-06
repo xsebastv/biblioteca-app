@@ -11,8 +11,6 @@ const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
   const [favorites, setFavorites] = useState([]);
   const [undoData, setUndoData] = useState(null); // { book, timeoutId }
   const [showUndo, setShowUndo] = useState(false);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [bookToRemove, setBookToRemove] = useState(null);
   // Vista única compacta (la variante normal se eliminó)
   const [sortBy, setSortBy] = useState('title');
 
@@ -20,24 +18,37 @@ const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
     loadFavorites();
   }, []);
 
+  // Escuchar cambios globales de favoritos
+  useEffect(() => {
+    const handler = (e) => {
+      if (e?.detail?.favorites) {
+        setFavorites(e.detail.favorites);
+      } else {
+        loadFavorites();
+      }
+    };
+    window.addEventListener('favorites:changed', handler);
+    return () => window.removeEventListener('favorites:changed', handler);
+  }, []);
+
   const loadFavorites = () => {
     setFavorites(FavoriteService.getAll());
   };
 
-  const openRemoveConfirm = (book) => { setBookToRemove(book); setShowConfirmModal(true); };
-  const confirmRemove = () => {
-    if (!bookToRemove) return;
-    const book = bookToRemove;
+  const addToFavorites = (book) => {
+    const updated = FavoriteService.add(book);
+    setFavorites(updated);
+  };
+
+  const removeFromFavorites = (book) => {
+    if (!book) return;
     const updated = FavoriteService.remove(book.id);
     setFavorites(updated);
     if (undoData?.timeoutId) clearTimeout(undoData.timeoutId);
     const timeoutId = setTimeout(() => { setShowUndo(false); setUndoData(null); }, 5000);
     setUndoData({ book, timeoutId });
     setShowUndo(true);
-    setBookToRemove(null);
-    setShowConfirmModal(false);
   };
-  const cancelRemove = () => { setBookToRemove(null); setShowConfirmModal(false); };
 
   // Eliminado agregar manual
 
@@ -83,8 +94,8 @@ const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
                 key={book.id}
                 book={book}
                 isFavorite={true}
-                onRemoveFromFavorites={openRemoveConfirm}
-                onAddToFavorites={()=>{}}
+                onRemoveFromFavorites={removeFromFavorites}
+                onAddToFavorites={addToFavorites}
                 className="fade-in"
                 lang={lang}
               />

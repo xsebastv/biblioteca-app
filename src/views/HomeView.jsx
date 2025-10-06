@@ -5,7 +5,6 @@ import FavoriteService from '../services/FavoriteService';
 import { createI18n } from '../i18n/translations';
 import './HomeView.css';
 import BookCard from '../components/BookCard';
-import ConfirmModal from '../components/ConfirmModal';
 
 const PAGE_SIZE = 45; // aumentar resultados por página para mostrar más libros
 
@@ -22,8 +21,6 @@ const HomeView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
   const [hasMore, setHasMore] = useState(true);
   const [lastQuery, setLastQuery] = useState('');
   const [undoData, setUndoData] = useState(null); // { book, timeoutId }
-  const [confirmRemoveModal, setConfirmRemoveModal] = useState(false);
-  const [bookToRemove, setBookToRemove] = useState(null);
   const [showUndo, setShowUndo] = useState(false);
   const [groupBySource, setGroupBySource] = useState(()=> localStorage.getItem('pref_groupBySource') === '1');
   // Vista única (compacta) — se eliminó la vista completa
@@ -110,25 +107,15 @@ const HomeView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
     setTimeout(() => setAddingIds(prev => { const n = new Set(prev); n.delete(book.id); return n; }), 400);
   };
 
-  const requestRemoveFavorite = (book) => {
-    setBookToRemove(book);
-    setConfirmRemoveModal(true);
-  };
-
-  const confirmRemoveFavorite = () => {
-    if (!bookToRemove) return;
-    const book = bookToRemove;
+  const removeFromFavorites = (book) => {
+    if (!book) return;
     const updated = FavoriteService.remove(book.id);
     setFavorites(updated);
     if (undoData?.timeoutId) clearTimeout(undoData.timeoutId);
     const timeoutId = setTimeout(() => { setShowUndo(false); setUndoData(null); }, 5000);
     setUndoData({ book, timeoutId });
     setShowUndo(true);
-    setBookToRemove(null);
-    setConfirmRemoveModal(false);
   };
-
-  const cancelRemoveFavorite = () => { setBookToRemove(null); setConfirmRemoveModal(false); };
 
   // confirmRemoveFromFavorites / cancelRemove removidos (ya no hay modal)
 
@@ -232,7 +219,7 @@ const HomeView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
                 book={book}
                 isFavorite={isFavorite(book.id)}
                 onAddToFavorites={addToFavorites}
-                onRemoveFromFavorites={requestRemoveFavorite}
+                onRemoveFromFavorites={removeFromFavorites}
                 className="fade-in"
                 lang={lang}
               />
@@ -257,7 +244,7 @@ const HomeView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
                       book={book}
                       isFavorite={isFavorite(book.id)}
                       onAddToFavorites={addToFavorites}
-                      onRemoveFromFavorites={requestRemoveFavorite}
+                      onRemoveFromFavorites={removeFromFavorites}
                         className="fade-in"
                         lang={lang}
                     />
@@ -280,20 +267,6 @@ const HomeView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
           style={{position:'fixed', bottom:'24px', right:'24px', zIndex:999}}
           onClick={()=> window.scrollTo({top:0, behavior:'smooth'})}
         >⬆️</button>
-      )}
-
-      {/* Modal confirmación eliminar favorito (Inicio) */}
-      {confirmRemoveModal && (
-        <ConfirmModal
-          isOpen={confirmRemoveModal}
-          onClose={cancelRemoveFavorite}
-          onConfirm={confirmRemoveFavorite}
-          title={t('confirm_remove')}
-          message={t('remove_favorite_message', { title: bookToRemove?.title })}
-          confirmText={t('remove')}
-          cancelText={t('cancel')}
-          type="danger"
-        />
       )}
 
       {/* Modal agregar manual eliminado */}
