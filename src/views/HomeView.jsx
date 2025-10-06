@@ -2,12 +2,15 @@ import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react'
 import Modal from '../components/Modal';
 import BookController from '../controllers/BookController';
 import FavoriteService from '../services/FavoriteService';
+import { createI18n } from '../i18n/translations';
 import './HomeView.css';
 import BookCard from '../components/BookCard';
+import ConfirmModal from '../components/ConfirmModal';
 
 const PAGE_SIZE = 45; // aumentar resultados por página para mostrar más libros
 
-const HomeView = () => {
+const HomeView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
+  const t = useMemo(() => createI18n(lang), [lang]);
   const [books, setBooks] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -170,22 +173,22 @@ const HomeView = () => {
 
   // Funciones de formulario manual eliminadas
 
-  if (initialLoading) return (<div className="loading"><div className="loading-spinner"></div><p>Cargando libros...</p></div>);
+  if (initialLoading) return (<div className="loading"><div className="loading-spinner"></div><p>{t('loading')}</p></div>);
 
   return (
     <div className="home-container">
       <section className="search-section home-search-stack">
         <div className="home-search-header">
-          <h2 className="home-search-title">Explora la Biblioteca Multifuente</h2>
+          <h2 className="home-search-title">{lang === 'en' ? 'Explore the Multi-source Library' : 'Explora la Biblioteca Multifuente'}</h2>
           <div className="home-search-actions">
             <button type="button" onClick={()=>setGroupBySource(g=>!g)} className="btn btn-secondary btn-sm" title="Agrupar por fuente">{groupBySource ? '🔀 Mezclar' : '🗂️ Agrupar'}</button>
             {/* Botón agregar manual eliminado */}
           </div>
         </div>
         <form onSubmit={handleSearchSubmit} className="search-form" role="search" aria-label="Buscar libros">
-          <input type="text" placeholder="Buscar por título, autor o tema..." value={search} onChange={e=>setSearch(e.target.value)} aria-label="Término de búsqueda" />
-          <button type="submit" disabled={searching}>{searching ? 'Buscando...' : 'Buscar'}</button>
-          {lastQuery && <button type="button" onClick={handleClearSearch}>Limpiar</button>}
+          <input type="text" placeholder={t('search_placeholder')} value={search} onChange={e=>setSearch(e.target.value)} aria-label="Término de búsqueda" />
+          <button type="submit" disabled={searching}>{searching ? t('loading') : t('search_button')}</button>
+          {lastQuery && <button type="button" onClick={handleClearSearch}>{lang === 'en' ? 'Clear' : 'Limpiar'}</button>}
         </form>
         <div className="home-filters-bar">
           <div className="filter-group">
@@ -221,7 +224,7 @@ const HomeView = () => {
           <div className="books-grid">
             {/* Skeletons on initial search loading */}
             {loading && initialLoading && Array.from({length:12}).map((_,i)=>(
-              <BookCard key={'sk'+i} skeleton lang="es" />
+              <BookCard key={'sk'+i} skeleton lang={lang} />
             ))}
             {visibleBooks.map(book => (
               <BookCard
@@ -231,7 +234,7 @@ const HomeView = () => {
                 onAddToFavorites={addToFavorites}
                 onRemoveFromFavorites={requestRemoveFavorite}
                 className="fade-in"
-                lang="es"
+                lang={lang}
               />
             ))}
           </div>
@@ -256,7 +259,7 @@ const HomeView = () => {
                       onAddToFavorites={addToFavorites}
                       onRemoveFromFavorites={requestRemoveFavorite}
                         className="fade-in"
-                        lang="es"
+                        lang={lang}
                     />
                   ))}
                 </div>
@@ -280,13 +283,19 @@ const HomeView = () => {
       )}
 
       {/* Modal confirmación eliminar favorito (Inicio) */}
-      <Modal mostrar={confirmRemoveModal} onCerrar={cancelRemoveFavorite} titulo="Confirmar eliminación">
-        <p style={{marginBottom:'18px'}}>¿Eliminar <strong>{bookToRemove?.title}</strong> de tus favoritos?</p>
-        <div className="modal-actions">
-          <button type="button" className="btn btn-secondary" onClick={cancelRemoveFavorite}>Cancelar</button>
-          <button type="button" className="btn btn-danger" onClick={confirmRemoveFavorite}>Eliminar</button>
-        </div>
-      </Modal>
+      {confirmRemoveModal && (
+        <ConfirmModal
+          isOpen={confirmRemoveModal}
+          onClose={cancelRemoveFavorite}
+          onConfirm={confirmRemoveFavorite}
+          onCancel={cancelRemoveFavorite}
+          title={t('confirm_remove')}
+          message={t('remove_favorite_message', { title: bookToRemove?.title })}
+          confirmText={t('remove')}
+          cancelText={t('cancel')}
+          type="danger"
+        />
+      )}
 
       {/* Modal agregar manual eliminado */}
     </div>

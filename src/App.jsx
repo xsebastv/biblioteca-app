@@ -69,7 +69,7 @@ function App() {
       <div className="app">
         <Header favoritesCount={favoritesCount} lang={lang} onChangeLang={setLang} />
         <main className="main-content">
-          <AppRoutes />
+          <AppRoutes lang={lang} />
         </main>
         <Footer />
       </div>

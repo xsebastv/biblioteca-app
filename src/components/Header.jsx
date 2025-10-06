@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { createI18n } from '../i18n/translations';
 import './Header.css';
 
 const Header = ({ favoritesCount = 0, onChangeLang, lang='es' }) => {
   const location = useLocation();
+  const t = useMemo(() => createI18n(lang), [lang]);
 
   const resetLanding = () => {
     localStorage.removeItem('hasVisitedBefore');
@@ -26,7 +28,7 @@ const Header = ({ favoritesCount = 0, onChangeLang, lang='es' }) => {
             className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
           >
             <span className="nav-icon">🏠</span>
-            <span>Inicio</span>
+            <span>{t('home')}</span>
           </Link>
           <Link 
             to="/favoritos" 
@@ -34,9 +36,9 @@ const Header = ({ favoritesCount = 0, onChangeLang, lang='es' }) => {
           >
             <span className="nav-icon">❤️</span>
             <span style={{position:'relative', display:'inline-flex', alignItems:'center', gap:4}}>
-              Favoritos
+              {t('favorites')}
               {favoritesCount > 0 && (
-                <span style={{background:'var(--color-primary)', color:'#fff', fontSize:'10px', padding:'2px 6px', borderRadius:12, lineHeight:1, fontWeight:600}}>{favoritesCount}</span>
+                <span className="nav-badge">{favoritesCount}</span>
               )}
             </span>
           </Link>

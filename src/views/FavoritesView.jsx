@@ -3,8 +3,11 @@ import FavoriteService from '../services/FavoriteService';
 import './FavoritesView.css';
 import Modal from '../components/Modal';
 import BookCard from '../components/BookCard';
+import ConfirmModal from '../components/ConfirmModal';
+import { createI18n } from '../i18n/translations';
 
-const FavoritesView = () => {
+const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
+  const t = useMemo(() => createI18n(lang), [lang]);
   const [favorites, setFavorites] = useState([]);
   const [undoData, setUndoData] = useState(null); // { book, timeoutId }
   const [showUndo, setShowUndo] = useState(false);
@@ -56,10 +59,10 @@ const FavoritesView = () => {
         <p className="fav-sub">Gestiona tu colección personal de libros favoritos</p>
         <div className="fav-actions" style={{display:'flex', gap:'0.6rem', flexWrap:'wrap', justifyContent:'center'}}>
           <div className="filter-group" style={{display:'flex', gap:'.4rem', alignItems:'center'}}>
-            <label style={{fontSize:'0.7rem', fontWeight:600}}>Ordenar:</label>
+            <label style={{fontSize:'0.7rem', fontWeight:600}}>{t('sort_by')}</label>
             <select value={sortBy} onChange={e=>setSortBy(e.target.value)} style={{padding:'0.4rem 0.6rem'}}>
-              <option value="title">Título</option>
-              <option value="year">Año</option>
+              <option value="title">{t('sort_title')}</option>
+              <option value="year">{t('sort_year')}</option>
             </select>
           </div>
         </div>
@@ -67,8 +70,8 @@ const FavoritesView = () => {
 
       {favorites.length === 0 ? (
         <div className="empty-favorites">
-          <h3>No tienes libros favoritos aún</h3>
-          <p>Agrega libros a tus favoritos desde la página principal</p>
+          <h3>{t('no_favorites')}</h3>
+          <p>{t('no_favorites_desc')}</p>
         </div>
       ) : (
         <div className="favorites-grid">
@@ -83,7 +86,7 @@ const FavoritesView = () => {
                 onRemoveFromFavorites={openRemoveConfirm}
                 onAddToFavorites={()=>{}}
                 className="fade-in"
-                lang="es"
+                lang={lang}
               />
             ))}
         </div>
@@ -100,13 +103,19 @@ const FavoritesView = () => {
       {/* Modal Agregar eliminado */}
 
       {/* Modal Confirmación */}
-      <Modal mostrar={showConfirmModal} onCerrar={cancelRemove} titulo="Confirmar eliminación">
-        <p style={{marginBottom:'18px'}}>¿Seguro que deseas eliminar <strong>{bookToRemove?.title}</strong> de tus favoritos?</p>
-  <div className="modal-actions">
-          <button type="button" className="btn btn-secondary" onClick={cancelRemove}>Cancelar</button>
-            <button type="button" className="btn btn-danger" onClick={confirmRemove}>Eliminar</button>
-        </div>
-      </Modal>
+      {showConfirmModal && (
+        <ConfirmModal
+          isOpen={showConfirmModal}
+          onClose={cancelRemove}
+          onConfirm={confirmRemove}
+          onCancel={cancelRemove}
+          title={t('confirm_remove')}
+          message={t('remove_favorite_message', { title: bookToRemove?.title })}
+          confirmText={t('remove')}
+          cancelText={t('cancel')}
+          type="danger"
+        />
+      )}
     </div>
   );
 };

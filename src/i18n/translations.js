@@ -21,10 +21,16 @@ export const translations = {
     loading: 'Cargando...',
     error: 'Error al cargar los libros',
     confirm_remove: '¿Eliminar de favoritos?',
-    confirm_remove_text: '¿Estás seguro de que quieres quitar este libro de tus favoritos?',
+    remove_favorite_message: '¿Estás seguro de que quieres eliminar "{title}" de tus favoritos?',
+    remove: 'Eliminar',
     cancel: 'Cancelar',
     confirm: 'Eliminar',
-    back: 'Volver'
+    back: 'Volver',
+    sort_by: 'Ordenar:',
+    sort_title: 'Título',
+    sort_year: 'Año',
+    no_favorites: 'No tienes libros favoritos aún',
+    no_favorites_desc: 'Agrega libros a tus favoritos desde la página principal'
   },
   en: {
     favorite_add: 'Favorite +',
@@ -48,6 +54,14 @@ export const translations = {
     loading: 'Loading...',
     error: 'Error loading books',
     confirm_remove: 'Remove from favorites?',
+    remove_favorite_message: 'Are you sure you want to remove "{title}" from your favorites?',
+    remove: 'Remove',
+    cancel: 'Cancel',
+    sort_by: 'Sort by:',
+    sort_title: 'Title',
+    sort_year: 'Year',
+    no_favorites: 'You have no favorite books yet',
+    no_favorites_desc: 'Add books to your favorites from the main page',
     confirm_remove_text: 'Are you sure you want to remove this book from your favorites?',
     cancel: 'Cancel',
     confirm: 'Remove',
@@ -56,8 +70,17 @@ export const translations = {
 };
 
 export function createI18n(lang = 'es') {
-  return function t(key) {
+  return function t(key, params = {}) {
     const l = translations[lang] || translations.es;
-    return l[key] || key;
+    let text = l[key] || key;
+    
+    // Reemplazar parámetros {param} en el texto
+    if (params && typeof text === 'string') {
+      Object.keys(params).forEach(param => {
+        text = text.replace(new RegExp(`\\{${param}\\}`, 'g'), params[param]);
+      });
+    }
+    
+    return text;
   };
 }

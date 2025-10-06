@@ -11,16 +11,16 @@ import BookDetailView from '../views/BookDetailView';
  * 1. Página de Inicio (1.0 pts) - Lista principal de libros con funcionalidad de agregar favoritos
  * 2. Página de Favoritos (1.5 pts) - Para gestionar y eliminar libros favoritos con confirmación
  */
-const AppRoutes = () => {
+const AppRoutes = ({ lang }) => {
   return (
     <Routes>
       {/* Página de Inicio - Cumple con Requerimiento "Página de Inicio (1.0)" */}
-      <Route path="/" element={<HomeView />} />
+      <Route path="/" element={<HomeView lang={lang} />} />
       
       {/* Página de Favoritos - Cumple con "Agregar Favoritos (1.0)" y "Eliminar Favoritos (1.5)" */}
-      <Route path="/favoritos" element={<FavoritesView />} />
+      <Route path="/favoritos" element={<FavoritesView lang={lang} />} />
       {/* Vista de detalle de libro */}
-      <Route path="/libro/:id" element={<BookDetailView />} />
+      <Route path="/libro/:id" element={<BookDetailView lang={lang} />} />
     </Routes>
   );
 };
