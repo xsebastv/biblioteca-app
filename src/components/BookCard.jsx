@@ -60,6 +60,14 @@ function BookCard({ book, isFavorite, onAddToFavorites, onRemoveFromFavorites, c
 
   const handleFavoriteClick = (e) => {
     e.stopPropagation(); // Evitar que se active la navegación al hacer click en favoritos
+    
+    // Agregar efecto visual al botón
+    const button = e.target;
+    button.style.transform = 'translateX(-50%) scale(0.95)';
+    setTimeout(() => {
+      button.style.transform = 'translateX(-50%) scale(1)';
+    }, 100);
+    
     if (isFavorite) onRemoveFromFavorites?.(book); else onAddToFavorites?.(book);
   };
 

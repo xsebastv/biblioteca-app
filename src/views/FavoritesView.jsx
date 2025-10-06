@@ -3,7 +3,6 @@ import FavoriteService from '../services/FavoriteService';
 import './FavoritesView.css';
 import Modal from '../components/Modal';
 import BookCard from '../components/BookCard';
-import ConfirmModal from '../components/ConfirmModal';
 import { createI18n } from '../i18n/translations';
 
 const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
@@ -113,19 +112,6 @@ const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
 
       {/* Modal Agregar eliminado */}
 
-      {/* Modal Confirmación */}
-      {showConfirmModal && (
-        <ConfirmModal
-          isOpen={showConfirmModal}
-          onClose={cancelRemove}
-          onConfirm={confirmRemove}
-          title={t('confirm_remove')}
-          message={t('remove_favorite_message', { title: bookToRemove?.title })}
-          confirmText={t('remove')}
-          cancelText={t('cancel')}
-          type="danger"
-        />
-      )}
     </div>
   );
 };

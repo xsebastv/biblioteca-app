@@ -285,6 +285,7 @@
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 5;
   backdrop-filter: blur(10px);
+  user-select: none;
 }
 
 .favorite-btn:hover {
@@ -294,7 +295,7 @@
 }
 
 .favorite-btn:active {
-  transform: scale(0.95);
+  transform: translateX(-50%) scale(0.9);
 }
 
 .favorite-btn--active {
