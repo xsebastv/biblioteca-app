@@ -119,7 +119,8 @@
 
  .nav-link.active { background:linear-gradient(135deg,#6366f1,#7c3aed); color:#fff !important; border:1px solid rgba(255,255,255,0.4); box-shadow:0 4px 14px rgba(99,102,241,0.35); font-weight:600 !important; }
 /* Mantener texto de Inicio en negro si se desea resaltar distinto (solo palabra, icono sigue blanco) */
-header[data-route="/"] .nav-link.active .home-text { color:#111827 !important; }
+header[data-route="/"] .nav-link.active .home-text { color:#111827 !important; text-shadow:none !important; position:relative; z-index:1; }
+header[data-route="/"] .nav-link.active .home-text::after { content:""; }
 
 .nav-link.active::before { 
   opacity: 1; 
