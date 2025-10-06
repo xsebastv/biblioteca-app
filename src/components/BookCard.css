@@ -267,11 +267,12 @@
   color: #adb5bd; 
 }
 
-/* Botón de favorito posicionado en esquina inferior derecha */
+/* Botón de favorito centrado debajo de la imagen */
 .favorite-btn {
   position: absolute;
   bottom: 12px;
-  right: 12px;
+  left: 50%;
+  transform: translateX(-50%);
   padding: 0.5rem 0.75rem;
   font-size: 0.8rem;
   font-weight: 600;
