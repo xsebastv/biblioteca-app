@@ -5,6 +5,12 @@ import Modal from '../components/Modal';
 import BookCard from '../components/BookCard';
 import { createI18n } from '../i18n/translations';
 
+/**
+ * Vista de Favoritos
+ * - Lista los libros guardados en localStorage
+ * - Permite deshacer la última eliminación (toast temporal)
+ * - Ordena por título o año (robusto ante datos faltantes)
+ */
 const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
   const t = useMemo(() => createI18n(lang), [lang]);
   const [favorites, setFavorites] = useState([]);
@@ -30,9 +36,7 @@ const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
     return () => window.removeEventListener('favorites:changed', handler);
   }, []);
 
-  const loadFavorites = () => {
-    setFavorites(FavoriteService.getAll());
-  };
+  const loadFavorites = () => setFavorites(FavoriteService.getAll());
 
   const addToFavorites = (book) => {
     const updated = FavoriteService.add(book);
@@ -49,8 +53,6 @@ const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
     setShowUndo(true);
   };
 
-  // Eliminado agregar manual
-
   const handleUndo = () => {
     if (undoData?.book) {
       const updated = FavoriteService.add(undoData.book);
@@ -65,8 +67,8 @@ const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
     return (
       <div className="favorites-container"> 
       <div className="favorites-header">
-        <h1 className="fav-title">💖 Mis Libros Favoritos</h1>
-        <p className="fav-sub">Gestiona tu colección personal de libros favoritos</p>
+  <h1 className="fav-title">💖 {t('favorites')}</h1>
+  <p className="fav-sub">{/* Se puede añadir clave si se desea traducir la descripción */}</p>
         <div className="fav-actions" style={{display:'flex', gap:'0.6rem', flexWrap:'wrap', justifyContent:'center'}}>
           <div className="filter-group" style={{display:'flex', gap:'.4rem', alignItems:'center'}}>
             <label style={{fontSize:'0.7rem', fontWeight:600}}>{t('sort_by')}</label>
@@ -87,7 +89,15 @@ const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
         <div className="favorites-grid">
           {favorites
             .slice()
-            .sort((a,b)=> sortBy === 'year' ? (''+(a.year||'')).localeCompare((''+(b.year||''))) : (a.title||'').localeCompare(b.title||''))
+            .sort((a,b)=> {
+              if (sortBy === 'year') {
+                const ay = parseInt(a.year)||0; const by = parseInt(b.year)||0;
+                return ay - by;
+              }
+              const at = (a.title||'').toLocaleLowerCase();
+              const bt = (b.title||'').toLocaleLowerCase();
+              return at.localeCompare(bt, undefined, { sensitivity:'base' });
+            })
             .map(book => (
               <BookCard
                 key={book.id}
@@ -104,9 +114,9 @@ const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
 
       {showUndo && undoData?.book && (
         <div className="undo-toast" role="status" aria-live="polite">
-          <span className="undo-text">Eliminado: {undoData.book.title}</span>
-          <button onClick={handleUndo} className="undo-btn">Deshacer</button>
-          <button onClick={()=>{setShowUndo(false); if(undoData?.timeoutId) clearTimeout(undoData.timeoutId);}} aria-label="Cerrar" className="undo-close">×</button>
+          <span className="undo-text">{t('remove')}: {undoData.book.title}</span>
+          <button onClick={handleUndo} className="undo-btn">{t('cancel')}</button>
+          <button onClick={()=>{setShowUndo(false); if(undoData?.timeoutId) clearTimeout(undoData.timeoutId);}} aria-label="×" className="undo-close">×</button>
         </div>
       )}
 

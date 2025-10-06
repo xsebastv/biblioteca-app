@@ -274,7 +274,13 @@ class BookService {
     });
   }
 
-  /** Cargar fuentes en paralelo de forma resiliente */
+  /**
+   * Cargar en paralelo las fuentes Google, OpenLibrary e ISBNdb.
+   * Uso de Promise.allSettled para tolerar fallas parciales.
+   * @param {string} query término de búsqueda
+   * @param {number} maxPorFuente límite intentado por cada API
+   * @returns {Promise<Array<Array<Object>>>} Arrays de libros ya normalizados por fuente
+   */
   static async _cargarFuentesParalelo(query, maxPorFuente) {
     const resultados = await Promise.allSettled([
       this.obtenerLibrosGoogle(query, maxPorFuente),
@@ -284,7 +290,13 @@ class BookService {
     return resultados.map(r => r.status === 'fulfilled' ? r.value : []);
   }
 
-  /** Combinar, limpiar duplicados, ordenar y limitar */
+  /**
+   * Combina resultados de múltiples fuentes, elimina duplicados y ordena.
+   * Prioriza libros con imagen y luego orden alfabético por título.
+   * @param {Array<Array<Object>>} listas Arrays de libros
+   * @param {number} limite máximo de resultados a devolver
+   * @returns {Array<Object>} lista combinada depurada
+   */
   static _combinarYDepurar(listas, limite) {
     const combinados = listas.flat();
     const sinDuplicados = this.eliminarDuplicados(combinados);
@@ -449,14 +461,7 @@ class BookService {
         }
       }
       
-      // 4. Libros de backup/respaldo
-      if (id.startsWith('backup-')) {
-        const backupBooks = this.obtenerLibrosRespaldo();
-        const found = backupBooks.find(book => book.id === id);
-        if (found) return found;
-      }
-      
-      // 5. Fallback: buscar en cualquier fuente por título (último recurso)
+      // 4. Fallback: búsqueda final fallida -> null
       console.warn(`ID no encontrado directamente: ${id}, intentando búsqueda por título...`);
       
       return null;
@@ -466,87 +471,6 @@ class BookService {
     }
   }
 
-  /**
-   * Libros de respaldo en caso de falla de las APIs
-   */
-  static obtenerLibrosRespaldo() {
-    const placeholder = '/placeholder-book.png';
-    const truncate = (text, len = 180) => text.length > len ? text.slice(0, len - 3) + '...' : text;
-    return [
-      {
-        id: 'backup-1',
-        title: 'Cien años de soledad',
-        author: 'Gabriel García Márquez',
-        year: '1967',
-        description: truncate('Una obra maestra del realismo mágico que narra la historia de la familia Buendía a lo largo de varias generaciones.'),
-        thumbnail: placeholder,
-        genre: 'Realismo Mágico',
-        source: 'Backup',
-        rating: 4.5,
-        pageCount: 417
-      },
-      {
-        id: 'backup-2',
-        title: 'Don Quijote de la Mancha',
-        author: 'Miguel de Cervantes',
-        year: '1605',
-        description: truncate('La historia del ingenioso hidalgo que decide convertirse en caballero andante para revivir la caballería.'),
-        thumbnail: placeholder,
-        genre: 'Clásico',
-        source: 'Backup',
-        rating: 4.3,
-        pageCount: 863
-      },
-      {
-        id: 'backup-3',
-        title: 'Rayuela',
-        author: 'Julio Cortázar',
-        year: '1963',
-        description: truncate('Una novela experimental que puede leerse de múltiples formas, explorando temas existenciales y filosóficos.'),
-        thumbnail: placeholder,
-        genre: 'Literatura Experimental',
-        source: 'Backup',
-        rating: 4.2,
-        pageCount: 736
-      },
-      {
-        id: 'backup-4',
-        title: 'La Casa de los Espíritus',
-        author: 'Isabel Allende',
-        year: '1982',
-        description: truncate('Una saga familiar que abarca varias generaciones, mezclando elementos fantásticos con la realidad histórica.'),
-        thumbnail: placeholder,
-        genre: 'Realismo Mágico',
-        source: 'Backup',
-        rating: 4.4,
-        pageCount: 433
-      },
-      {
-        id: 'backup-5',
-        title: 'El Túnel',
-        author: 'Ernesto Sabato',
-        year: '1948',
-        description: truncate('Una novela psicológica que explora la obsesión y el aislamiento humano a través de la historia de Juan Pablo Castel.'),
-        thumbnail: placeholder,
-        genre: 'Novela Psicológica',
-        source: 'Backup',
-        rating: 4.1,
-        pageCount: 157
-      },
-      {
-        id: 'backup-6',
-        title: 'Pedro Páramo',
-        author: 'Juan Rulfo',
-        year: '1955',
-        description: truncate('Una obra fundamental de la literatura latinoamericana que narra la búsqueda de un hijo por su padre en un pueblo fantasmal.'),
-        thumbnail: placeholder,
-        genre: 'Realismo Mágico',
-        source: 'Backup',
-        rating: 4.3,
-        pageCount: 124
-      }
-    ];
-  }
 }
 
 export default BookService;

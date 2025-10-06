@@ -117,17 +117,6 @@
   border-color: rgba(234,134,0,0.2);
 }
 
-.source-backup {
-  background: var(--color-neutral-soft);
-  color: var(--color-neutral);
-  border-color: rgba(113,128,150,0.2);
-}
-
-.source-manual {
-  background: var(--color-accent-soft);
-  color: var(--color-accent);
-  border-color: rgba(245,101,101,0.2);
-}
 
 /* Estados y utilidades */
 .list-status { 
