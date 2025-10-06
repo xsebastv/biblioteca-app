@@ -110,6 +110,18 @@ function BookCard({ book, isFavorite, onAddToFavorites, onRemoveFromFavorites, c
             <div className="book-image-placeholder" role="img" aria-label="Sin imagen">📚</div>
           )}
         </div>
+        
+        {/* Botón de favorito posicionado sobre la imagen */}
+        <button
+          type="button"
+          className={`favorite-btn ${isFavorite ? 'favorite-btn--active' : ''}`}
+          onClick={handleFavoriteClick}
+          aria-pressed={isFavorite}
+          aria-label={isFavorite ? t('favorite_unmark') : t('favorite_mark')}
+          title={isFavorite ? t('favorite_remove') : t('favorite_add')}
+        >
+          {isFavorite ? '❤️' : '🤍'}
+        </button>
       </div>
 
       <div className="bc-rich-body">
@@ -133,15 +145,7 @@ function BookCard({ book, isFavorite, onAddToFavorites, onRemoveFromFavorites, c
             {data.description.slice(0,120)}{data.description.length>120 && '…'}
           </p>
         )}
-        <div className="book-actions bc-rich-actions">
-          <button
-            type="button"
-            className={`btn btn-sm ${isFavorite ? 'btn-secondary' : ''}`}
-            onClick={handleFavoriteClick}
-            aria-pressed={isFavorite}
-            aria-label={isFavorite ? t('favorite_unmark') : t('favorite_mark')}
-          >{isFavorite ? t('favorite_remove') : t('favorite_add')}</button>
-        </div>
+
       </div>
   </article>
   );
