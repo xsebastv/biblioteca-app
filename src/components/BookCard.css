@@ -265,12 +265,12 @@
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: radial-gradient(circle, transparent 60%, rgba(0, 0, 0, 0.02) 70%);
+  width: 55px;
+  height: 45px;
+  border-radius: 25px;
+  background: radial-gradient(ellipse, transparent 50%, rgba(99, 102, 241, 0.03) 70%);
   pointer-events: none;
-  opacity: 0.7;
+  opacity: 0.8;
   z-index: 1;
 }
 .book-thumb-shell.loading { 
@@ -331,13 +331,15 @@
 }
 
 .favorite-btn:hover {
-  transform: translateX(-50%) translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15);
-  background: #4c51bf;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4), 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: rgba(67, 56, 202, 0.95);
+  border-color: rgba(67, 56, 202, 0.4);
 }
 
 .favorite-btn:active {
-  transform: translateX(-50%) scale(0.9);
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
 }
 
 .favorite-btn--active {
@@ -348,15 +350,17 @@
 
 .favorite-btn--active:hover {
   background: var(--color-danger-soft);
-  transform: translateX(-50%) translateY(-2px);
-  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.25), 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3), 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Ajuste para layout horizontal - centrado debajo de la imagen */
+/* Ajuste para layout horizontal - esquina superior derecha */
 .book-card.layout-rich .favorite-btn {
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 16px;
+  right: 16px;
+  bottom: auto;
+  left: auto;
+  transform: none;
 }
 
 /* Responsive para el botón de favoritos */
