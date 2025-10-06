@@ -4,16 +4,27 @@
   position: sticky; 
   top: 0; 
   z-index: 120; 
-  backdrop-filter: blur(8px); 
-  background: rgba(255, 255, 255, 0.95); 
-  border-bottom: 1px solid var(--color-border); 
-  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(12px); 
+  background: rgba(255, 255, 255, 0.98) !important; 
+  border-bottom: 2px solid rgba(102, 126, 234, 0.2); 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 2px 10px rgba(102, 126, 234, 0.15);
   transition: all var(--transition);
 }
 
-/* Asegurar buena visibilidad en todas las páginas */
+/* ASEGURAR MÁXIMA VISIBILIDAD EN TODAS LAS PÁGINAS */
 .header * {
   color: #1a202c !important;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8) !important;
+}
+
+.header .nav-link * {
+  color: #1a202c !important;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9) !important;
+}
+
+.header .logo * {
+  color: #1a202c !important;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9) !important;
 }
 
 .header::before {
@@ -106,15 +117,16 @@
   font-size: 0.9rem; 
   font-weight: 700; 
   padding: 0.8rem 1.2rem; 
-  color: #2d3748 !important; 
+  color: #1a202c !important; 
   border-radius: var(--radius-lg); 
   line-height: 1; 
   transition: all var(--transition); 
   isolation: isolate;
   text-decoration: none;
-  border: 1px solid transparent;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9) !important;
   letter-spacing: 0.3px;
+  font-weight: 800 !important;
 }
 
 .nav-link::before { 
@@ -245,6 +257,29 @@
   transform: translateY(-2px) scale(1.05) !important;
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3) !important;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* FORZAR VISIBILIDAD MÁXIMA DE TODOS LOS TEXTOS */
+.header a, 
+.header button, 
+.header span, 
+.header div {
+  color: #1a202c !important;
+  font-weight: 700 !important;
+  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9), 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+.header .nav-link:not(.active) {
+  background: rgba(255, 255, 255, 0.8) !important;
+  color: #1a202c !important;
+  border: 2px solid rgba(26, 32, 44, 0.1) !important;
+}
+
+.header .nav-link:not(.active):hover {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #1a202c !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 15px rgba(26, 32, 44, 0.15) !important;
 }
 
 .header select {
