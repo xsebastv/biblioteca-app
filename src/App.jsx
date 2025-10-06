@@ -15,11 +15,6 @@ import './App.css';
  */
 function App() {
   const [favoritesCount, setFavoritesCount] = useState(0);
-  const [dark, setDark] = useState(() => {
-    // Persistencia en localStorage
-    const stored = localStorage.getItem('themeMode');
-    return stored === 'dark';
-  });
 
   useEffect(() => {
     const load = () => {
@@ -48,18 +43,15 @@ function App() {
     };
   }, []);
 
-  useEffect(() => {
-    document.body.classList.toggle('dark', dark);
-    localStorage.setItem('themeMode', dark ? 'dark' : 'light');
-  }, [dark]);
+  // Se elimina el modo oscuro según requerimiento del usuario
 
   return (
     <Router>
-      <div className={`app${dark ? ' dark' : ''}`}>
-        <Header favoritesCount={favoritesCount} dark={dark} setDark={setDark} />
+      <div className="app">
+        <Header favoritesCount={favoritesCount} />
         <Navigation />
         <main className="main-content">
-          <AppRoutes dark={dark} setDark={setDark} />
+          <AppRoutes />
         </main>
       </div>
     </Router>
