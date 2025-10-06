@@ -68,7 +68,7 @@ const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
       <div className="favorites-container"> 
       <div className="favorites-header">
   <h1 className="fav-title">💖 {t('favorites')}</h1>
-  <p className="fav-sub">{/* Se puede añadir clave si se desea traducir la descripción */}</p>
+  <p className="fav-sub">{t('favorites_sub')}</p>
         <div className="fav-actions" style={{display:'flex', gap:'0.6rem', flexWrap:'wrap', justifyContent:'center'}}>
           <div className="filter-group" style={{display:'flex', gap:'.4rem', alignItems:'center'}}>
             <label style={{fontSize:'0.7rem', fontWeight:600}}>{t('sort_by')}</label>
@@ -115,8 +115,8 @@ const FavoritesView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
       {showUndo && undoData?.book && (
         <div className="undo-toast" role="status" aria-live="polite">
           <span className="undo-text">{t('remove')}: {undoData.book.title}</span>
-          <button onClick={handleUndo} className="undo-btn">{t('cancel')}</button>
-          <button onClick={()=>{setShowUndo(false); if(undoData?.timeoutId) clearTimeout(undoData.timeoutId);}} aria-label="×" className="undo-close">×</button>
+          <button onClick={handleUndo} className="undo-btn">{t('undo')}</button>
+          <button onClick={()=>{setShowUndo(false); if(undoData?.timeoutId) clearTimeout(undoData.timeoutId);}} aria-label={t('close')} className="undo-close" title={t('close')}>×</button>
         </div>
       )}
 
