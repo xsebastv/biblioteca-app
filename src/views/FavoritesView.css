@@ -170,5 +170,86 @@
   margin-bottom: var(--space-6);
 }
 
-@media (max-width:860px){ .favorites-container { padding:0 var(--space-4) var(--space-8);} .favorites-grid { gap:var(--space-5); } }
-@media (max-width:560px){ .favorites-container { padding:0 var(--space-3) var(--space-6);} .favorites-header { padding:var(--space-6) var(--space-5); text-align:left;} .favorites-grid { grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:var(--space-4);} }
+/* === RESPONSIVE FAVORITESVIEW === */
+
+/* Móviles pequeños (0-479px) */
+@media (max-width: 479px) {
+  .favorites-container { 
+    padding: var(--space-4) var(--space-3) var(--space-6);
+    gap: var(--space-6);
+  }
+  
+  .favorites-header { 
+    padding: var(--space-4);
+    text-align: left;
+  }
+  
+  .fav-title {
+    font-size: 1.4rem;
+  }
+  
+  .favorites-grid { 
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  
+  .empty-favorites {
+    padding: 2rem 1rem;
+  }
+  
+  .empty-favorites h3 {
+    font-size: 1.1rem;
+  }
+  
+  .fav-actions {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    align-items: stretch !important;
+  }
+  
+  .filter-group {
+    justify-content: space-between;
+  }
+}
+
+/* Móviles grandes (480-767px) */
+@media (min-width: 480px) and (max-width: 767px) {
+  .favorites-container { 
+    padding: var(--space-6) var(--space-4) var(--space-8);
+  }
+  
+  .favorites-header { 
+    padding: var(--space-5);
+  }
+  
+  .favorites-grid { 
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+}
+
+/* Tablets (768-1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .favorites-container { 
+    padding: var(--space-8) var(--space-5) var(--space-10);
+  }
+  
+  .favorites-grid { 
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-6);
+  }
+}
+
+/* Desktop pequeño (1024-1279px) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .favorites-grid { 
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+/* Desktop grande (1280px+) */
+@media (min-width: 1280px) {
+  .favorites-grid { 
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+}

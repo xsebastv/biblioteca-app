@@ -499,8 +499,123 @@
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
 }
 
-@media (max-width: 768px) {
+/* === RESPONSIVE BOOKCARD COMPLETO === */
+
+/* Móviles pequeños (0-479px) */
+@media (max-width: 479px) {
+  .book-card.layout-rich {
+    height: auto;
+    min-height: 200px;
+    max-height: none;
+    flex-direction: column;
+  }
+  
+  .book-card.layout-rich .bc-rich-media {
+    width: 100%;
+    height: 120px;
+    min-width: auto;
+  }
+  
+  .book-card.layout-rich .bc-rich-body {
+    padding: 1rem;
+  }
+  
+  .bc-title {
+    font-size: 0.9rem !important;
+    line-height: 1.3;
+  }
+  
+  .bc-author {
+    font-size: 0.8rem !important;
+  }
+  
+  .favorite-btn {
+    padding: 0.3rem 0.6rem !important;
+    font-size: 0.7rem !important;
+    bottom: 8px;
+  }
+  
+  .bc-meta-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .bc-meta-item {
+    font-size: 0.65rem !important;
+    padding: 0.25rem 0.5rem !important;
+  }
+}
+
+/* Móviles grandes (480-767px) */
+@media (min-width: 480px) and (max-width: 767px) {
+  .book-card.layout-rich {
+    height: 240px;
+    min-height: 240px;
+    max-height: 240px;
+  }
+  
+  .book-card.layout-rich .bc-rich-media {
+    width: 120px;
+    min-width: 120px;
+  }
+  
+  .bc-title {
+    font-size: 0.95rem;
+  }
+  
+  .favorite-btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Tablets (768-1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .book-card.layout-rich {
+    height: 260px;
+    min-height: 260px;
+    max-height: 260px;
+  }
+  
+  .book-card.layout-rich .bc-rich-media {
+    width: 130px;
+    min-width: 130px;
+  }
+  
   .books-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+/* Desktop pequeño (1024px+) */
+@media (min-width: 1024px) {
+  .book-card.layout-rich {
+    height: 280px;
+    min-height: 280px;
+    max-height: 280px;
+  }
+  
+  .books-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+}
+
+/* Orientación landscape en móviles */
+@media (max-height: 500px) and (orientation: landscape) {
+  .book-card.layout-rich {
+    height: auto;
+    min-height: 150px;
+    flex-direction: row;
+  }
+  
+  .book-card.layout-rich .bc-rich-media {
+    width: 100px;
+    min-width: 100px;
+    height: 100%;
+  }
+  
+  .favorite-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.7rem;
   }
 }

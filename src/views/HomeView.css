@@ -178,9 +178,81 @@
   font-weight: 600;
 }
 
-@media (max-width:860px){ .home-container { padding:0 var(--space-4);} .search-section { padding:var(--space-5) var(--space-5) var(--space-4);} .books-grid { gap:var(--space-5);} }
-@media (max-width:768px){ .books-grid { grid-template-columns: 1fr; gap: 1.25rem; } }
-@media (max-width:560px){ .home-container { padding:0 var(--space-3);} .books-grid { grid-template-columns: 1fr; gap: 1rem;} }
+/* === RESPONSIVE HOMEVIEW === */
+
+/* Móviles pequeños (0-479px) */
+@media (max-width: 479px) {
+  .home-container { 
+    padding: var(--space-4) var(--space-3);
+    gap: var(--space-6);
+  }
+  
+  .search-section { 
+    padding: var(--space-4);
+    margin: 0 -0.5rem;
+  }
+  
+  .books-grid { 
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+  
+  .search-form {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .search-form input {
+    width: 100%;
+  }
+  
+  .search-form button {
+    width: 100%;
+    height: 44px;
+  }
+}
+
+/* Móviles grandes (480-767px) */
+@media (min-width: 480px) and (max-width: 767px) {
+  .home-container { 
+    padding: var(--space-6) var(--space-4);
+  }
+  
+  .search-section { 
+    padding: var(--space-5);
+  }
+  
+  .books-grid { 
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Tablets (768-1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .home-container { 
+    padding: var(--space-8) var(--space-5);
+  }
+  
+  .books-grid { 
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+/* Desktop pequeño (1024-1279px) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .books-grid { 
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+/* Desktop grande (1280px+) */
+@media (min-width: 1280px) {
+  .books-grid { 
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+}
 
 /* Scroll to top floating button contextual tweak */
 button[aria-label="Volver arriba"] { box-shadow:var(--shadow-lg); padding:.85rem 1rem; }

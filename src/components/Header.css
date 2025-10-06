@@ -5,10 +5,15 @@
   top: 0; 
   z-index: 120; 
   backdrop-filter: blur(8px); 
-  background: #ffffff; 
+  background: rgba(255, 255, 255, 0.95); 
   border-bottom: 1px solid var(--color-border); 
   box-shadow: var(--shadow-sm);
   transition: all var(--transition);
+}
+
+/* Asegurar buena visibilidad en todas las páginas */
+.header * {
+  color: #1a202c !important;
 }
 
 .header::before {
@@ -82,7 +87,7 @@
 }
 
 .logo span { 
-  color: var(--color-text-strong);
+  color: #1a202c !important;
   font-weight: 800;
 }
 
@@ -101,7 +106,7 @@
   font-size: var(--font-size-sm); 
   font-weight: 600; 
   padding: 0.8rem 1.2rem; 
-  color: var(--color-text-soft); 
+  color: #4a5568 !important; 
   border-radius: var(--radius-lg); 
   line-height: 1; 
   transition: all var(--transition); 
@@ -122,7 +127,7 @@
 }
 
 .nav-link:hover { 
-  color: var(--color-primary); 
+  color: #2d3748 !important; 
   transform: translateY(-1px);
   border-color: var(--color-primary-soft);
 }
@@ -133,7 +138,7 @@
 }
 
 .nav-link.active { 
-  color: var(--color-primary); 
+  color: #2b6cb0 !important; 
   background: var(--color-primary-soft);
   border-color: rgba(var(--color-primary-rgb), 0.2);
 }

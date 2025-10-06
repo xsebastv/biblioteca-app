@@ -558,8 +558,96 @@ input:hover:not(:focus), textarea:hover:not(:focus) {
 *::-webkit-scrollbar-thumb { background:linear-gradient(var(--color-primary-soft),#d4def2); border-radius:20px; border:2px solid #f5f7fa; }
 *::-webkit-scrollbar-thumb:hover { background:linear-gradient(#c3d3f5,#b6c6ec); }
 
-/* Responsivo básico */
-@media (max-width: 860px){ .container { padding:0 var(--space-4);} h1{font-size:2rem;} }
-@media (max-width: 560px){ .container { padding:0 var(--space-3);} h1{font-size:1.7rem;} h2{font-size:1.3rem;} }
+/* === SISTEMA RESPONSIVE COMPLETO === */
+
+/* Breakpoints principales */
+/* xs: 0-479px (móviles pequeños) */
+/* sm: 480-767px (móviles grandes) */  
+/* md: 768-1023px (tablets) */
+/* lg: 1024-1279px (desktop pequeño) */
+/* xl: 1280px+ (desktop grande) */
+
+/* Móviles pequeños (0-479px) */
+@media (max-width: 479px) {
+  :root {
+    --space-1: 0.125rem;
+    --space-2: 0.25rem;
+    --space-3: 0.5rem;
+    --space-4: 0.75rem;
+    --space-5: 1rem;
+    --space-6: 1.25rem;
+    --font-size-xs: 0.65rem;
+    --font-size-sm: 0.75rem;
+    --font-size-base: 0.85rem;
+    --layout-max: 100%;
+  }
+  
+  .container { 
+    padding: 0 var(--space-3) !important;
+    max-width: 100% !important;
+  }
+  
+  h1 { font-size: 1.5rem !important; }
+  h2 { font-size: 1.25rem !important; }
+  h3 { font-size: 1.1rem !important; }
+  
+  .btn {
+    padding: 0.6rem 1rem !important;
+    font-size: 0.8rem !important;
+  }
+}
+
+/* Móviles grandes (480-767px) */
+@media (min-width: 480px) and (max-width: 767px) {
+  :root {
+    --font-size-base: 0.9rem;
+    --layout-max: 100%;
+  }
+  
+  .container { 
+    padding: 0 var(--space-4) !important;
+  }
+  
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.4rem; }
+}
+
+/* Tablets (768-1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --layout-max: 100%;
+  }
+  
+  .container { 
+    padding: 0 var(--space-5);
+  }
+  
+  h1 { font-size: 2rem; }
+}
+
+/* Desktop pequeño (1024-1279px) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  :root {
+    --layout-max: 1200px;
+  }
+}
+
+/* Desktop grande (1280px+) */
+@media (min-width: 1280px) {
+  :root {
+    --layout-max: 1400px;
+  }
+}
+
+/* Orientación landscape en móviles */
+@media (max-height: 500px) and (orientation: landscape) {
+  .header-container { 
+    height: 50px !important; 
+    padding: 0 var(--space-3) !important;
+  }
+  
+  .logo { font-size: 0.9rem !important; }
+  .nav-link { padding: 0.5rem 0.8rem !important; }
+}
 
 /* Light theme optimized - dark theme removed for better readability */

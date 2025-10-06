@@ -213,44 +213,137 @@
   box-shadow: 0 8px 24px rgba(99,102,241,0.25);
 }
 
-/* Responsive mejorado */
-@media (max-width: 860px) {
-  .book-detail-card { 
-    padding: 2rem; 
-    gap: 2rem;
-  } 
-  .detail-media { 
-    flex: 0 0 220px; 
-    max-width: 220px;
+/* === RESPONSIVE BOOKDETAILVIEW COMPLETO === */
+
+/* Móviles pequeños (0-479px) */
+@media (max-width: 479px) {
+  .book-detail-container {
+    padding: 0.5rem;
   }
+  
+  .book-detail-card { 
+    padding: 1rem;
+    gap: 1.5rem;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .detail-media { 
+    max-width: 180px;
+    margin: 0 auto;
+  }
+  
+  .detail-media img,
+  .book-image-placeholder {
+    max-width: 180px;
+  }
+  
   .detail-title {
-    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-size: 1.4rem !important;
+  }
+  
+  .detail-author {
+    font-size: 1rem;
+  }
+  
+  .detail-meta-grid { 
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .detail-meta-grid > div {
+    padding: 0.75rem 1rem;
+  }
+  
+  .detail-description { 
+    padding: 1rem;
+    margin: 1rem 0;
+    text-align: left;
+  }
+  
+  .detail-description h2 {
+    font-size: 1.1rem;
+  }
+  
+  .detail-description p {
+    font-size: 0.95rem;
+  }
+  
+  .detail-actions {
+    flex-direction: column;
+  }
+  
+  .detail-actions .btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
   }
 }
 
-@media (max-width: 640px) {
+/* Móviles grandes (480-767px) */
+@media (min-width: 480px) and (max-width: 767px) {
   .book-detail-container {
     padding: 1rem;
   }
+  
   .book-detail-card { 
-    flex-direction: column; 
-    align-items: center; 
-    text-align: center;
     padding: 1.5rem;
-  } 
+    gap: 2rem;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
   .detail-media { 
-    max-width: 240px;
-  } 
-  .detail-body { 
-    width: 100%;
-  } 
+    max-width: 220px;
+  }
+  
+  .detail-title {
+    font-size: 1.6rem;
+  }
+  
   .detail-meta-grid { 
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 1rem;
-  } 
+  }
+  
   .detail-description { 
+    padding: 1.25rem;
     text-align: left;
-    padding: 1.5rem;
+  }
+}
+
+/* Tablets (768-1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .book-detail-card { 
+    padding: 2rem;
+    gap: 2.5rem;
+  }
+  
+  .detail-media { 
+    flex: 0 0 220px;
+    max-width: 220px;
+  }
+  
+  .detail-title {
+    font-size: clamp(1.8rem, 3vw, 2.2rem);
+  }
+  
+  .detail-meta-grid { 
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
+/* Desktop pequeño (1024px+) */
+@media (min-width: 1024px) {
+  .book-detail-card { 
+    padding: 2.5rem;
+    gap: 3rem;
+  }
+  
+  .detail-media { 
+    flex: 0 0 300px;
+    max-width: 300px;
   }
 }
 
