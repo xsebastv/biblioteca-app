@@ -203,7 +203,7 @@
   }
   .book-card.layout-rich .book-thumb-shell {
     height: 100%;
-    padding-top: 3rem;
+    padding-bottom: 3rem;
     padding-right: 3.5rem;
   }
   
@@ -236,7 +236,7 @@
   .book-thumb-shell {
     height: 180px;
     padding: 0.75rem;
-    padding-top: 3rem;
+    padding-bottom: 3rem;
     padding-right: 3.5rem;
   }
   .book-thumb-shell img {
@@ -263,7 +263,7 @@
 .book-thumb-shell::before {
   content: '';
   position: absolute;
-  top: 8px;
+  bottom: 8px;
   right: 8px;
   width: 55px;
   height: 45px;
@@ -301,12 +301,12 @@
   margin-bottom: 1rem;
 }
 
-/* Botón de favorito en esquina superior derecha */
+/* Botón de favorito abajo a la derecha */
 .favorite-btn {
   position: absolute;
-  top: 12px;
+  bottom: 12px;
   right: 12px;
-  bottom: auto;
+  top: auto;
   left: auto;
   transform: none;
   padding: 0.5rem 0.75rem;
@@ -354,11 +354,11 @@
   box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3), 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Ajuste para layout horizontal - esquina superior derecha */
+/* Ajuste para layout horizontal - abajo a la derecha */
 .book-card.layout-rich .favorite-btn {
-  top: 16px;
+  bottom: 16px;
   right: 16px;
-  bottom: auto;
+  top: auto;
   left: auto;
   transform: none;
 }
@@ -367,9 +367,9 @@
 @media (max-width: 768px) {
   .favorite-btn {
     padding: 0.5rem 0.75rem;
-    top: 12px;
+    bottom: 12px;
     right: 12px;
-    bottom: auto;
+    top: auto;
     left: auto;
     transform: none;
     font-size: 0.8rem;
@@ -386,14 +386,14 @@
   }
   
   .book-card.layout-rich .favorite-btn {
-    top: 16px;
+    bottom: 16px;
     right: 16px;
     transform: none;
   }
 
   /* Ajustar imagen en tablets para evitar superposición */
   .book-thumb-shell {
-    padding-top: 2.8rem;
+    padding-bottom: 2.8rem;
     padding-right: 3.2rem;
   }
   
@@ -592,9 +592,9 @@
   .favorite-btn {
     padding: 0.4rem 0.6rem !important;
     font-size: 0.75rem !important;
-    top: 10px !important;
+    bottom: 10px !important;
     right: 10px !important;
-    bottom: auto !important;
+    top: auto !important;
     left: auto !important;
     transform: none !important;
     min-height: 36px !important;
@@ -649,7 +649,7 @@
   .book-thumb-shell {
     height: 170px;
     padding: 0.875rem;
-    padding-top: 3.2rem;
+    padding-bottom: 3.2rem;
     padding-right: 3.8rem;
   }
   
@@ -663,9 +663,9 @@
     padding: 0.5rem 0.75rem;
     font-size: 0.8rem;
     min-height: 38px;
-    top: 14px;
+    bottom: 14px;
     right: 14px;
-    bottom: auto;
+    top: auto;
     left: auto;
     transform: none;
     display: flex;
@@ -747,9 +747,9 @@
     padding: 0.5rem 0.7rem !important;
     font-size: 0.8rem !important;
     border-radius: 22px !important;
-    top: 12px !important;
+    bottom: 12px !important;
     right: 12px !important;
-    bottom: auto !important;
+    top: auto !important;
     left: auto !important;
     transform: none !important;
     backdrop-filter: blur(15px) !important;
