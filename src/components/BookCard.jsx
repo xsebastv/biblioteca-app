@@ -73,7 +73,8 @@ function BookCard({ book, isFavorite, onAddToFavorites, onRemoveFromFavorites, c
 
   const handleCardClick = () => {
     console.log('🎯 Libro clickeado:', { id: book.id, title: book.title, source: book.source });
-    navigate(`/libro/${book.id}`);
+  const safeId = encodeURIComponent(book.id);
+  navigate(`/libro/${safeId}`);
   };
 
   const longTitle = false; // ahora siempre mostramos el título completo en tarjeta

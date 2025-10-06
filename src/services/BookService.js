@@ -210,8 +210,11 @@ class BookService {
       .filter(doc => doc.title && (doc.author_name?.length))
       .map(doc => {
         const cover = doc.cover_i ? `https://covers.openlibrary.org/b/id/${doc.cover_i}-M.jpg` : '/placeholder-book.png';
+        // Sanitize key: replace any '/' with double underscore to keep route one-segment
+        const rawKey = doc.key || doc.cover_i || doc.title.replace(/\s+/g,'-');
+        const safeKey = String(rawKey).replace(/\//g,'__');
         return {
-          id: `openlib-${doc.key || doc.cover_i || doc.title.replace(/\s+/g,'-')}`,
+          id: `openlib-${safeKey}`,
             title: doc.title || 'Título no disponible',
             author: doc.author_name?.[0] || 'Autor desconocido',
             year: doc.first_publish_year || 'Año desconocido',
@@ -331,7 +334,9 @@ class BookService {
       // 2. Libros de Open Library (prefijo correcto: openlib-)
       if (id.startsWith('openlib-')) {
         console.log(`🔍 Procesando Open Library ID: ${id}`);
-        const olKey = id.replace('openlib-', '');
+  const olKeySanitized = id.replace('openlib-', '');
+  // Revert sanitization (double underscore back to slash) for real Open Library key
+  const olKey = olKeySanitized.replace(/__/g,'/');
         console.log(`🔑 Clave extraída: ${olKey}`);
         
         try {

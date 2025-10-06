@@ -35,7 +35,23 @@ export const translations = {
     genre: 'Género',
     language: 'Idioma',
     not_found: 'No encontrado',
-    go_back: 'Volver'
+    go_back: 'Volver',
+    brand_title: 'Biblioteca Digital',
+    landing: 'Landing',
+    limited_info: 'Información limitada',
+    limited_info_warning: 'No se pudo obtener toda la información desde la fuente original.',
+    footer_project: 'Proyecto Biblioteca Digital',
+    footer_made_by: 'Hecho con ❤ por {authors}.',
+    footer_meta: '2025 · UI clara y alegre · Uso académico'
+  ,limited_source_placeholder: 'Información limitada'
+  ,limited_source_openlib: 'Open Library (información limitada)'
+  ,limited_source_isbndb: 'ISBNdb (información limitada)'
+  ,limited_source_google: 'Google Books (información limitada)'
+  ,limited_error_banner: 'Información limitada disponible - No se pudo conectar con la fuente original'
+  ,limited_author_placeholder: 'Autor no disponible - Intenta agregar a favoritos para ver si hay más información'
+  ,limited_description_intro: 'Lo sentimos, no pudimos obtener la información completa de este libro desde {source}.'
+  ,limited_description_reasons: 'Esto puede ocurrir por:\n• Conexión temporalmente no disponible\n• El libro fue eliminado de la fuente original\n• Restricciones de la API externa'
+  ,limited_description_suggestions: 'Puedes intentar:\n• Refrescar la página\n• Buscar el libro nuevamente\n• Agregarlo a favoritos para conservar la información básica'
   },
   en: {
     favorite_add: 'Favorite +',
@@ -75,7 +91,23 @@ export const translations = {
     confirm_remove_text: 'Are you sure you want to remove this book from your favorites?',
     cancel: 'Cancel',
     confirm: 'Remove',
-    back: 'Back'
+    back: 'Back',
+    brand_title: 'Digital Library',
+    landing: 'Landing',
+    limited_info: 'Limited info',
+    limited_info_warning: 'Could not fetch full information from the original source.',
+    footer_project: 'Digital Library Project',
+    footer_made_by: 'Made with ❤ by {authors}.',
+    footer_meta: '2025 · Clear & joyful UI · Academic use'
+  ,limited_source_placeholder: 'Limited information'
+  ,limited_source_openlib: 'Open Library (limited info)'
+  ,limited_source_isbndb: 'ISBNdb (limited info)'
+  ,limited_source_google: 'Google Books (limited info)'
+  ,limited_error_banner: 'Limited information available - Could not connect to the original source'
+  ,limited_author_placeholder: 'Author unavailable - Try adding to favorites to see if more info appears'
+  ,limited_description_intro: 'Sorry, we could not fetch full information for this book from {source}.'
+  ,limited_description_reasons: 'This may happen due to:\n• Temporarily unavailable connection\n• The book was removed at the original source\n• External API restrictions'
+  ,limited_description_suggestions: 'You can try:\n• Refreshing the page\n• Searching the book again\n• Adding it to favorites to keep the basic info'
   }
 };
 

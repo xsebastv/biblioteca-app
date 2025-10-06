@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import './Footer.css';
+import { createI18n } from '../i18n/translations';
 
-const Footer = () => {
+const AUTHORS = 'Juan Sebastian Rios Altamitano & Jhonatan Velasco';
+
+const Footer = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
+  const t = useMemo(()=>createI18n(lang), [lang]);
   return (
     <footer className="app-footer" role="contentinfo">
       <div className="footer-inner">
-        <p className="footer-title">Proyecto Biblioteca Digital</p>
-        <p className="footer-authors">Hecho con <span aria-hidden="true">❤</span> por <strong>Juan Sebastian Rios Altamitano</strong> y <strong>Jhonatan Velasco</strong>.</p>
-        <p className="footer-meta">2025 · UI clara y alegre · Uso académico</p>
+        <p className="footer-title">{t('footer_project')}</p>
+        <p className="footer-authors">{t('footer_made_by',{ authors: AUTHORS })}</p>
+        <p className="footer-meta">{t('footer_meta')}</p>
       </div>
     </footer>
   );

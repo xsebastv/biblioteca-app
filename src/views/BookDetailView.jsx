@@ -8,7 +8,10 @@ import './BookDetailView.css';
 
 const BookDetailView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
   const t = useMemo(()=>createI18n(lang), [lang]);
-  const { id } = useParams();
+  const { id: rawId } = useParams();
+  const id = useMemo(()=>{
+    try { return decodeURIComponent(rawId); } catch { return rawId; }
+  }, [rawId]);
   const navigate = useNavigate();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -41,49 +44,39 @@ const BookDetailView = ({ lang = localStorage.getItem('ui_lang') || 'es' }) => {
           // Si no se encuentra por ID, intentar extraer información del ID mismo
           console.warn('Libro no encontrado por ID, intentando recuperar información básica...');
           
-          let title = 'Información no disponible';
-          let source = 'Información limitada';
+          let title = t('not_found');
+          let source = t('limited_source_placeholder');
           
           // Intentar extraer información del ID
           if (id.startsWith('openlib-')) {
             title = id.replace('openlib-', '').replace(/-/g, ' ');
-            source = 'Open Library (información limitada)';
+            source = t('limited_source_openlib');
           } else if (id.startsWith('isbndb-')) {
             title = id.replace('isbndb-', '').replace(/-/g, ' ');
-            source = 'ISBNdb (información limitada)';
+            source = t('limited_source_isbndb');
           } else if (id.startsWith('google-')) {
-            title = 'Libro de Google Books';
-            source = 'Google Books (información limitada)';
+            title = 'Google Books';
+            source = t('limited_source_google');
           }
           
           // Crear un libro placeholder con información básica mejorada
           const placeholderBook = {
-            id: id,
-            title: title,
-            author: 'Autor no disponible - Intenta agregar a favoritos para ver si hay más información',
-            description: `Lo sentimos, no pudimos obtener la información completa de este libro desde ${source}. 
-
-Esto puede ocurrir por:
-• Conexión temporalmente no disponible
-• El libro fue eliminado de la fuente original
-• Restricciones de la API externa
-
-Puedes intentar:
-• Refrescar la página
-• Buscar el libro nuevamente
-• Agregarlo a favoritos para conservar la información básica`,
-            year: 'No disponible',
+            id,
+            title,
+            author: t('limited_author_placeholder'),
+            description: `${t('limited_description_intro',{source})}\n\n${t('limited_description_reasons')}\n\n${t('limited_description_suggestions')}`,
+            year: '—',
             thumbnail: '/placeholder-book.png',
-            source: source,
-            genre: 'No especificado',
+            source,
+            genre: '—',
             pageCount: null,
             isbn: null,
-            language: 'es'
+            language: lang
           };
           
           if (active) {
             setBook(placeholderBook);
-            setError('Información limitada disponible - No se pudo conectar con la fuente original');
+            setError(t('limited_error_banner'));
           }
         } else {
           if (active) setBook(remote);
@@ -136,7 +129,7 @@ Puedes intentar:
       {/* Advertencia de información limitada */}
       {hasLimitedInfo && (
         <div className="limited-info-warning">
-          ⚠️ <strong>Información limitada:</strong> No se pudo obtener toda la información de este libro desde la fuente original.
+          ⚠️ <strong>{t('limited_info')}:</strong> {t('limited_info_warning')}
         </div>
       )}
       

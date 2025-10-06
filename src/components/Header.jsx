@@ -22,7 +22,7 @@ const Header = ({ favoritesCount = 0, onChangeLang, lang='es' }) => {
           <div className="logo-icon">
             📚
           </div>
-          <span>Biblioteca Digital</span>
+          <span>{t('brand_title')}</span>
         </Link>
 
         <nav className="nav" aria-label="Navegación principal">
@@ -33,7 +33,7 @@ const Header = ({ favoritesCount = 0, onChangeLang, lang='es' }) => {
             className={`nav-link ${isHome ? 'active' : ''}`}
           >
             <span className="nav-icon" aria-hidden="true">🏠</span>
-            <span className="nav-text">{t('home')}</span>
+            <span className="nav-text home-text">{t('home')}</span>
           </Link>
           <Link
             to="/favoritos"
