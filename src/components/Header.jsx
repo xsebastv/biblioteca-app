@@ -5,6 +5,11 @@ import './Header.css';
 const Header = ({ favoritesCount = 0, onChangeLang, lang='es' }) => {
   const location = useLocation();
 
+  const resetLanding = () => {
+    localStorage.removeItem('hasVisitedBefore');
+    window.location.reload();
+  };
+
   return (
     <header className="header">
       <div className="header-container">
@@ -35,7 +40,25 @@ const Header = ({ favoritesCount = 0, onChangeLang, lang='es' }) => {
               )}
             </span>
           </Link>
-          <div style={{display:'flex', alignItems:'center', marginLeft:'0.5rem'}}>
+          <div style={{display:'flex', alignItems:'center', gap:'0.5rem', marginLeft:'0.5rem'}}>
+            <button
+              onClick={resetLanding}
+              title="Ver Landing Page"
+              style={{
+                padding:'0.5rem',
+                borderRadius:'8px',
+                border:'1px solid var(--color-border)',
+                background:'var(--color-surface)',
+                fontSize:'1rem',
+                cursor:'pointer',
+                display:'flex',
+                alignItems:'center',
+                justifyContent:'center',
+                transition:'all 0.2s'
+              }}
+            >
+              ✨
+            </button>
             <select
               aria-label="Seleccionar idioma"
               value={lang}

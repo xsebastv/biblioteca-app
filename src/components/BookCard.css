@@ -4,9 +4,9 @@
   position: relative; 
   display: flex; 
   flex-direction: column; 
-  background: var(--color-surface); 
-  border: 1.5px solid var(--color-border); 
-  border-radius: 20px; 
+  background: #ffffff; 
+  border: 1px solid var(--color-border); 
+  border-radius: 12px; 
   overflow: hidden; 
   box-shadow: var(--shadow-sm); 
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
@@ -17,8 +17,8 @@
   cursor: pointer;
 }
 .book-card:hover { 
-  box-shadow: 0 20px 40px -12px rgba(0,0,0,0.15); 
-  transform: translateY(-8px); 
+  box-shadow: var(--shadow-md); 
+  transform: translateY(-4px); 
   border-color: var(--color-border-strong); 
 }
 .book-card:active { 
@@ -33,19 +33,18 @@
   box-shadow: 0 8px 32px -8px rgba(239,68,68,0.4), var(--shadow-sm); 
 }
 
-/* Variante brillante con nueva paleta moderna */
+/* Variante minimalista ultra limpia */
 [data-variant="bright"].book-card { 
-  background: linear-gradient(145deg, #ffffff 0%, #fafbfe 60%, #f1f4ff 100%);
-  border: 1.5px solid var(--color-border);
-  box-shadow: 0 8px 32px -8px rgba(99,102,241,0.12), 0 4px 16px -4px rgba(0,0,0,0.04);
+  background: #ffffff;
+  border: 1px solid #f0f0f0;
+  box-shadow: var(--shadow-sm);
 }
 [data-variant="bright"].book-card::before { 
   content: ""; 
   position: absolute; 
   inset: 0; 
   pointer-events: none; 
-  background: radial-gradient(circle at 75% 25%, rgba(99,102,241,0.08), transparent 55%), 
-              radial-gradient(circle at 25% 75%, rgba(245,158,11,0.05), transparent 60%);
+  background: transparent;
   border-radius: inherit;
 }
 [data-variant="bright"].book-card:hover { 
@@ -272,7 +271,7 @@
 .favorite-btn {
   position: absolute;
   bottom: 12px;
-  left: 12px;
+  right: 12px;
   width: 40px;
   height: 40px;
   border: none;
@@ -314,7 +313,7 @@
 /* Ajuste para layout horizontal - posición ligeramente diferente */
 .book-card.layout-rich .favorite-btn {
   bottom: 16px;
-  left: 16px;
+  right: 16px;
 }
 
 /* Responsive para el botón de favoritos */
@@ -323,13 +322,13 @@
     width: 36px;
     height: 36px;
     bottom: 10px;
-    left: 10px;
+    right: 10px;
     font-size: 1.1rem;
   }
   
   .book-card.layout-rich .favorite-btn {
     bottom: 12px;
-    left: 12px;
+    right: 12px;
   }
 }
 
@@ -338,7 +337,7 @@
     width: 32px;
     height: 32px;
     bottom: 8px;
-    left: 8px;
+    right: 8px;
     font-size: 1rem;
   }
 }

@@ -1,45 +1,45 @@
 /* === NUEVO SISTEMA DE DISEÑO PARA BIBLIOTECA DIGITAL (2025) === */
 
 :root {
-  /* Paleta moderna clara optimizada para legibilidad */
-  --color-bg: #ffffff;              /* Fondo base completamente blanco */
-  --color-bg-alt: #ffffff;          /* Paneles blancos puros */
-  --color-bg-soft: #f8fafc;         /* Bloques suaves muy claros */
-  --color-surface: #ffffff;         /* Superficies principales */
-  --color-surface-alt: #fafbfc;     /* Variante muy sutil */
-  --color-border: #e2e8f0;          /* Bordes sutiles pero visibles */
-  --color-border-strong: #cbd5e1;   /* Bordes enfatizados */
-  --color-shadow: 230 10% 20%;      /* Sombras más suaves */
+  /* Paleta ultraclara con blancos y grises elegantes */
+  --color-bg: #ffffff;              /* Fondo base blanco puro */
+  --color-bg-alt: #ffffff;          /* Paneles blancos cristalinos */
+  --color-bg-soft: #fafafa;         /* Bloques gris muy claro */
+  --color-surface: #ffffff;         /* Superficies blancas */
+  --color-surface-alt: #fdfdfd;     /* Variante blanco nieve */
+  --color-border: #f0f0f0;          /* Bordes gris ultra claro */
+  --color-border-strong: #e0e0e0;   /* Bordes gris claro visible */
+  --color-shadow: 0 0 0;            /* Sombras minimalistas */
 
-  --color-primary: #6366f1;         /* Indigo vibrante moderno */
-  --color-primary-rgb: 99 102 241;
-  --color-primary-hover: #4f46e5;
-  --color-primary-soft: #eef2ff;    /* Fondo suave índigo */
+  --color-primary: #2d3748;         /* Gris carbón elegante */
+  --color-primary-rgb: 45 55 72;
+  --color-primary-hover: #1a202c;
+  --color-primary-soft: #f7fafc;    /* Fondo gris muy sutil */
 
-  --color-accent: #f59e0b;          /* Ámbar energético */
-  --color-accent-hover: #d97706;
-  --color-accent-soft: #fef3c7;
+  --color-accent: #718096;          /* Gris medio refinado */
+  --color-accent-hover: #4a5568;
+  --color-accent-soft: #f7fafc;
 
-  --color-success: #10b981;         /* Verde esmeralda */
-  --color-success-soft: #d1fae5;
-  --color-danger: #ef4444;          /* Rojo coral moderno */
-  --color-danger-soft: #fee2e2;
-  --color-warning: #f59e0b;         /* Ámbar para advertencias */
-  --color-warning-soft: #fef3c7;
+  --color-success: #38a169;         /* Verde discreto */
+  --color-success-soft: #f0fff4;
+  --color-danger: #e53e3e;          /* Rojo suave */
+  --color-danger-soft: #fed7d7;
+  --color-warning: #d69e2e;         /* Amarillo discreto */
+  --color-warning-soft: #fefcf0;
 
-  /* Nuevas variables semánticas mejoradas */
-  --color-info: #3b82f6;           /* Azul cielo */
-  --color-info-soft: #dbeafe;
-  --color-neutral: #6b7280;        /* Gris moderno */
-  --color-neutral-soft: #f3f4f6;
+  /* Variables semánticas minimalistas */
+  --color-info: #4299e1;           /* Azul suave */
+  --color-info-soft: #ebf8ff;
+  --color-neutral: #a0aec0;        /* Gris neutro */
+  --color-neutral-soft: #f7fafc;
 
-  /* Colores de texto optimizados para modo claro */
-  --color-text-strong: #1f2937;     /* Negro suave con buen contraste */
-  --color-text: #374151;           /* Gris oscuro principal - muy legible */
-  --color-text-soft: #6b7280;      /* Gris medio para secundarios */
-  --color-text-faint: #9ca3af;     /* Gris claro para elementos sutiles */
+  /* Colores de texto con máximo contraste y legibilidad */
+  --color-text-strong: #000000;     /* Negro puro para títulos importantes */
+  --color-text: #1a202c;           /* Gris muy oscuro para texto principal */
+  --color-text-soft: #4a5568;      /* Gris medio para texto secundario */
+  --color-text-faint: #a0aec0;     /* Gris claro para elementos sutiles */
   --color-text-inverse: #ffffff;   /* Texto blanco para fondos oscuros */
-  --color-text-muted: #d1d5db;     /* Texto muy sutil */
+  --color-text-muted: #e2e8f0;     /* Texto muy sutil */
 
   /* Tipografía */
   --font-sans: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -72,14 +72,14 @@
   --radius-xl: 22px;
   --radius-pill: 999px;
 
-  /* Sombras refinadas con depth */
-  --shadow-xs: 0 1px 2px rgba(0,0,0,.04);
-  --shadow-sm: 0 2px 4px rgba(0,0,0,.05), 0 1px 2px rgba(0,0,0,.03);
-  --shadow-md: 0 4px 16px -4px rgba(26,32,44,.15), 0 2px 8px -2px rgba(26,32,44,.08);
-  --shadow-lg: 0 12px 32px -8px rgba(26,32,44,.2), 0 4px 16px -4px rgba(26,32,44,.1);
-  --shadow-xl: 0 20px 48px -12px rgba(26,32,44,.25), 0 8px 24px -6px rgba(26,32,44,.12);
-  --shadow-focus: 0 0 0 4px rgba(41,82,204,.2);
-  --shadow-glow: 0 0 20px rgba(41,82,204,.15);
+  /* Sombras ultrasuaves minimalistas */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,.02);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.03);
+  --shadow-md: 0 2px 8px rgba(0,0,0,.04);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,.05);
+  --shadow-xl: 0 8px 24px rgba(0,0,0,.06);
+  --shadow-focus: 0 0 0 3px rgba(45,55,72,.1);
+  --shadow-glow: 0 0 12px rgba(45,55,72,.08);
 
   /* Transiciones / animación */
   --ease: cubic-bezier(.4,0,.2,1);
@@ -106,8 +106,8 @@ html {
 body {
   font-family: var(--font-sans);
   font-size: var(--font-size-base);
-  line-height: 1.55;
-  background: linear-gradient(180deg,#ffffff 0%,#f9fbff 65%, #fff7fb 100%);
+  line-height: 1.6;
+  background: #ffffff;
   min-height:100vh;
   color: var(--color-text);
   display:flex;

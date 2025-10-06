@@ -12,7 +12,19 @@ export const translations = {
     pages: 'Páginas',
     year: 'Año',
     isbn: 'ISBN',
-    unknown_author: 'Autor desconocido'
+    unknown_author: 'Autor desconocido',
+    home: 'Inicio',
+    favorites: 'Favoritos',
+    search_placeholder: 'Buscar libros por título, autor...',
+    search_button: 'Buscar',
+    no_results: 'No se encontraron libros',
+    loading: 'Cargando...',
+    error: 'Error al cargar los libros',
+    confirm_remove: '¿Eliminar de favoritos?',
+    confirm_remove_text: '¿Estás seguro de que quieres quitar este libro de tus favoritos?',
+    cancel: 'Cancelar',
+    confirm: 'Eliminar',
+    back: 'Volver'
   },
   en: {
     favorite_add: 'Favorite +',
@@ -27,7 +39,19 @@ export const translations = {
     pages: 'Pages',
     year: 'Year',
     isbn: 'ISBN',
-    unknown_author: 'Unknown author'
+    unknown_author: 'Unknown author',
+    home: 'Home',
+    favorites: 'Favorites',
+    search_placeholder: 'Search books by title, author...',
+    search_button: 'Search',
+    no_results: 'No books found',
+    loading: 'Loading...',
+    error: 'Error loading books',
+    confirm_remove: 'Remove from favorites?',
+    confirm_remove_text: 'Are you sure you want to remove this book from your favorites?',
+    cancel: 'Cancel',
+    confirm: 'Remove',
+    back: 'Back'
   }
 };
 

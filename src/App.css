@@ -55,24 +55,4 @@
 .error-message { display:flex; flex-direction:column; gap:var(--space-4); align-items:center; padding:var(--space-12) var(--space-6); text-align:center; }
 .error-message .error-icon { font-size:3rem; line-height:1; filter:drop-shadow(0 4px 8px rgba(0,0,0,.15)); }
 
-/* Efectos decorativos mejorados */
-body::before, body::after { 
-  content: ""; 
-  position: fixed; 
-  inset: 0; 
-  pointer-events: none; 
-  z-index: -1; 
-}
-
-body::before { 
-  background: 
-    radial-gradient(ellipse at 20% 20%, rgba(99,102,241,0.06), transparent 70%),
-    radial-gradient(ellipse at 80% 80%, rgba(245,158,11,0.04), transparent 70%);
-  mix-blend-mode: normal; 
-}
-
-body::after { 
-  background: 
-    radial-gradient(ellipse at 60% 30%, rgba(255, 255, 255, 0.5), transparent 50%),
-    radial-gradient(ellipse at 40% 70%, rgba(99,102,241,0.02), transparent 80%);
-}
+/* Diseño ultra limpio sin efectos decorativos */

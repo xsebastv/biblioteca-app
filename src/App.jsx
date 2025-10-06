@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Header from './components/Header';
 import AppRoutes from './routes/AppRoutes';
 import Footer from './components/Footer';
+import LandingPage from './components/LandingPage';
 import { createI18n } from './i18n/translations';
 import './App.css';
 
@@ -17,6 +18,9 @@ import './App.css';
 function App() {
   const [favoritesCount, setFavoritesCount] = useState(0);
   const [lang, setLang] = useState(()=> localStorage.getItem('ui_lang') || 'es');
+  const [showLanding, setShowLanding] = useState(() => 
+    localStorage.getItem('hasVisitedBefore') !== 'true'
+  );
   const t = createI18n(lang);
 
   useEffect(() => {
@@ -48,12 +52,22 @@ function App() {
 
   useEffect(()=>{ localStorage.setItem('ui_lang', lang); }, [lang]);
 
+  const handleEnterApp = () => {
+    localStorage.setItem('hasVisitedBefore', 'true');
+    setShowLanding(false);
+  };
+
   // Se elimina el modo oscuro según requerimiento del usuario
+
+  // Si debe mostrar landing page, mostrarla primero
+  if (showLanding) {
+    return <LandingPage onEnter={handleEnterApp} />;
+  }
 
   return (
     <Router>
       <div className="app">
-  <Header favoritesCount={favoritesCount} lang={lang} onChangeLang={setLang} />
+        <Header favoritesCount={favoritesCount} lang={lang} onChangeLang={setLang} />
         <main className="main-content">
           <AppRoutes />
         </main>
