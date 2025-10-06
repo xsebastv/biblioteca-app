@@ -203,7 +203,7 @@
   }
   .book-card.layout-rich .book-thumb-shell {
     height: 100%;
-    padding-bottom: 3rem;
+    padding-top: 3rem;
     padding-right: 3.5rem;
   }
   
@@ -236,7 +236,7 @@
   .book-thumb-shell {
     height: 180px;
     padding: 0.75rem;
-    padding-bottom: 3rem;
+    padding-top: 3rem;
     padding-right: 3.5rem;
   }
   .book-thumb-shell img {
@@ -272,6 +272,14 @@
   pointer-events: none;
   opacity: 0.8;
   z-index: 1;
+}
+
+/* En móviles, zona reservada arriba */
+@media (max-width: 768px) {
+  .book-thumb-shell::before {
+    top: 8px;
+    bottom: auto;
+  }
 }
 .book-thumb-shell.loading { 
   background: linear-gradient(100deg, var(--color-neutral-soft) 0%, var(--color-bg-soft) 50%, var(--color-neutral-soft) 100%); 
@@ -367,9 +375,9 @@
 @media (max-width: 768px) {
   .favorite-btn {
     padding: 0.5rem 0.75rem;
-    bottom: 12px;
+    top: 12px;
     right: 12px;
-    top: auto;
+    bottom: auto;
     left: auto;
     transform: none;
     font-size: 0.8rem;
@@ -386,14 +394,15 @@
   }
   
   .book-card.layout-rich .favorite-btn {
-    bottom: 16px;
+    top: 16px;
     right: 16px;
+    bottom: auto;
     transform: none;
   }
 
   /* Ajustar imagen en tablets para evitar superposición */
   .book-thumb-shell {
-    padding-bottom: 2.8rem;
+    padding-top: 2.8rem;
     padding-right: 3.2rem;
   }
   
@@ -592,9 +601,9 @@
   .favorite-btn {
     padding: 0.4rem 0.6rem !important;
     font-size: 0.75rem !important;
-    bottom: 10px !important;
+    top: 10px !important;
     right: 10px !important;
-    top: auto !important;
+    bottom: auto !important;
     left: auto !important;
     transform: none !important;
     min-height: 36px !important;
@@ -649,7 +658,7 @@
   .book-thumb-shell {
     height: 170px;
     padding: 0.875rem;
-    padding-bottom: 3.2rem;
+    padding-top: 3.2rem;
     padding-right: 3.8rem;
   }
   
@@ -663,9 +672,9 @@
     padding: 0.5rem 0.75rem;
     font-size: 0.8rem;
     min-height: 38px;
-    bottom: 14px;
+    top: 14px;
     right: 14px;
-    top: auto;
+    bottom: auto;
     left: auto;
     transform: none;
     display: flex;
@@ -747,9 +756,9 @@
     padding: 0.5rem 0.7rem !important;
     font-size: 0.8rem !important;
     border-radius: 22px !important;
-    bottom: 12px !important;
+    top: 12px !important;
     right: 12px !important;
-    top: auto !important;
+    bottom: auto !important;
     left: auto !important;
     transform: none !important;
     backdrop-filter: blur(15px) !important;
