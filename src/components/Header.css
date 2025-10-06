@@ -103,16 +103,18 @@
   display: inline-flex; 
   align-items: center; 
   gap: 0.6rem; 
-  font-size: var(--font-size-sm); 
-  font-weight: 600; 
+  font-size: 0.9rem; 
+  font-weight: 700; 
   padding: 0.8rem 1.2rem; 
-  color: #4a5568 !important; 
+  color: #2d3748 !important; 
   border-radius: var(--radius-lg); 
   line-height: 1; 
   transition: all var(--transition); 
   isolation: isolate;
   text-decoration: none;
   border: 1px solid transparent;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.3px;
 }
 
 .nav-link::before { 
@@ -127,9 +129,12 @@
 }
 
 .nav-link:hover { 
-  color: #2d3748 !important; 
+  color: #1a202c !important; 
   transform: translateY(-1px);
   border-color: var(--color-primary-soft);
+  background: rgba(99, 102, 241, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-weight: 800;
 }
 
 .nav-link:hover::before { 
@@ -138,9 +143,12 @@
 }
 
 .nav-link.active { 
-  color: #2b6cb0 !important; 
-  background: var(--color-primary-soft);
-  border-color: rgba(var(--color-primary-rgb), 0.2);
+  color: #ffffff !important; 
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-color: rgba(102, 126, 234, 0.3);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+  font-weight: 800;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .nav-link.active::before { 
@@ -168,25 +176,123 @@
 }
 
 .nav-badge {
-  background: var(--color-primary);
-  color: #fff;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #ffffff;
   font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 12px;
+  font-weight: 800;
+  padding: 3px 7px;
+  border-radius: 14px;
   line-height: 1;
-  font-weight: 600;
-  min-width: 16px;
+  min-width: 18px;
   text-align: center;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
 @media (max-width:680px){
   .nav-link span:last-child { display:none; }
-  .nav-link { padding:.55rem .7rem; }
-  .logo { font-size:.95rem; }
-  .logo-icon { width:38px; height:38px; }
+  .nav-link { 
+    padding: 0.7rem 0.8rem; 
+    font-size: 1rem;
+    font-weight: 800;
+  }
+  .logo { 
+    font-size: 0.95rem; 
+    font-weight: 800;
+  }
+  .logo-icon { 
+    width: 40px; 
+    height: 40px; 
+    font-size: 1.3rem;
+  }
+  
+  .nav-icon {
+    font-size: 1.2rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  }
+}
+
+/* Estilos mejorados para botones de header */
+.header button {
+  padding: 0.6rem 0.8rem !important;
+  border-radius: 10px !important;
+  border: 2px solid rgba(45, 55, 72, 0.1) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: #2d3748 !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  backdrop-filter: blur(8px) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.header button:hover {
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  color: white !important;
+  border-color: rgba(102, 126, 234, 0.3) !important;
+  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+.header select {
+  padding: 0.6rem 0.8rem !important;
+  border-radius: 10px !important;
+  border: 2px solid rgba(45, 55, 72, 0.1) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #2d3748 !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  backdrop-filter: blur(8px) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  min-width: 60px !important;
+}
+
+.header select:hover, .header select:focus {
+  background: rgba(99, 102, 241, 0.1) !important;
+  border-color: var(--color-primary) !important;
+  color: #1a202c !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.2) !important;
+  outline: none !important;
+}
+
+.header select option {
+  background: white !important;
+  color: #2d3748 !important;
+  font-weight: 600 !important;
+  padding: 0.5rem !important;
 }
 
 @media (max-width:420px){
   .logo span { display:none; }
   .logo-icon { width:34px; height:34px; font-size:1.15rem; }
+  
+  .header button {
+    padding: 0.5rem 0.6rem !important;
+    font-size: 0.9rem !important;
+  }
+  
+  .header select {
+    padding: 0.5rem 0.6rem !important;
+    font-size: 0.7rem !important;
+    min-width: 50px !important;
+  }
 }
