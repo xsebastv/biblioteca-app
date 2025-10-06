@@ -66,11 +66,10 @@ VITE_ISBNDB_KEY=TU_API_KEY_ISBNDB
 ```
 Si se omite, simplemente no se incluirá esa fuente.
 
-## 🧪 Posibles Extensiones Futuras
+## Posibles Extensiones Futuras
 - Cache por query para reducir repeticiones de fetch.
 - Prefetch anticipado de la siguiente página durante inactividad.
 - Badges de idioma / rating visual.
-- Tests unitarios (services y deduplicación).
 - Accesibilidad mejorada (roles ARIA adicionales y focus management del modal).
 
 ## 🛡️ Manejo de Errores
@@ -114,4 +113,4 @@ Si se omite, simplemente no se incluirá esa fuente.
 Uso académico / demostrativo.
 
 ---
-Si necesitas revertir a la versión minimal o agregar tests, pídelo y lo ajusto.
+Si necesitas revertir a la versión minimal o agregar otra funcionalidad, pídelo y lo ajusto.

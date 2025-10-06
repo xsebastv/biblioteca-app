@@ -1,0 +1,15 @@
+.app-footer { 
+  margin-top:auto; 
+  padding:2.5rem 0 3.5rem; 
+  text-align:center; 
+  font-size:0.7rem; 
+  color:var(--color-text-faint); 
+  position:relative;
+  background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,0.6));
+}
+.app-footer::before { content:""; position:absolute; left:50%; top:0; width:60%; height:1px; transform:translateX(-50%); background:linear-gradient(90deg,transparent,#e2e8f4,transparent); }
+.footer-inner { max-width:960px; margin:0 auto; padding:0 1.5rem; display:flex; flex-direction:column; gap:.4rem; }
+.footer-title { margin:0; font-weight:600; letter-spacing:.5px; text-transform:uppercase; color:var(--color-text-soft); }
+.footer-authors { margin:0; }
+.footer-meta { margin:0; font-size:.6rem; opacity:.75; }
+@media (max-width:560px){ .app-footer { padding:2rem 0 2.5rem; } }

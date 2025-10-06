@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Header from './components/Header';
 import AppRoutes from './routes/AppRoutes';
+import Footer from './components/Footer';
+import { createI18n } from './i18n/translations';
 import './App.css';
 
 /**
@@ -14,6 +16,8 @@ import './App.css';
  */
 function App() {
   const [favoritesCount, setFavoritesCount] = useState(0);
+  const [lang, setLang] = useState(()=> localStorage.getItem('ui_lang') || 'es');
+  const t = createI18n(lang);
 
   useEffect(() => {
     const load = () => {
@@ -42,15 +46,18 @@ function App() {
     };
   }, []);
 
+  useEffect(()=>{ localStorage.setItem('ui_lang', lang); }, [lang]);
+
   // Se elimina el modo oscuro según requerimiento del usuario
 
   return (
     <Router>
       <div className="app">
-        <Header favoritesCount={favoritesCount} />
+  <Header favoritesCount={favoritesCount} lang={lang} onChangeLang={setLang} />
         <main className="main-content">
           <AppRoutes />
         </main>
+        <Footer />
       </div>
     </Router>
   );

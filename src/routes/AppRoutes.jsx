@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HomeView from '../views/HomeView';
 import FavoritesView from '../views/FavoritesView';
+import BookDetailView from '../views/BookDetailView';
 
 /**
  * Configuración de rutas de la aplicación biblioteca digital
@@ -18,6 +19,8 @@ const AppRoutes = () => {
       
       {/* Página de Favoritos - Cumple con "Agregar Favoritos (1.0)" y "Eliminar Favoritos (1.5)" */}
       <Route path="/favoritos" element={<FavoritesView />} />
+      {/* Vista de detalle de libro */}
+      <Route path="/libro/:id" element={<BookDetailView />} />
     </Routes>
   );
 };

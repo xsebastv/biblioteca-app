@@ -22,18 +22,28 @@ const HomeView = () => {
   const [confirmRemoveModal, setConfirmRemoveModal] = useState(false);
   const [bookToRemove, setBookToRemove] = useState(null);
   const [showUndo, setShowUndo] = useState(false);
-  const [groupBySource, setGroupBySource] = useState(false);
+  const [groupBySource, setGroupBySource] = useState(()=> localStorage.getItem('pref_groupBySource') === '1');
   // Vista única (compacta) — se eliminó la vista completa
-  const [sortBy, setSortBy] = useState('title'); // 'title' | 'year'
-  const [filterSource, setFilterSource] = useState('');
-  // Formulario manual (también disponible aquí para cumplir claramente el requisito)
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [manualForm, setManualForm] = useState({ title:'', author:'', year:'', isbn:'', thumbnail:'' });
-  const [manualErrors, setManualErrors] = useState({});
+  const [sortBy, setSortBy] = useState(()=> localStorage.getItem('pref_sortBy') || 'title'); // 'title' | 'year'
+  const [filterSource, setFilterSource] = useState(()=> localStorage.getItem('pref_filterSource') || '');
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  // Feature quitar: agregar libro manual (eliminado)
 
   const sentinelRef = useRef(null);
 
   useEffect(() => { loadInitial(); loadFavorites(); }, []);
+
+  // Persist preferences
+  useEffect(()=> { localStorage.setItem('pref_sortBy', sortBy); }, [sortBy]);
+  useEffect(()=> { localStorage.setItem('pref_filterSource', filterSource); }, [filterSource]);
+  useEffect(()=> { localStorage.setItem('pref_groupBySource', groupBySource ? '1':'0'); }, [groupBySource]);
+
+  // Scroll top visibility
+  useEffect(()=>{
+    const onScroll = () => setShowScrollTop(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll, { passive:true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
 
   const loadInitial = async () => {
@@ -158,35 +168,7 @@ const HomeView = () => {
 
   const handleUndo = () => { if (undoData?.book) addToFavorites(undoData.book); if (undoData?.timeoutId) clearTimeout(undoData.timeoutId); setUndoData(null); setShowUndo(false); };
 
-  // Validación y manejo formulario manual
-  const validateManual = () => {
-    const e = {};
-    if (!manualForm.title.trim()) e.title = 'Título requerido';
-    if (!manualForm.author.trim()) e.author = 'Autor requerido';
-    if (manualForm.year && !/^[0-9]{3,4}$/.test(manualForm.year)) e.year = 'Año inválido';
-    if (manualForm.isbn && manualForm.isbn.length < 5) e.isbn = 'ISBN muy corto';
-    return e;
-  };
-
-  const handleManualSubmit = (ev) => {
-    ev.preventDefault();
-    const e = validateManual();
-    setManualErrors(e);
-    if (Object.keys(e).length) return;
-    const newBook = {
-      id: 'manual-' + Date.now(),
-      title: manualForm.title.trim(),
-      author: manualForm.author.trim(),
-      year: manualForm.year.trim(),
-      isbn: manualForm.isbn.trim(),
-      thumbnail: manualForm.thumbnail.trim() || '/placeholder-book.png',
-      source: 'Manual'
-    };
-    const updated = FavoriteService.add(newBook);
-    setFavorites(updated);
-    setManualForm({ title:'', author:'', year:'', isbn:'', thumbnail:'' });
-    setShowAddModal(false);
-  };
+  // Funciones de formulario manual eliminadas
 
   if (initialLoading) return (<div className="loading"><div className="loading-spinner"></div><p>Cargando libros...</p></div>);
 
@@ -197,7 +179,7 @@ const HomeView = () => {
           <h2 className="home-search-title">Explora la Biblioteca Multifuente</h2>
           <div className="home-search-actions">
             <button type="button" onClick={()=>setGroupBySource(g=>!g)} className="btn btn-secondary btn-sm" title="Agrupar por fuente">{groupBySource ? '🔀 Mezclar' : '🗂️ Agrupar'}</button>
-            <button type="button" onClick={()=>setShowAddModal(true)} className="btn btn-accent btn-sm" aria-label="Agregar libro manual">➕ Agregar Manual</button>
+            {/* Botón agregar manual eliminado */}
           </div>
         </div>
         <form onSubmit={handleSearchSubmit} className="search-form" role="search" aria-label="Buscar libros">
@@ -237,6 +219,10 @@ const HomeView = () => {
   <h3 className="home-section-title">{lastQuery ? 'Resultados' : 'Libros Populares'} {groupBySource && <small className="home-group-badge">Agrupado por fuente</small>}</h3>
         {!groupBySource && (
           <div className="books-grid">
+            {/* Skeletons on initial search loading */}
+            {loading && initialLoading && Array.from({length:12}).map((_,i)=>(
+              <BookCard key={'sk'+i} skeleton lang="es" />
+            ))}
             {visibleBooks.map(book => (
               <BookCard
                 key={book.id}
@@ -245,7 +231,7 @@ const HomeView = () => {
                 onAddToFavorites={addToFavorites}
                 onRemoveFromFavorites={requestRemoveFavorite}
                 className="fade-in"
-                variant="compact"
+                lang="es"
               />
             ))}
           </div>
@@ -263,14 +249,14 @@ const HomeView = () => {
                 </h4>
                 <div className="books-grid">
                   {list.map(book => (
-                    <BookCard
+                      <BookCard
                       key={book.id}
                       book={book}
                       isFavorite={isFavorite(book.id)}
                       onAddToFavorites={addToFavorites}
                       onRemoveFromFavorites={requestRemoveFavorite}
-                      className="fade-in"
-                      variant="compact"
+                        className="fade-in"
+                        lang="es"
                     />
                   ))}
                 </div>
@@ -282,6 +268,17 @@ const HomeView = () => {
         {loading && !initialLoading && <p className="list-status">Cargando más...</p>}
         {!hasMore && !loading && <p className="list-status list-status-end">No hay más resultados.</p>}
       </div>
+      {/* Scroll Top Button */}
+      {showScrollTop && (
+        <button
+          type="button"
+          aria-label="Volver arriba"
+          className="btn btn-primary btn-rounded" 
+          style={{position:'fixed', bottom:'24px', right:'24px', zIndex:999}}
+          onClick={()=> window.scrollTo({top:0, behavior:'smooth'})}
+        >⬆️</button>
+      )}
+
       {/* Modal confirmación eliminar favorito (Inicio) */}
       <Modal mostrar={confirmRemoveModal} onCerrar={cancelRemoveFavorite} titulo="Confirmar eliminación">
         <p style={{marginBottom:'18px'}}>¿Eliminar <strong>{bookToRemove?.title}</strong> de tus favoritos?</p>
@@ -291,41 +288,7 @@ const HomeView = () => {
         </div>
       </Modal>
 
-      {/* Modal agregar manual (Inicio) */}
-      <Modal mostrar={showAddModal} onCerrar={()=>setShowAddModal(false)} titulo="Agregar Libro Favorito">
-        <form onSubmit={handleManualSubmit} className="add-fav-form">
-          <div>
-            <label>Título *</label>
-            <input value={manualForm.title} onChange={e=>setManualForm(f=>({...f,title:e.target.value}))} placeholder="Ej: El Principito" />
-            {manualErrors.title && <small className="error-message">{manualErrors.title}</small>}
-          </div>
-          <div>
-            <label>Autor *</label>
-            <input value={manualForm.author} onChange={e=>setManualForm(f=>({...f,author:e.target.value}))} placeholder="Autor" />
-            {manualErrors.author && <small className="error-message">{manualErrors.author}</small>}
-          </div>
-          <div className="fav-form-row">
-            <div className="fav-flex-1">
-              <label>Año</label>
-              <input value={manualForm.year} onChange={e=>setManualForm(f=>({...f,year:e.target.value}))} placeholder="1998" />
-              {manualErrors.year && <small className="error-message">{manualErrors.year}</small>}
-            </div>
-            <div className="fav-flex-2">
-              <label>ISBN</label>
-              <input value={manualForm.isbn} onChange={e=>setManualForm(f=>({...f,isbn:e.target.value}))} placeholder="978-..." />
-              {manualErrors.isbn && <small className="error-message">{manualErrors.isbn}</small>}
-            </div>
-          </div>
-          <div>
-            <label>URL Imagen (opcional)</label>
-            <input value={manualForm.thumbnail} onChange={e=>setManualForm(f=>({...f,thumbnail:e.target.value}))} placeholder="https://..." />
-          </div>
-          <div className="modal-actions">
-            <button type="button" className="btn btn-secondary" onClick={()=>setShowAddModal(false)}>Cancelar</button>
-            <button type="submit" className="btn btn-primary">Guardar</button>
-          </div>
-        </form>
-      </Modal>
+      {/* Modal agregar manual eliminado */}
     </div>
   );
 };

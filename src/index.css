@@ -11,14 +11,14 @@
   --color-border-strong: #c8d3df;   /* Bordes enfatizados */
   --color-shadow: 215 20% 10%;
 
-  --color-primary: #3367d6;         /* Azul accesible (Google-like) */
-  --color-primary-rgb: 51 103 214;
-  --color-primary-hover: #2852b3;
-  --color-primary-soft: #e9f1ff;    /* Fondo suave de énfasis */
+  --color-primary: #3d6fe8;         /* Azul vibrante refinado */
+  --color-primary-rgb: 61 111 232;
+  --color-primary-hover: #2f5bd1;
+  --color-primary-soft: #edf3ff;    /* Fondo suave de énfasis */
 
-  --color-accent: #ed6a5a;          /* Acento cálido controlado */
-  --color-accent-hover: #d95445;
-  --color-accent-soft: #ffe7e3;
+  --color-accent: #ff7b6a;          /* Acento cálido alegre */
+  --color-accent-hover: #f86653;
+  --color-accent-soft: #ffe9e5;
 
   --color-success: #2f915d;
   --color-success-soft: #e3f8ef;
@@ -106,7 +106,7 @@ body {
   font-family: var(--font-sans);
   font-size: var(--font-size-base);
   line-height: 1.55;
-  background: linear-gradient(180deg,#ffffff 0%,#f5f8fb 100%);
+  background: linear-gradient(180deg,#ffffff 0%,#f9fbff 65%, #fff7fb 100%);
   min-height:100vh;
   color: var(--color-text);
   display:flex;

@@ -8,11 +8,8 @@ const FavoritesView = () => {
   const [favorites, setFavorites] = useState([]);
   const [undoData, setUndoData] = useState(null); // { book, timeoutId }
   const [showUndo, setShowUndo] = useState(false);
-  const [showAddModal, setShowAddModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [bookToRemove, setBookToRemove] = useState(null);
-  const [form, setForm] = useState({ title:'', author:'', year:'', isbn:'', thumbnail:'' });
-  const [errors, setErrors] = useState({});
   // Vista única compacta (la variante normal se eliminó)
   const [sortBy, setSortBy] = useState('title');
 
@@ -39,33 +36,7 @@ const FavoritesView = () => {
   };
   const cancelRemove = () => { setBookToRemove(null); setShowConfirmModal(false); };
 
-  const validate = () => {
-    const e = {};
-    if (!form.title.trim()) e.title = 'Título requerido';
-    if (!form.author.trim()) e.author = 'Autor requerido';
-    if (form.year && !/^[0-9]{3,4}$/.test(form.year)) e.year = 'Año inválido';
-    if (form.isbn && form.isbn.length < 5) e.isbn = 'ISBN muy corto';
-    return e;
-  };
-
-  const handleAddFavorite = (ev) => {
-    ev.preventDefault();
-    const e = validate(); setErrors(e);
-    if (Object.keys(e).length) return;
-    const newBook = {
-      id: 'manual-' + Date.now(),
-      title: form.title.trim(),
-      author: form.author.trim(),
-      year: form.year.trim(),
-      isbn: form.isbn.trim(),
-      thumbnail: form.thumbnail.trim() || '/placeholder-book.png',
-      source: 'Manual'
-    };
-    const updated = FavoriteService.add(newBook);
-    setFavorites(updated);
-    setForm({ title:'', author:'', year:'', isbn:'', thumbnail:'' });
-    setShowAddModal(false);
-  };
+  // Eliminado agregar manual
 
   const handleUndo = () => {
     if (undoData?.book) {
@@ -84,8 +55,6 @@ const FavoritesView = () => {
         <h1 className="fav-title">💖 Mis Libros Favoritos</h1>
         <p className="fav-sub">Gestiona tu colección personal de libros favoritos</p>
         <div className="fav-actions" style={{display:'flex', gap:'0.6rem', flexWrap:'wrap', justifyContent:'center'}}>
-          <button className="btn btn-primary" type="button" onClick={()=>setShowAddModal(true)}>➕ Agregar Libro Manual</button>
-          {/* Botón de cambiar vista eliminado (solo compacta) */}
           <div className="filter-group" style={{display:'flex', gap:'.4rem', alignItems:'center'}}>
             <label style={{fontSize:'0.7rem', fontWeight:600}}>Ordenar:</label>
             <select value={sortBy} onChange={e=>setSortBy(e.target.value)} style={{padding:'0.4rem 0.6rem'}}>
@@ -107,16 +76,16 @@ const FavoritesView = () => {
             .slice()
             .sort((a,b)=> sortBy === 'year' ? (''+(a.year||'')).localeCompare((''+(b.year||''))) : (a.title||'').localeCompare(b.title||''))
             .map(book => (
-            <BookCard
-              key={book.id}
-              book={book}
-              isFavorite={true}
-              onRemoveFromFavorites={openRemoveConfirm}
-              onAddToFavorites={()=>{}}
-              variant="compact"
-              className="fade-in"
-            />
-          ))}
+              <BookCard
+                key={book.id}
+                book={book}
+                isFavorite={true}
+                onRemoveFromFavorites={openRemoveConfirm}
+                onAddToFavorites={()=>{}}
+                className="fade-in"
+                lang="es"
+              />
+            ))}
         </div>
       )}
 
@@ -128,41 +97,7 @@ const FavoritesView = () => {
         </div>
       )}
 
-      {/* Modal Agregar */}
-      <Modal mostrar={showAddModal} onCerrar={()=>setShowAddModal(false)} titulo="Agregar Libro Favorito">
-  <form onSubmit={handleAddFavorite} className="add-fav-form">
-          <div>
-            <label>Título *</label>
-            <input value={form.title} onChange={e=>setForm(f=>({...f,title:e.target.value}))} placeholder="Ej: El Principito" />
-            {errors.title && <small style={{color:'#dc2626'}}>{errors.title}</small>}
-          </div>
-          <div>
-            <label>Autor *</label>
-            <input value={form.author} onChange={e=>setForm(f=>({...f,author:e.target.value}))} placeholder="Autor" />
-            {errors.author && <small style={{color:'#dc2626'}}>{errors.author}</small>}
-          </div>
-            <div className="fav-form-row">
-              <div className="fav-flex-1">
-                <label>Año</label>
-                <input value={form.year} onChange={e=>setForm(f=>({...f,year:e.target.value}))} placeholder="1998" />
-                {errors.year && <small style={{color:'#dc2626'}}>{errors.year}</small>}
-              </div>
-              <div className="fav-flex-2">
-                <label>ISBN</label>
-                <input value={form.isbn} onChange={e=>setForm(f=>({...f,isbn:e.target.value}))} placeholder="978-..." />
-                {errors.isbn && <small style={{color:'#dc2626'}}>{errors.isbn}</small>}
-              </div>
-            </div>
-          <div>
-            <label>URL Imagen (opcional)</label>
-            <input value={form.thumbnail} onChange={e=>setForm(f=>({...f,thumbnail:e.target.value}))} placeholder="https://..." />
-          </div>
-          <div className="modal-actions">
-            <button type="button" className="btn btn-secondary" onClick={()=>setShowAddModal(false)}>Cancelar</button>
-            <button type="submit" className="btn btn-primary">Guardar</button>
-          </div>
-        </form>
-      </Modal>
+      {/* Modal Agregar eliminado */}
 
       {/* Modal Confirmación */}
       <Modal mostrar={showConfirmModal} onCerrar={cancelRemove} titulo="Confirmar eliminación">
