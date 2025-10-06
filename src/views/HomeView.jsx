@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
+import Modal from '../components/Modal';
 import BookController from '../controllers/BookController';
 import FavoriteService from '../services/FavoriteService';
 import './HomeView.css';
+import BookCard from '../components/BookCard';
 
 const PAGE_SIZE = 45; // aumentar resultados por página para mostrar más libros
 
@@ -17,8 +19,17 @@ const HomeView = () => {
   const [hasMore, setHasMore] = useState(true);
   const [lastQuery, setLastQuery] = useState('');
   const [undoData, setUndoData] = useState(null); // { book, timeoutId }
+  const [confirmRemoveModal, setConfirmRemoveModal] = useState(false);
+  const [bookToRemove, setBookToRemove] = useState(null);
   const [showUndo, setShowUndo] = useState(false);
   const [groupBySource, setGroupBySource] = useState(false);
+  // Vista única (compacta) — se eliminó la vista completa
+  const [sortBy, setSortBy] = useState('title'); // 'title' | 'year'
+  const [filterSource, setFilterSource] = useState('');
+  // Formulario manual (también disponible aquí para cumplir claramente el requisito)
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [manualForm, setManualForm] = useState({ title:'', author:'', year:'', isbn:'', thumbnail:'' });
+  const [manualErrors, setManualErrors] = useState({});
 
   const sentinelRef = useRef(null);
 
@@ -58,11 +69,21 @@ const HomeView = () => {
   const isFavorite = id => favorites.some(f => f.id === id);
 
   // Agrupar libros por fuente cuando toggle activo
+  const visibleBooks = useMemo(() => {
+    let list = [...books];
+    if (filterSource) list = list.filter(b => b.source === filterSource);
+    list.sort((a,b)=>{
+      if (sortBy === 'year') return (''+ (a.year||'')).localeCompare((''+(b.year||'')));
+      return (a.title||'').localeCompare(b.title||'');
+    });
+    return list;
+  }, [books, sortBy, filterSource]);
+
   const groupedBooks = useMemo(() => {
     if (!groupBySource) return null;
-    const groups = books.reduce((acc,b)=>{ (acc[b.source] = acc[b.source] || []).push(b); return acc; }, {});
+    const groups = visibleBooks.reduce((acc,b)=>{ (acc[b.source] = acc[b.source] || []).push(b); return acc; }, {});
     return Object.entries(groups).sort((a,b)=> a[0].localeCompare(b[0]));
-  }, [books, groupBySource]);
+  }, [visibleBooks, groupBySource]);
 
   const [addingIds, setAddingIds] = useState(new Set());
   const addToFavorites = book => {
@@ -76,14 +97,25 @@ const HomeView = () => {
     setTimeout(() => setAddingIds(prev => { const n = new Set(prev); n.delete(book.id); return n; }), 400);
   };
 
-  const handleRemoveFromFavorites = book => { 
+  const requestRemoveFavorite = (book) => {
+    setBookToRemove(book);
+    setConfirmRemoveModal(true);
+  };
+
+  const confirmRemoveFavorite = () => {
+    if (!bookToRemove) return;
+    const book = bookToRemove;
     const updated = FavoriteService.remove(book.id);
     setFavorites(updated);
     if (undoData?.timeoutId) clearTimeout(undoData.timeoutId);
     const timeoutId = setTimeout(() => { setShowUndo(false); setUndoData(null); }, 5000);
     setUndoData({ book, timeoutId });
     setShowUndo(true);
+    setBookToRemove(null);
+    setConfirmRemoveModal(false);
   };
+
+  const cancelRemoveFavorite = () => { setBookToRemove(null); setConfirmRemoveModal(false); };
 
   // confirmRemoveFromFavorites / cancelRemove removidos (ya no hay modal)
 
@@ -126,6 +158,36 @@ const HomeView = () => {
 
   const handleUndo = () => { if (undoData?.book) addToFavorites(undoData.book); if (undoData?.timeoutId) clearTimeout(undoData.timeoutId); setUndoData(null); setShowUndo(false); };
 
+  // Validación y manejo formulario manual
+  const validateManual = () => {
+    const e = {};
+    if (!manualForm.title.trim()) e.title = 'Título requerido';
+    if (!manualForm.author.trim()) e.author = 'Autor requerido';
+    if (manualForm.year && !/^[0-9]{3,4}$/.test(manualForm.year)) e.year = 'Año inválido';
+    if (manualForm.isbn && manualForm.isbn.length < 5) e.isbn = 'ISBN muy corto';
+    return e;
+  };
+
+  const handleManualSubmit = (ev) => {
+    ev.preventDefault();
+    const e = validateManual();
+    setManualErrors(e);
+    if (Object.keys(e).length) return;
+    const newBook = {
+      id: 'manual-' + Date.now(),
+      title: manualForm.title.trim(),
+      author: manualForm.author.trim(),
+      year: manualForm.year.trim(),
+      isbn: manualForm.isbn.trim(),
+      thumbnail: manualForm.thumbnail.trim() || '/placeholder-book.png',
+      source: 'Manual'
+    };
+    const updated = FavoriteService.add(newBook);
+    setFavorites(updated);
+    setManualForm({ title:'', author:'', year:'', isbn:'', thumbnail:'' });
+    setShowAddModal(false);
+  };
+
   if (initialLoading) return (<div className="loading"><div className="loading-spinner"></div><p>Cargando libros...</p></div>);
 
   return (
@@ -134,7 +196,8 @@ const HomeView = () => {
         <div className="home-search-header">
           <h2 className="home-search-title">Explora la Biblioteca Multifuente</h2>
           <div className="home-search-actions">
-            <button type="button" onClick={()=>setGroupBySource(g=>!g)} className="btn btn-secondary btn-sm">{groupBySource ? '🔀 Mezclar' : '🗂️ Agrupar'}</button>
+            <button type="button" onClick={()=>setGroupBySource(g=>!g)} className="btn btn-secondary btn-sm" title="Agrupar por fuente">{groupBySource ? '🔀 Mezclar' : '🗂️ Agrupar'}</button>
+            <button type="button" onClick={()=>setShowAddModal(true)} className="btn btn-accent btn-sm" aria-label="Agregar libro manual">➕ Agregar Manual</button>
           </div>
         </div>
         <form onSubmit={handleSearchSubmit} className="search-form" role="search" aria-label="Buscar libros">
@@ -142,9 +205,31 @@ const HomeView = () => {
           <button type="submit" disabled={searching}>{searching ? 'Buscando...' : 'Buscar'}</button>
           {lastQuery && <button type="button" onClick={handleClearSearch}>Limpiar</button>}
         </form>
+        <div className="home-filters-bar">
+          <div className="filter-group">
+            <label>Ordenar:</label>
+            <select value={sortBy} onChange={e=>setSortBy(e.target.value)} aria-label="Ordenar por">
+              <option value="title">Título</option>
+              <option value="year">Año</option>
+            </select>
+          </div>
+          <div className="filter-group">
+            <label>Fuente:</label>
+            <select value={filterSource} onChange={e=>setFilterSource(e.target.value)} aria-label="Filtrar fuente">
+              <option value="">Todas</option>
+              <option value="Google Books">Google Books</option>
+              <option value="Open Library">Open Library</option>
+              <option value="ISBNdb">ISBNdb</option>
+              <option value="Manual">Manual</option>
+            </select>
+          </div>
+          {(filterSource || sortBy !== 'title') && (
+            <button type="button" className="btn btn-sm btn-secondary" onClick={()=>{setFilterSource(''); setSortBy('title');}} title="Limpiar filtros">Reset</button>
+          )}
+        </div>
         <div className="home-search-meta">
           {lastQuery && <p className="home-search-result-label">Resultados para: <strong>{lastQuery}</strong></p>}
-          <span className="home-search-count">Mostrando {books.length} libros</span>
+          <span className="home-search-count">Mostrando {groupBySource ? (groupedBooks?.reduce((n,[,arr])=>n+arr.length,0) || 0) : visibleBooks.length} libros</span>
         </div>
       </section>
 
@@ -152,35 +237,16 @@ const HomeView = () => {
   <h3 className="home-section-title">{lastQuery ? 'Resultados' : 'Libros Populares'} {groupBySource && <small className="home-group-badge">Agrupado por fuente</small>}</h3>
         {!groupBySource && (
           <div className="books-grid">
-            {books.map(book => (
-              <div key={book.id} className={`book-card fade-in ${isFavorite(book.id) ? 'favorite-active' : ''}`}> 
-                {isFavorite(book.id) && <div className="favorite-ribbon" aria-label="Libro en favoritos">Favorito</div>}
-                <div className="book-thumb-wrapper">
-                  <img src={book.thumbnail || '/placeholder-book.png'} alt={book.title} className="book-thumb" loading="lazy" />
-                </div>
-                <div className="book-info">
-                  <h3 className="book-title">{book.title || 'Título no disponible'}</h3>
-                  <p className="book-author"><strong>Autor:</strong> {book.author || 'Autor desconocido'}</p>
-                  <p className="book-year"><strong>Año:</strong> {book.year || 'Año no disponible'}</p>
-                  {book.genre && <p className="book-year"><strong>Género:</strong> {book.genre}</p>}
-                  {book.pageCount && <p className="book-year"><strong>Páginas:</strong> {book.pageCount}</p>}
-                  {book.isbn && <p className="book-year"><strong>ISBN:</strong> {book.isbn}</p>}
-                  <div className={`book-source-badge source-${book.source.toLowerCase().replace(/\s+/g,'-')}`}>
-                    <span className="source-icon">{book.source === 'Google Books' ? '🔍' : book.source === 'Open Library' ? '📚' : book.source === 'ISBNdb' ? '🏷️' : '📖'}</span>
-                    {book.source}
-                  </div>
-                </div>
-                {/* Botón favorito pequeño flotante */}
-                <button
-                  className={`favorite-float-btn ${isFavorite(book.id) ? 'active' : ''}`}
-                  onClick={() => isFavorite(book.id) ? handleRemoveFromFavorites(book) : addToFavorites(book)}
-                  disabled={addingIds.has(book.id)}
-                  title={isFavorite(book.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                  style={{position:'absolute', top:'8px', right:'8px', zIndex:2}}
-                >
-                  <span className="favorite-icon">{isFavorite(book.id) ? '💖' : '🤍'}</span>
-                </button>
-              </div>
+            {visibleBooks.map(book => (
+              <BookCard
+                key={book.id}
+                book={book}
+                isFavorite={isFavorite(book.id)}
+                onAddToFavorites={addToFavorites}
+                onRemoveFromFavorites={requestRemoveFavorite}
+                className="fade-in"
+                variant="compact"
+              />
             ))}
           </div>
         )}
@@ -197,29 +263,15 @@ const HomeView = () => {
                 </h4>
                 <div className="books-grid">
                   {list.map(book => (
-                      <div key={book.id} className={`book-card fade-in ${isFavorite(book.id) ? 'favorite-active' : ''}`}> 
-                        {isFavorite(book.id) && <div className="favorite-ribbon" aria-label="Libro en favoritos">Favorito</div>}
-                      <div className="book-thumb-wrapper">
-                        <img src={book.thumbnail || '/placeholder-book.png'} alt={book.title} className="book-thumb" loading="lazy" />
-                      </div>
-                      <div className="book-info">
-                        <h3 className="book-title">{book.title}</h3>
-                        <p className="book-author"><strong>Autor:</strong> {book.author}</p>
-                        <p className="book-year"><strong>Año:</strong> {book.year}</p>
-                        {book.genre && <p className="book-year"><strong>Género:</strong> {book.genre}</p>}
-                        {book.pageCount && <p className="book-year"><strong>Páginas:</strong> {book.pageCount}</p>}
-                        {book.isbn && <p className="book-year"><strong>ISBN:</strong> {book.isbn}</p>}
-                      </div>
-                      {/* Botón favorito pequeño flotante */}
-                      <button
-                        className={`favorite-float-btn ${isFavorite(book.id) ? 'active' : ''}`}
-                        onClick={() => isFavorite(book.id) ? handleRemoveFromFavorites(book) : addToFavorites(book)}
-                        disabled={addingIds.has(book.id)}
-                        title={isFavorite(book.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                      >
-                        <span className="favorite-icon">{isFavorite(book.id) ? '💖' : '🤍'}</span>
-                      </button>
-                    </div>
+                    <BookCard
+                      key={book.id}
+                      book={book}
+                      isFavorite={isFavorite(book.id)}
+                      onAddToFavorites={addToFavorites}
+                      onRemoveFromFavorites={requestRemoveFavorite}
+                      className="fade-in"
+                      variant="compact"
+                    />
                   ))}
                 </div>
               </section>
@@ -230,6 +282,50 @@ const HomeView = () => {
         {loading && !initialLoading && <p className="list-status">Cargando más...</p>}
         {!hasMore && !loading && <p className="list-status list-status-end">No hay más resultados.</p>}
       </div>
+      {/* Modal confirmación eliminar favorito (Inicio) */}
+      <Modal mostrar={confirmRemoveModal} onCerrar={cancelRemoveFavorite} titulo="Confirmar eliminación">
+        <p style={{marginBottom:'18px'}}>¿Eliminar <strong>{bookToRemove?.title}</strong> de tus favoritos?</p>
+        <div className="modal-actions">
+          <button type="button" className="btn btn-secondary" onClick={cancelRemoveFavorite}>Cancelar</button>
+          <button type="button" className="btn btn-danger" onClick={confirmRemoveFavorite}>Eliminar</button>
+        </div>
+      </Modal>
+
+      {/* Modal agregar manual (Inicio) */}
+      <Modal mostrar={showAddModal} onCerrar={()=>setShowAddModal(false)} titulo="Agregar Libro Favorito">
+        <form onSubmit={handleManualSubmit} className="add-fav-form">
+          <div>
+            <label>Título *</label>
+            <input value={manualForm.title} onChange={e=>setManualForm(f=>({...f,title:e.target.value}))} placeholder="Ej: El Principito" />
+            {manualErrors.title && <small className="error-message">{manualErrors.title}</small>}
+          </div>
+          <div>
+            <label>Autor *</label>
+            <input value={manualForm.author} onChange={e=>setManualForm(f=>({...f,author:e.target.value}))} placeholder="Autor" />
+            {manualErrors.author && <small className="error-message">{manualErrors.author}</small>}
+          </div>
+          <div className="fav-form-row">
+            <div className="fav-flex-1">
+              <label>Año</label>
+              <input value={manualForm.year} onChange={e=>setManualForm(f=>({...f,year:e.target.value}))} placeholder="1998" />
+              {manualErrors.year && <small className="error-message">{manualErrors.year}</small>}
+            </div>
+            <div className="fav-flex-2">
+              <label>ISBN</label>
+              <input value={manualForm.isbn} onChange={e=>setManualForm(f=>({...f,isbn:e.target.value}))} placeholder="978-..." />
+              {manualErrors.isbn && <small className="error-message">{manualErrors.isbn}</small>}
+            </div>
+          </div>
+          <div>
+            <label>URL Imagen (opcional)</label>
+            <input value={manualForm.thumbnail} onChange={e=>setManualForm(f=>({...f,thumbnail:e.target.value}))} placeholder="https://..." />
+          </div>
+          <div className="modal-actions">
+            <button type="button" className="btn btn-secondary" onClick={()=>setShowAddModal(false)}>Cancelar</button>
+            <button type="submit" className="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 };

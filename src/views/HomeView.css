@@ -39,6 +39,12 @@
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
 }
 
+/* Barra de filtros y controles adicionales */
+.home-filters-bar { display:flex; gap:1.25rem; flex-wrap:wrap; align-items:center; margin-top:.5rem; }
+.home-filters-bar .filter-group { display:flex; gap:.45rem; align-items:center; font-size:var(--font-size-xs); }
+.home-filters-bar select { padding:.45rem .7rem; border-radius:var(--radius-lg); border:1px solid var(--color-border); background:var(--color-surface-alt); font-size:var(--font-size-xs); font-weight:500; }
+.home-filters-bar label { font-weight:600; letter-spacing:.5px; text-transform:uppercase; color:var(--color-text-soft); }
+
 /* Bloque de búsqueda y agrupaciones */
 .home-search-stack { display:flex; flex-direction:column; gap:var(--space-4); }
 .home-search-header { display:flex; justify-content:space-between; align-items:center; gap:var(--space-4); flex-wrap:wrap; }

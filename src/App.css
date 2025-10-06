@@ -73,6 +73,6 @@ body::before {
 
 body::after { 
   background: 
-    radial-gradient(ellipse at 60% 20%, rgba(41,82,204,0.06), transparent 60%),
+    radial-gradient(ellipse at 60% 20%, rgba(255, 255, 255, 0.06), transparent 60%),
     radial-gradient(ellipse at 40% 80%, rgba(245,101,101,0.04), transparent 60%);
 }

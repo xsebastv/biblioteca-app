@@ -1,31 +1,31 @@
 /* === NUEVO SISTEMA DE DISEÑO PARA BIBLIOTECA DIGITAL (2025) === */
 
 :root {
-  /* Paleta principal refinada (excelente contraste AA+) */
-  --color-bg: #f8fafb;
-  --color-bg-alt: #ffffff;
-  --color-bg-soft: #f0f4f8;
-  --color-surface: #ffffff;
-  --color-surface-alt: #fafbfc;
-  --color-border: #e1e7ef;
-  --color-border-strong: #c5d0dd;
-  --color-shadow: 215 25% 8%;
+  /* Paleta clara suave (alto contraste sin saturación excesiva) */
+  --color-bg: #fcfdff;              /* Fondo base muy claro */
+  --color-bg-alt: #ffffff;          /* Paneles */
+  --color-bg-soft: #f5f8fb;         /* Bloques suaves */
+  --color-surface: #ffffff;         /* Superficies principales */
+  --color-surface-alt: #f9fbfd;     /* Variante secundaria */
+  --color-border: #dde6ef;          /* Bordes sutiles */
+  --color-border-strong: #c8d3df;   /* Bordes enfatizados */
+  --color-shadow: 215 20% 10%;
 
-  --color-primary: #2952cc; /* azul biblioteca más profundo */
-  --color-primary-rgb: 41 82 204;
-  --color-primary-hover: #1e3ba8;
-  --color-primary-soft: #e8efff;
+  --color-primary: #3367d6;         /* Azul accesible (Google-like) */
+  --color-primary-rgb: 51 103 214;
+  --color-primary-hover: #2852b3;
+  --color-primary-soft: #e9f1ff;    /* Fondo suave de énfasis */
 
-  --color-accent: #f56565; /* acento coral vibrante */
-  --color-accent-hover: #e53e3e;
-  --color-accent-soft: #fed7d7;
+  --color-accent: #ed6a5a;          /* Acento cálido controlado */
+  --color-accent-hover: #d95445;
+  --color-accent-soft: #ffe7e3;
 
-  --color-success: #38a169;
-  --color-success-soft: #c6f6d5;
-  --color-danger: #e53e3e;
-  --color-danger-soft: #fed7d7;
-  --color-warning: #dd6b20;
-  --color-warning-soft: #feebc8;
+  --color-success: #2f915d;
+  --color-success-soft: #e3f8ef;
+  --color-danger: #d84848;
+  --color-danger-soft: #ffe4e4;
+  --color-warning: #c9831b;
+  --color-warning-soft: #fff2d9;
 
   /* Nuevas variables semánticas para UX */
   --color-info: #3182ce;
@@ -33,10 +33,10 @@
   --color-neutral: #718096;
   --color-neutral-soft: #edf2f7;
 
-  --color-text-strong: #1a202c;
-  --color-text: #2d3748;
-  --color-text-soft: #4a5568;
-  --color-text-faint: #718096;
+  --color-text-strong: #1e2430;
+  --color-text: #2f3a49;
+  --color-text-soft: #5a6674;
+  --color-text-faint: #8a95a3;
   --color-text-inverse: #ffffff;
   --color-text-muted: #a0aec0;
 
@@ -105,14 +105,11 @@ html {
 body {
   font-family: var(--font-sans);
   font-size: var(--font-size-base);
-  line-height: 1.6;
-  background: 
-    radial-gradient(ellipse at 20% 0%, rgba(41,82,204,0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 100%, rgba(245,101,101,0.06) 0%, transparent 50%),
-    linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);
-  min-height:100vh; 
+  line-height: 1.55;
+  background: linear-gradient(180deg,#ffffff 0%,#f5f8fb 100%);
+  min-height:100vh;
   color: var(--color-text);
-  display:flex; 
+  display:flex;
   flex-direction:column;
   overflow-x: hidden;
 }
@@ -353,9 +350,10 @@ button:disabled, .btn:disabled {
 }
 
 .card:hover { 
-  box-shadow: var(--shadow-xl); 
-  transform: translateY(-6px); 
-  border-color: var(--color-primary-soft);
+  box-shadow: var(--shadow-lg); 
+  transform: translateY(-4px); 
+  border-color: var(--color-border);
+  background: var(--color-surface-alt);
 }
 
 .card:hover::before { opacity: 1; }

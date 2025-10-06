@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import FavoriteService from '../services/FavoriteService';
 import './FavoritesView.css';
 import Modal from '../components/Modal';
+import BookCard from '../components/BookCard';
 
 const FavoritesView = () => {
   const [favorites, setFavorites] = useState([]);
@@ -12,6 +13,8 @@ const FavoritesView = () => {
   const [bookToRemove, setBookToRemove] = useState(null);
   const [form, setForm] = useState({ title:'', author:'', year:'', isbn:'', thumbnail:'' });
   const [errors, setErrors] = useState({});
+  // Vista única compacta (la variante normal se eliminó)
+  const [sortBy, setSortBy] = useState('title');
 
   useEffect(() => {
     loadFavorites();
@@ -80,8 +83,16 @@ const FavoritesView = () => {
       <div className="favorites-header">
         <h1 className="fav-title">💖 Mis Libros Favoritos</h1>
         <p className="fav-sub">Gestiona tu colección personal de libros favoritos</p>
-        <div className="fav-actions">
+        <div className="fav-actions" style={{display:'flex', gap:'0.6rem', flexWrap:'wrap', justifyContent:'center'}}>
           <button className="btn btn-primary" type="button" onClick={()=>setShowAddModal(true)}>➕ Agregar Libro Manual</button>
+          {/* Botón de cambiar vista eliminado (solo compacta) */}
+          <div className="filter-group" style={{display:'flex', gap:'.4rem', alignItems:'center'}}>
+            <label style={{fontSize:'0.7rem', fontWeight:600}}>Ordenar:</label>
+            <select value={sortBy} onChange={e=>setSortBy(e.target.value)} style={{padding:'0.4rem 0.6rem'}}>
+              <option value="title">Título</option>
+              <option value="year">Año</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -92,26 +103,19 @@ const FavoritesView = () => {
         </div>
       ) : (
         <div className="favorites-grid">
-          {favorites.map(book => (
-            <div key={book.id} className="book-card fade-in favorite-active fav-card">
-              <div className="favorite-ribbon">Favorito</div>
-              <div className="fav-thumb">
-                <img src={book.thumbnail || '/placeholder-book.png'} alt={book.title} className="fav-thumb-img" />
-              </div>
-              <div className="book-info fav-info">
-                <h3 className="book-title fav-book-title">{book.title || 'Título no disponible'}</h3>
-                <p className="book-author fav-meta"><strong>Autor:</strong> {book.author || 'Autor desconocido'}</p>
-                <p className="book-year fav-meta"><strong>Año:</strong> {book.year || 'N/D'}</p>
-                {book.isbn && <p className="book-year fav-meta"><strong>ISBN:</strong> {book.isbn}</p>}
-              </div>
-              <button
-                className="favorite-float-btn active fav-remove"
-                title="Eliminar de favoritos"
-                onClick={() => openRemoveConfirm(book)}
-              >
-                <span className="favorite-icon">💔</span>
-              </button>
-            </div>
+          {favorites
+            .slice()
+            .sort((a,b)=> sortBy === 'year' ? (''+(a.year||'')).localeCompare((''+(b.year||''))) : (a.title||'').localeCompare(b.title||''))
+            .map(book => (
+            <BookCard
+              key={book.id}
+              book={book}
+              isFavorite={true}
+              onRemoveFromFavorites={openRemoveConfirm}
+              onAddToFavorites={()=>{}}
+              variant="compact"
+              className="fade-in"
+            />
           ))}
         </div>
       )}
