@@ -213,8 +213,8 @@
 @media (max-width: 480px) {
   .book-card.layout-rich { 
     border-radius: 16px; 
-    min-height: 380px;
-    max-height: 380px;
+    min-height: 400px;
+    max-height: 400px;
   }
   .book-card.layout-rich .bc-rich-body { 
     padding: 0.875rem 1rem 1rem; 
@@ -223,11 +223,16 @@
     font-size: 1rem; 
   }
   .book-card {
-    min-height: 380px;
-    max-height: 380px;
+    min-height: 400px;
+    max-height: 400px;
   }
   .book-thumb-shell {
-    height: 160px;
+    height: 180px;
+    padding: 0.75rem;
+  }
+  .book-thumb-shell img {
+    max-width: 85%;
+    max-height: 150px;
   }
 }
 
@@ -300,14 +305,14 @@
 
 .favorite-btn--active {
   background: var(--color-surface-alt);
-  color: var(--color-text);
-  border-color: var(--color-border-strong);
+  color: var(--color-danger);
+  border-color: var(--color-danger);
 }
 
 .favorite-btn--active:hover {
-  background: var(--color-bg-soft);
+  background: var(--color-danger-soft);
   transform: translateX(-50%) translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.25), 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Ajuste para layout horizontal - centrado debajo de la imagen */
@@ -321,21 +326,28 @@
 @media (max-width: 768px) {
   .favorite-btn {
     padding: 0.5rem 0.75rem;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 12px;
+    right: 12px;
+    bottom: auto;
+    left: auto;
+    transform: none;
     font-size: 0.8rem;
     min-height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.25rem;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--color-text-strong);
+    border: 2px solid rgba(0, 0, 0, 0.1);
   }
   
   .book-card.layout-rich .favorite-btn {
-    bottom: 16px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 16px;
+    right: 16px;
+    transform: none;
   }
 }
 
@@ -526,18 +538,26 @@
   }
   
   .favorite-btn {
-    padding: 0.5rem 0.75rem !important;
+    padding: 0.4rem 0.6rem !important;
     font-size: 0.75rem !important;
-    bottom: 10px;
-    min-height: 38px !important;
-    min-width: 38px !important;
-    border-radius: 10px !important;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2), 0 3px 10px rgba(0, 0, 0, 0.15) !important;
+    top: 10px !important;
+    right: 10px !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    min-height: 36px !important;
+    min-width: 36px !important;
+    border-radius: 18px !important;
+    backdrop-filter: blur(12px) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: var(--color-text-strong) !important;
+    border: 2px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.1) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 0.25rem !important;
-    font-weight: 700 !important;
+    gap: 0.2rem !important;
+    font-weight: 600 !important;
   }
   
   .bc-meta-row {
@@ -568,16 +588,35 @@
     font-size: 0.95rem;
   }
   
+  .book-thumb-shell {
+    height: 170px;
+    padding: 0.875rem;
+  }
+  
+  .book-thumb-shell img {
+    max-width: 88%;
+    max-height: 140px;
+  }
+  
   .favorite-btn {
     padding: 0.5rem 0.75rem;
     font-size: 0.8rem;
-    min-height: 40px;
+    min-height: 38px;
+    top: 14px;
+    right: 14px;
+    bottom: auto;
+    left: auto;
+    transform: none;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.3rem;
-    border-radius: 10px;
+    border-radius: 20px;
     font-weight: 600;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--color-text-strong);
+    border: 2px solid rgba(0, 0, 0, 0.08);
   }
 }
 
@@ -636,34 +675,42 @@
 /* Mejoras específicas para dispositivos táctiles */
 @media (hover: none) and (pointer: coarse) {
   .favorite-btn {
-    min-height: 44px !important;
-    min-width: 44px !important;
-    padding: 0.6rem 0.8rem !important;
-    font-size: 0.85rem !important;
-    border-radius: 12px !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.2) !important;
-    backdrop-filter: blur(12px) !important;
-    border-width: 3px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.3px !important;
+    min-height: 42px !important;
+    min-width: 42px !important;
+    padding: 0.5rem 0.7rem !important;
+    font-size: 0.8rem !important;
+    border-radius: 22px !important;
+    top: 12px !important;
+    right: 12px !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    backdrop-filter: blur(15px) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: var(--color-primary) !important;
+    border: 2px solid rgba(99, 102, 241, 0.2) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2), 0 3px 10px rgba(99, 102, 241, 0.1) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.2px !important;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
 
   .favorite-btn:active {
-    transform: translateX(-50%) scale(0.92) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+    transform: scale(0.9) !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25) !important;
+    background: rgba(99, 102, 241, 0.1) !important;
   }
 
   .favorite-btn--active {
-    background: var(--color-surface) !important;
+    background: rgba(255, 255, 255, 0.98) !important;
     border-color: var(--color-danger) !important;
     color: var(--color-danger) !important;
-    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3), 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.25), 0 3px 10px rgba(0, 0, 0, 0.1) !important;
   }
 
   .favorite-btn--active:active {
-    background: var(--color-danger-soft) !important;
-    transform: translateX(-50%) scale(0.92) !important;
+    background: rgba(239, 68, 68, 0.1) !important;
+    transform: scale(0.9) !important;
   }
 }
 
