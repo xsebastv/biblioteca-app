@@ -1,5 +1,21 @@
 # 📚 Biblioteca Digital Multifuente
 
+## 🎓 Información del Proyecto Académico
+
+**Proyecto:** Parcial 2 - Biblioteca Digital  
+**Fecha:** 6 de Octubre de 2025  
+**Asignación:** Examen Parcial 2
+
+### Autores
+- Juan Sebastian Rios Altamirano (95806)
+- Jhonatan David Velasco Lopez (98251)
+
+### Enlaces del Proyecto
+- [Repositorio GitHub](https://github.com/xsebastv/biblioteca-app)
+- [Demo en Vercel](https://biblioteca-app-xsebastv.vercel.app)
+
+## 📋 Evaluación de Requisitos
+
 ## � Información del Proyecto
 
 ### Autores
@@ -76,20 +92,41 @@ Aplicación React moderna que integra múltiples APIs de libros para crear una e
 
 > *ISBNdb requiere key en `VITE_ISBNDB_KEY` (opcional). Si no está presente, simplemente se omiten sus resultados sin romper la app.
 
-## 🗂️ Estructura Relevante
+## 🗂️ Estructura del Proyecto
 ```
 src/
-  services/
-    BookService.js        # Orquesta las APIs, normaliza, pagina y deduplica
-    FavoriteService.js    # CRUD + deduplicación de favoritos en localStorage
-  controllers/
-    BookController.js     # Capa simple de orquestación hacia la vista
-  views/
-    HomeView.jsx          # Búsqueda, listado, infinite scroll, modal, undo
-    FavoritesView.jsx     # Lista limpia de favoritos persistidos
-  components/
-    Modal.jsx             # Re-utilizable para confirmaciones
-    Header.jsx / Navigation.jsx
+  ├── App.jsx            # Componente principal
+  ├── main.jsx          # Punto de entrada
+  │
+  ├── components/       # Componentes reutilizables
+  │   ├── BookCard     # Tarjeta de libro
+  │   ├── Footer       # Pie de página
+  │   ├── Header       # Encabezado
+  │   ├── LandingPage  # Página de bienvenida
+  │   ├── Modal        # Modal reutilizable
+  │   └── Navigation   # Navegación principal
+  │
+  ├── controllers/     # Lógica de control
+  │   └── BookController.js
+  │
+  ├── hooks/          # Hooks personalizados
+  │   └── useIntersectionFadeIn.js
+  │
+  ├── i18n/           # Internacionalización
+  │   └── translations.js
+  │
+  ├── routes/         # Enrutamiento
+  │   └── AppRoutes.jsx
+  │
+  ├── services/       # Servicios y APIs
+  │   ├── ApiService.js    # Configuración base
+  │   ├── BookService.js   # Gestión de libros
+  │   └── FavoriteService.js # Gestión favoritos
+  │
+  └── views/          # Vistas principales
+      ├── BookDetailView   # Detalle de libro
+      ├── FavoritesView   # Lista de favoritos
+      └── HomeView        # Página principal
 ```
 
 ## 🔌 Flujo de Datos
